@@ -1,9 +1,8 @@
 [build]
   publish = "."
-  command = "echo ok"
-  functions = "netlify/functions"
 
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
 
 [functions."reporte-diario"]
