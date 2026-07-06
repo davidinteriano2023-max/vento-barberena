@@ -2,8 +2,7 @@
   publish = "."
 
 [functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+  directory = "functions"
 
 [functions."reporte-diario"]
   schedule = "0 14 * * *"
