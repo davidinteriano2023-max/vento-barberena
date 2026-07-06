@@ -1,15 +1,12 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = ""
 
 [functions]
   node_bundler = "esbuild"
 
-# Reporte diario: todos los días a las 8:00am hora Guatemala (UTC-6 = 14:00 UTC).
 [functions."reporte-diario"]
   schedule = "0 14 * * *"
 
-# Reporte semanal: todos los lunes a las 8:00am hora Guatemala.
 [functions."reporte-semanal"]
   schedule = "0 14 * * 1"
