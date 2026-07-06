@@ -1,7 +1,7 @@
 /* tabi-widget.js — Chat flotante LIA para Vento Barberena. JS puro sin frameworks. */
 (function () {
   var FIREBASE_PROJECT_ID = window.VENTO_FIREBASE_PROJECT_ID || 'ventobarberena-cotizador';
-  var FIREBASE_API_KEY    = window.VENTO_FIREBASE_API_KEY    || 'AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU';
+  var FIREBASE_API_KEY    = window.VENTO_FIREBASE_API_KEY    || '';
 
   // Verificar si el bot está activo en Firestore antes de mostrar el widget
   fetch('https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID +
@@ -230,4 +230,7 @@
     });
     closeBtn.addEventListener('click', function () { panel.classList.remove('on'); });
     sendBtn.addEventListener('click', function () { enviarMensaje(inputEl.value); });
-    inputEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(in
+    inputEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(inputEl.value); } });
+  }
+})();
+         
