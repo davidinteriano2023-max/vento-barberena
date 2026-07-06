@@ -1,13 +1,15 @@
 [build]
-  command   = "sed -i \"s|FIREBASE_KEY_PLACEHOLDER|${FIREBASE_API_KEY}|g\" cotizador.html"
+  command   = 'sed -i "s|FIREBASE_KEY_PLACEHOLDER|${FIREBASE_API_KEY}|g" cotizador.html'
   publish   = "."
   functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
 
-# Reporte diario: todos los días a las 8:00am hora Guatemala (UTC-6 = 14:00 UTC).
+# Reporte diario: 8:00am Guatemala (UTC-6 = 14:00 UTC)
 [functions."reporte-diario"]
   schedule = "0 14 * * *"
 
-# Reporte s
+# Reporte semanal: lunes 8:00am Guatemala
+[functions."reporte-semanal"]
+  schedule = "0 14 * * 1"
