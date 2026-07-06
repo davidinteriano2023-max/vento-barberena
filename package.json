@@ -1,7 +1,0 @@
-{
-  "name": "vento-barberena",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": { "build": "echo ok" },
-  "engines": { "node": "18" }
-}
