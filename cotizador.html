@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Vento Barberena — Cotizador 2026</title>
+<!-- Open Graph / WhatsApp / Facebook -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://ventobarberena.com/">
+<meta property="og:title"       content="Vento Barberena — Distribuidor Autorizado">
+<meta property="og:description" content="DISTRIBUIDOR AUTORIZADO VENTO · SANTA ROSA, GUATEMALA — Cotiza tu moto al mejor precio.">
+<meta property="og:image"       content="https://res.cloudinary.com/dondwgkhw/image/upload/v1782782932/vento-barberena/vento-barberena-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Vento Barberena — Distribuidor Autorizado">
+<meta name="twitter:description" content="DISTRIBUIDOR AUTORIZADO VENTO · SANTA ROSA, GUATEMALA — Cotiza tu moto al mejor precio.">
+<meta name="twitter:image"       content="https://res.cloudinary.com/dondwgkhw/image/upload/v1782782932/vento-barberena/vento-barberena-og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root{
+  --rojo:      #E8142B;
+  --rojo-d:    #C0101F;
+  --rojo-glow: rgba(232,20,43,.18);
+  --negro:     #080808;
+  --g1:        #111;
+  --g2:        #181818;
+  --g3:        #2a2a2a;
+  --g4:        #3a3a3a;
+  --gt:        #888;
+  --gt2:       #bbb;
+  --blanco:    #fff;
+  --fondo:     #f3f4f6;
+  --fondo2:    #eaebee;
+  --borde:     #e0e2e8;
+  --wa:        #25D366;
+  --card-r:    16px;
+  --r:         12px;
+  --fh: 'Rajdhani', sans-serif;
+  --fb: 'Inter', sans-serif;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08),0 16px 40px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.12),0 32px 64px rgba(0,0,0,.16);
+}
+
+/* ─── BASE ───────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--fb);background:var(--fondo);color:var(--negro);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font-family:var(--fb);cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit}
+
+/* ─── HEADER ─────────────────────────────────────────── */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  background:rgba(8,8,8,.92);
+  backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  border-bottom:1px solid var(--g3);
+  box-shadow:0 1px 0 rgba(232,20,43,.5),0 4px 24px rgba(0,0,0,.4);
+}
+
+.hdr-logo{display:flex;align-items:center;gap:0;height:36px;position:relative;}
+.hdr-logo svg.vento-svg{height:20px;width:auto;}
+.hdr-bar-tag{
+  font-family:var(--fh);font-size:9px;font-weight:700;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--rojo);
+  padding-left:8px;border-left:1.5px solid var(--g3);margin-left:8px;
+  line-height:1;white-space:nowrap;
+}
+
+.hdr-wa{
+  display:flex;align-items:center;gap:7px;
+  background:var(--wa);color:#fff;
+  border-radius:999px;
+  padding:8px 16px;
+  font-family:var(--fh);font-weight:700;font-size:13px;letter-spacing:.04em;
+  transition:background .18s,box-shadow .18s,transform .12s;
+  white-space:nowrap;
+  box-shadow:0 2px 12px rgba(37,211,102,.28);
+}
+.hdr-wa:hover{background:#1da851;box-shadow:0 4px 20px rgba(37,211,102,.4);transform:scale(1.03)}
+.hdr-wa svg{flex-shrink:0}
+.hdr-wa-txt{display:none}
+@media(min-width:420px){.hdr-wa-txt{display:inline}}
+
+/* ─── HERO ──────────────────────────────────────── */
+.hero{
+  background:var(--negro);
+  padding:52px 20px 48px;
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;overflow:hidden;
+}
+/* Radial glow */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 120% at 50% -10%, rgba(232,20,43,.14) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 80% 100%, rgba(232,20,43,.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+/* Grid pattern */
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;opacity:.04;
+  background-image:
+    linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
+  background-size:48px 48px;
+}
+/* Bottom divider */
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--rojo) 30%,var(--rojo) 70%,transparent 100%);
+  opacity:.5;
+}
+
+.hero-logo{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px}
+
+/* ─── KEYFRAMES LOGO ─────────────────────────────────── */
+@keyframes logoReveal{
+  from{opacity:0;transform:translateY(16px);filter:drop-shadow(0 0 0px rgba(232,20,43,0))}
+  to  {opacity:1;transform:translateY(0);   filter:drop-shadow(0 0 40px rgba(232,20,43,.22))}
+}
+@keyframes glowPulse{
+  0%,100%{filter:drop-shadow(0 0 32px rgba(232,20,43,.15))}
+  50%    {filter:drop-shadow(0 0 60px rgba(232,20,43,.42)) drop-shadow(0 0 18px rgba(232,20,43,.18))}
+}
+@keyframes barberenaIn{
+  from{opacity:0;letter-spacing:.12em}
+  to  {opacity:1;letter-spacing:.55em}
+}
+@keyframes lineaExpand{
+  from{width:0;opacity:0}
+  to  {width:56px;opacity:1}
+}
+
+.hero-logo svg.vento-svg-big{
+  width:clamp(200px,54vw,340px);height:auto;
+  animation:
+    logoReveal .9s cubic-bezier(.22,1,.36,1) both,
+    glowPulse  3.6s ease-in-out 1.1s infinite;
+}
+.hero-barberena{
+  font-family:var(--fh);font-size:clamp(11px,3vw,20px);font-weight:700;
+  letter-spacing:.55em;text-transform:uppercase;
+  color:var(--rojo);padding-left:.55em;
+  animation:barberenaIn .7s cubic-bezier(.22,1,.36,1) .45s both;
+}
+.hero-linea{
+  width:56px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--rojo),transparent);
+  border-radius:2px;margin-top:2px;
+  animation:lineaExpand .5s ease-out .85s both;
+}
+.hero-tagline{
+  font-family:var(--fb);font-size:11px;font-weight:400;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-top:8px;position:relative;z-index:1;
+}
+
+/* Stats strip */
+.hero-stats{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  gap:0;margin-top:28px;
+  border:1px solid var(--g3);border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.03);
+}
+.hst{
+  padding:9px 20px;
+  text-align:center;
+  border-right:1px solid var(--g3);
+}
+.hst:last-child{border-right:none}
+.hst-n{font-family:var(--fh);font-size:18px;font-weight:700;color:#fff;line-height:1}
+.hst-l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:2px}
+
+/* ─── FILTROS ─────────────────────────────────────────── */
+.filtros{
+  position:sticky;top:58px;z-index:200;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--borde);
+  display:flex;align-items:center;
+  padding:8px 16px;
+  gap:6px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+.filtros::-webkit-scrollbar{display:none}
+
+.fpill{
+  font-family:var(--fh);font-weight:700;font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;
+  white-space:nowrap;color:var(--gt);
+  padding:7px 16px;
+  border-radius:999px;
+  border:1.5px solid transparent;
+  background:transparent;
+  display:flex;align-items:center;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+  flex-shrink:0;
+}
+.fpill:hover{color:var(--negro);background:var(--fondo2);border-color:var(--borde)}
+.fpill.on{color:#fff;background:var(--negro);border-color:var(--negro);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+
+/* ─── CATÁLOGO ───────────────────────────────────────── */
+.cat{max-width:1380px;margin:0 auto;padding:0 16px 80px}
+
+.sec-hdr{display:flex;align-items:center;gap:12px;padding:32px 0 16px}
+.sec-hr{flex:1;height:1px;background:linear-gradient(90deg,var(--borde),transparent)}
+.sec-hr:first-child{background:linear-gradient(90deg,transparent,var(--borde))}
+.sec-lbl{
+  font-family:var(--fh);font-size:10px;font-weight:800;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--rojo);white-space:nowrap;
+}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:540px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:780px){.grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ── CARD ─────────────────────────── */
+.card{
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:var(--card-r);
+  overflow:hidden;cursor:pointer;
+  display:flex;flex-direction:column;
+  position:relative;
+  transition:box-shadow .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1),border-color .22s;
+  box-shadow:var(--shadow-sm);
+}
+.card:hover{
+  transform:translateY(-5px) scale(1.005);
+  box-shadow:var(--shadow-md),0 0 0 1px var(--rojo);
+  border-color:var(--rojo);
+}
+
+.badge{
+  position:absolute;top:10px;left:10px;z-index:2;
+  background:var(--rojo);color:#fff;
+  font-family:var(--fh);font-size:9px;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;
+  box-shadow:0 2px 8px rgba(232,20,43,.4);
+}
+.badge.am{background:#F5C200;color:#000;box-shadow:0 2px 8px rgba(245,194,0,.4)}
+
+/* Imagen */
+.card-img{
+  background:linear-gradient(160deg,#fafafa 0%,#f5f5f5 100%);
+  height:168px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+@media(min-width:540px){.card-img{height:186px}}
+.card-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(transparent,rgba(0,0,0,.03));
+  pointer-events:none;
+}
+.card-img img{
+  width:100%;height:100%;object-fit:contain;
+  padding:14px;transition:transform .38s cubic-bezier(.4,0,.2,1);
+}
+.card:hover .card-img img{transform:scale(1.08)}
+
+.card-body{padding:13px 14px 15px;flex:1;display:flex;flex-direction:column;gap:0}
+.card-cat{
+  display:inline-flex;align-items:center;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--rojo);font-weight:700;margin-bottom:5px;
+}
+.card-nom{
+  font-family:var(--fh);font-size:17px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.02em;line-height:1.1;color:var(--negro);
+}
+@media(min-width:540px){.card-nom{font-size:18px}}
+
+.card-specs{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.cs{
+  background:var(--fondo);border:1px solid var(--borde);
+  border-radius:6px;padding:3px 7px;font-size:10px;color:var(--gt);
+  font-weight:500;
+}
+.cs b{color:var(--negro);font-weight:600}
+
+.card-price{margin-top:auto;padding-top:12px;border-top:1px solid var(--fondo2);margin-top:12px}
+.p-orig{font-size:11px;color:#c0c0c0;text-decoration:line-through;font-weight:500}
+.p-main{font-family:var(--fh);font-size:24px;font-weight:700;color:var(--negro);line-height:1}
+.p-cuota{font-size:11px;color:var(--gt);margin-top:2px;font-weight:500}
+.p-cuota b{color:var(--rojo);font-weight:700}
+
+.card-btn{
+  margin-top:12px;width:100%;padding:10px;
+  background:var(--negro);color:#fff;
+  border-radius:10px;
+  font-family:var(--fh);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  transition:background .2s,box-shadow .2s,transform .12s;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.card-btn:hover,.card:hover .card-btn{
+  background:var(--rojo);
+  box-shadow:0 4px 16px var(--rojo-glow);
+  transform:translateY(-1px);
+}
+
+/* ─── OVERLAY ────────────────────────────────────────── */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,.8);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:16px;
+}
+.overlay.on{display:flex;align-items:flex-start;justify-content:center}
+
+.modal{
+  background:#fff;border-radius:20px;
+  width:100%;max-width:780px;
+  overflow:hidden;position:relative;
+  animation:pop .26s cubic-bezier(.22,.68,0,1.2) both;
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(255,255,255,.08);
+}
+@keyframes pop{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:none}}
+
+.m-close{
+  position:absolute;top:12px;right:12px;z-index:10;
+  width:32px;height:32px;
+  background:rgba(0,0,0,.06);border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--negro);
+  transition:background .18s,color .18s,transform .12s;cursor:pointer;
+  border:1px solid rgba(0,0,0,.06);
+}
+.m-close:hover{background:var(--rojo);color:#fff;transform:scale(1.1);border-color:var(--rojo)}
+
+/* Imagen modal */
+.m-img{
+  background:linear-gradient(160deg,#fafafa 0%,#f2f2f2 100%);
+  height:240px;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--borde);
+}
+@media(min-width:540px){.m-img{height:290px}}
+.m-img img{width:100%;height:100%;object-fit:contain;padding:20px}
+
+/* Tabs */
+.m-tabs{
+  display:flex;background:var(--negro);
+  padding:0 16px;
+  border-bottom:1px solid var(--g3);
+}
+.m-tab{
+  flex:1;height:48px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-family:var(--fh);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gt);border-bottom:2px solid transparent;
+  cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;
+  transition:color .2s,border-color .2s;
+  max-width:160px;
+}
+.m-tab.on{color:#fff;border-bottom-color:var(--rojo)}
+
+.m-panel{display:none}
+.m-panel.on{display:block}
+
+/* ─── PANEL COTIZAR ──────────────────────────────────── */
+.pc{padding:20px 20px 32px}
+
+.pc-nom{font-family:var(--fh);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.pc-sub{font-size:12px;color:var(--gt);margin-top:3px;font-weight:500}
+
+.slbl{
+  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gt);display:block;margin-top:18px;margin-bottom:8px;
+}
+
+/* Swatches color */
+.colores{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sw{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;
+  transition:transform .14s,border-color .14s,box-shadow .14s;flex-shrink:0}
+.sw:hover{transform:scale(1.2)}
+.sw.on{border-color:var(--negro);box-shadow:0 0 0 3px rgba(0,0,0,.12)}
+.sw-nm{font-size:12px;color:var(--gt);font-weight:500}
+
+/* Precio caja */
+.px-box{
+  margin-top:16px;
+  background:linear-gradient(135deg,#f8f8f8 0%,#f2f2f2 100%);
+  border:1px solid var(--borde);border-radius:var(--r);
+  padding:16px 18px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.px-lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gt);font-weight:600}
+.px-orig{font-size:12px;color:#bbb;text-decoration:line-through;margin-top:3px;font-weight:500}
+.px-val{font-family:var(--fh);font-size:34px;font-weight:700;color:var(--negro);line-height:1}
+.px-sav{
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;
+  padding:5px 11px;font-size:12px;font-weight:700;color:#15803d;white-space:nowrap;align-self:center;
+}
+
+/* Beneficios */
+.bens{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.ben{display:flex;align-items:center;gap:8px;font-size:12px;color:#444;font-weight:500}
+
+/* Pago tabs */
+.ptabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.pt{
+  padding:9px 4px;text-align:center;
+  border:1.5px solid var(--borde);border-radius:10px;
+  font-family:var(--fh);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gt);transition:all .2s;
+}
+.pt:hover{border-color:var(--rojo);color:var(--negro)}
+.pt.on{background:var(--negro);border-color:var(--negro);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
+/* Planes */
+.planes{display:flex;flex-direction:column;gap:7px}
+.plan{
+  border:1.5px solid var(--borde);border-radius:12px;padding:12px 14px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  background:#fff;transition:border-color .2s,background .2s,box-shadow .2s;
+}
+.plan:hover{border-color:rgba(232,20,43,.4);box-shadow:0 2px 12px var(--rojo-glow)}
+.plan.on{border-color:var(--rojo);background:rgba(232,20,43,.03);box-shadow:0 2px 12px var(--rojo-glow)}
+.prb{width:17px;height:17px;border-radius:50%;border:2px solid #ccc;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:border-color .18s}
+.plan.on .prb{border-color:var(--rojo)}
+.prbd{display:none;width:9px;height:9px;border-radius:50%;background:var(--rojo)}
+.plan.on .prbd{display:block}
+.pi{flex:1}
+.pn{font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:.02em}
+.pd{font-size:11px;color:var(--gt);margin-top:1px;font-weight:500}
+.pcv{font-family:var(--fh);font-size:18px;font-weight:700;color:var(--rojo);text-align:right}
+.pcv small{display:block;font-size:10px;color:var(--gt);font-family:var(--fb);font-weight:500}
+
+/* Resumen */
+.res{
+  margin-top:12px;
+  background:var(--fondo);border:1px solid var(--borde);
+  border-radius:12px;padding:12px 16px;
+}
+.rr{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid var(--borde)}
+.rr:last-child{border-bottom:none}
+.rk{color:var(--gt);font-weight:500}
+.rv{font-weight:700}
+
+.msg-pg{display:none;margin-top:12px;background:var(--fondo);border:1px solid var(--borde);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.65;color:#444}
+
+/* Requisitos */
+.req-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 0 10px;border-top:1px solid var(--borde);margin-top:12px;cursor:pointer}
+.req-t{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#bbb}
+.req-a{font-size:10px;color:#bbb;transition:transform .2s}
+.req-a.open{transform:rotate(180deg)}
+.req-bd{display:none;flex-direction:column;gap:6px;padding-bottom:4px}
+.req-bd.open{display:flex}
+.req-it{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;font-weight:500}
+
+/* WhatsApp btn */
+.wa-btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;margin-top:18px;padding:14px;
+  background:var(--wa);border:none;border-radius:12px;
+  font-family:var(--fh);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;cursor:pointer;
+  box-shadow:0 4px 20px rgba(37,211,102,.28);
+  transition:background .2s,box-shadow .2s,transform .12s;
+}
+.wa-btn:hover{background:#1da851;box-shadow:0 6px 28px rgba(37,211,102,.38);transform:translateY(-2px) scale(1.01)}
+
+/* ─── PANEL FICHA ────────────────────────────────────── */
+.pf{padding:20px 20px 32px}
+.pf-nom{font-family:var(--fh);font-size:22px;font-weight:700;text-transform:uppercase}
+.pf-meta{font-size:11px;color:var(--gt);margin-top:3px;font-weight:500}
+
+.feats{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px}
+.feat{
+  background:var(--fondo);border:1px solid var(--borde);
+  border-radius:999px;padding:4px 11px;font-size:11px;color:#555;font-weight:500;
+}
+
+.acd{margin-bottom:6px}
+.acd-h{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 14px;
+  background:var(--fondo);border:1px solid var(--borde);border-radius:10px;
+  cursor:pointer;
+  font-family:var(--fh);font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  transition:background .18s;
+}
+.acd-h:hover{background:var(--fondo2)}
+.acd-ar{font-size:9px;color:var(--gt);transition:transform .2s}
+.acd-h.on .acd-ar{transform:rotate(180deg)}
+.acd-b{display:none;border:1px solid var(--borde);border-top:none;border-radius:0 0 10px 10px;background:#fff}
+.acd-b.on{display:block}
+.acd-r{display:flex;justify-content:space-between;padding:8px 14px;font-size:12px;border-bottom:1px solid #f5f5f5}
+.acd-r:last-child{border-bottom:none}
+.ak{color:var(--gt);font-weight:500}
+.av{font-weight:600;text-align:right;max-width:55%}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{
+  background:var(--negro);
+  padding:52px 20px 40px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--rojo) 30%,var(--rojo) 70%,transparent 100%);
+  opacity:.5;
+}
+.foot-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:28px}
+.foot-logo svg.vento-svg{width:clamp(140px,38vw,220px);height:auto;filter:drop-shadow(0 0 20px rgba(232,20,43,.15))}
+.foot-barberena{
+  font-family:var(--fh);font-size:clamp(10px,2.2vw,14px);font-weight:700;
+  letter-spacing:.55em;text-transform:uppercase;color:var(--rojo);padding-left:.55em;
+}
+.foot-div{width:36px;height:2px;background:linear-gradient(90deg,transparent,var(--rojo),transparent);border-radius:2px;margin:8px auto}
+
+.foot-tel{font-family:var(--fh);font-size:24px;font-weight:700;margin-bottom:6px;color:#fff}
+.foot-tel a{color:var(--rojo)}
+.foot-sub{font-size:12px;color:var(--gt);margin-bottom:22px;font-weight:400}
+.foot-redes{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.foot-r{
+  padding:8px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--g3);
+  border-radius:999px;
+  font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gt);font-weight:600;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.foot-r:hover{border-color:var(--rojo);color:#fff;background:rgba(232,20,43,.08)}
+.foot-nota{font-size:10px;color:var(--g3);font-weight:400}
+
+/* ─── RESPONSIVE TWEAKS ──────────────────────────────── */
+@media(max-width:380px){
+  .hero-stats{display:none}
+  .hst{padding:8px 14px}
+}
+@media(max-width:540px){
+  .hst{padding:8px 14px}
+  .hst-n{font-size:15px}
+  .hst-l{font-size:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="hdr">
+  <!-- Logo Vento original (blanco sobre negro) + Barberena -->
+  <div class="hdr-logo">
+    <svg class="vento-svg" viewBox="0 0 300 45" xmlns="http://www.w3.org/2000/svg">
+      <!-- Paths originales del logo Vento (solo la parte VENTO, no el subtexto) -->
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M12.3,0.5l5.3,31.7L46.4,0.5h12.1L29.2,33.3c-4.9,5.5-9.3,9.9-15.6,9.9c-6,0-7.6-4.6-8.4-9.9L0,0.5H12.3z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M117.8,0.4l-4,10.9H68c-2.3,0-3.2,1.7-3.9,3.6l-0.5,1.4H112l-4,10.9H59.7l-0.3,1c-0.7,2.1-1,3.6,1.2,3.6l45.8,0l-4,11H56.6c-8.1,0-11.6-5.3-8.7-13.5L53.5,14C56.2,6.4,64.2,0.5,72,0.5L117.8,0.4z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M116.7,9.9c2-5.6,8.8-10,14.3-10c3.2,0,5.5,1.3,7.2,4L157,31.6l11.3-31.2h10.8l-11.3,31.2c-2.5,6.8-9.2,11.7-15,11.7c-3.1,0-4.8-1.2-9.2-6.9l-16.7-25.2l-11.5,31.6h-10.7L116.7,9.9z"/>
+      <polygon fill="#fff" fill-rule="evenodd" points="181.6,0.5 241.7,0.5 237.7,11.3 213.1,11.3 201.7,42.8 191,42.8 202.4,11.4 177.6,11.4"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M287.5,14.9c0.6-1.8,1.2-3.6-1.1-3.6h-32.7c-2.6,0-3.1,1.4-3.6,2.8L245,28.1c-0.8,2.1-1,3.6,1.2,3.6h32.6c2.5,0,3-1.4,3.6-3L287.5,14.9z M293,30c-3,8.2-10,12.8-18.1,12.8h-32.7c-7.9,0-11.7-4.9-8.8-12.8l6.3-17.4c3.1-6.9,10.3-12.2,18-12.2h32.6c8.9,0,11.4,5.6,8.6,13.5L293,30z"/>
+    </svg>
+    <span class="hdr-bar-tag">Barberena</span>
+  </div>
+
+  <a class="hdr-wa" href="tel:+50238978935">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.26.2 2.47.57 3.6.1.34.02.74-.24 1.01L6.6 10.8z"/></svg>
+    <span class="hdr-wa-txt">3897-8935</span>
+  </a>
+</header>
+
+<!-- ═══ HERO LOGO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-logo">
+    <svg class="vento-svg-big" viewBox="0 0 300 43" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M12.3,0.5l5.3,31.7L46.4,0.5h12.1L29.2,33.3c-4.9,5.5-9.3,9.9-15.6,9.9c-6,0-7.6-4.6-8.4-9.9L0,0.5H12.3z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M117.8,0.4l-4,10.9H68c-2.3,0-3.2,1.7-3.9,3.6l-0.5,1.4H112l-4,10.9H59.7l-0.3,1c-0.7,2.1-1,3.6,1.2,3.6l45.8,0l-4,11H56.6c-8.1,0-11.6-5.3-8.7-13.5L53.5,14C56.2,6.4,64.2,0.5,72,0.5L117.8,0.4z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M116.7,9.9c2-5.6,8.8-10,14.3-10c3.2,0,5.5,1.3,7.2,4L157,31.6l11.3-31.2h10.8l-11.3,31.2c-2.5,6.8-9.2,11.7-15,11.7c-3.1,0-4.8-1.2-9.2-6.9l-16.7-25.2l-11.5,31.6h-10.7L116.7,9.9z"/>
+      <polygon fill="#fff" fill-rule="evenodd" points="181.6,0.5 241.7,0.5 237.7,11.3 213.1,11.3 201.7,42.8 191,42.8 202.4,11.4 177.6,11.4"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M287.5,14.9c0.6-1.8,1.2-3.6-1.1-3.6h-32.7c-2.6,0-3.1,1.4-3.6,2.8L245,28.1c-0.8,2.1-1,3.6,1.2,3.6h32.6c2.5,0,3-1.4,3.6-3L287.5,14.9z M293,30c-3,8.2-10,12.8-18.1,12.8h-32.7c-7.9,0-11.7-4.9-8.8-12.8l6.3-17.4c3.1-6.9,10.3-12.2,18-12.2h32.6c8.9,0,11.4,5.6,8.6,13.5L293,30z"/>
+    </svg>
+    <div class="hero-barberena">Barberena</div>
+    <div class="hero-linea"></div>
+  </div>
+  <div class="hero-tagline">Distribuidor Autorizado · Santa Rosa, Guatemala</div>
+</section>
+
+
+<!-- ═══ FILTROS ═══ -->
+<nav class="filtros">
+  <button class="fpill on" onclick="fil(this,'urban-sport')">Urban Sport</button>
+  <button class="fpill" onclick="fil(this,'rebels')">Rebels</button>
+  <button class="fpill" onclick="fil(this,'adventure')">Adventure</button>
+  <button class="fpill" onclick="fil(this,'doble-proposito')">Doble Propósito</button>
+  <button class="fpill" onclick="fil(this,'city')">City</button>
+  <button class="fpill" onclick="fil(this,'scooters')">Scooters</button>
+</nav>
+
+<!-- ═══ CATÁLOGO ═══ -->
+<main class="cat" id="cat"></main>
+
+<!-- ═══ MODAL ═══ -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="m-close" onclick="cerrar()">✕</button>
+    <div class="m-img"><img id="mImg" src="" alt=""></div>
+    <div class="m-tabs">
+      <button class="m-tab on" onclick="tab(this,'cotizar')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        Cotizar
+      </button>
+      <button class="m-tab" onclick="tab(this,'ficha')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Ficha Técnica
+      </button>
+    </div>
+
+    <!-- COTIZAR -->
+    <div class="m-panel on" id="pC">
+      <div class="pc">
+        <div class="pc-nom" id="mNom"></div>
+        <div class="pc-sub" id="mSub"></div>
+
+        <span class="slbl">Color</span>
+        <div class="colores" id="mColores"></div>
+
+        <div class="px-box">
+          <div>
+            <div class="px-lbl">Precio Contado</div>
+            <div class="px-orig" id="mOrig"></div>
+            <div class="px-val" id="mVal"></div>
+          </div>
+          <div class="px-sav" id="mSav"></div>
+        </div>
+
+        <div class="bens">
+          <div class="ben">🛡️ Garantía 2 años o 20,000 km</div>
+          <div class="ben">🔧 Primer servicio gratis</div>
+          <div class="ben">📡 Ecosistema VenTec incluido</div>
+          <div class="ben">🔒 Alarma antirrobo incluida</div>
+        </div>
+
+        <span class="slbl" style="margin-top:18px">Forma de pago</span>
+        <div class="ptabs">
+          <button class="pt on" onclick="setPago('credito',this)">Crédito</button>
+          <button class="pt" onclick="setPago('tarjeta',this)">Tarjeta</button>
+          <button class="pt" onclick="setPago('efectivo',this)">Efectivo</button>
+        </div>
+
+        <div id="secP">
+          <span class="slbl" style="margin-top:12px">Elige tu plan</span>
+          <div class="planes" id="planesW"></div>
+          <div class="res" id="resumen">
+            <div class="rr"><span class="rk">Cuota mensual</span><span class="rv" id="rCuota">—</span></div>
+            <div class="rr"><span class="rk">Plazo</span><span class="rv" id="rPlazo">—</span></div>
+            <div class="rr"><span class="rk">Enganche (~20%)</span><span class="rv" id="rEng">—</span></div>
+            <div class="rr"><span class="rk">Total financiado</span><span class="rv" id="rTot">—</span></div>
+          </div>
+        </div>
+        <div class="msg-pg" id="msgP"></div>
+
+        <div class="req-hdr" onclick="togReq()">
+          <span class="req-t">📋 Requisitos de financiamiento</span>
+          <span class="req-a" id="reqA">▼</span>
+        </div>
+        <div class="req-bd" id="reqB">
+          <div class="req-it">🪪 DPI vigente (ambos lados)</div>
+          <div class="req-it">🤳 Foto sosteniendo el DPI</div>
+          <div class="req-it">🔢 NIT actualizado</div>
+          <div class="req-it">💡 Recibo de luz reciente</div>
+          <div class="req-it">📅 4 meses mínimo de trabajo</div>
+          <div class="req-it">📄 Carta laboral o estados de cuenta</div>
+        </div>
+
+        <a class="wa-btn" id="waBtn" href="#" target="_blank" rel="noopener">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Solicitar por WhatsApp →
+        </a>
+      </div>
+    </div>
+
+    <!-- FICHA -->
+    <div class="m-panel" id="pF">
+      <div class="pf" id="fichaC"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-logo">
+    <svg class="vento-svg" viewBox="0 0 300 43" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M12.3,0.5l5.3,31.7L46.4,0.5h12.1L29.2,33.3c-4.9,5.5-9.3,9.9-15.6,9.9c-6,0-7.6-4.6-8.4-9.9L0,0.5H12.3z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M117.8,0.4l-4,10.9H68c-2.3,0-3.2,1.7-3.9,3.6l-0.5,1.4H112l-4,10.9H59.7l-0.3,1c-0.7,2.1-1,3.6,1.2,3.6l45.8,0l-4,11H56.6c-8.1,0-11.6-5.3-8.7-13.5L53.5,14C56.2,6.4,64.2,0.5,72,0.5L117.8,0.4z"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M116.7,9.9c2-5.6,8.8-10,14.3-10c3.2,0,5.5,1.3,7.2,4L157,31.6l11.3-31.2h10.8l-11.3,31.2c-2.5,6.8-9.2,11.7-15,11.7c-3.1,0-4.8-1.2-9.2-6.9l-16.7-25.2l-11.5,31.6h-10.7L116.7,9.9z"/>
+      <polygon fill="#fff" fill-rule="evenodd" points="181.6,0.5 241.7,0.5 237.7,11.3 213.1,11.3 201.7,42.8 191,42.8 202.4,11.4 177.6,11.4"/>
+      <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M287.5,14.9c0.6-1.8,1.2-3.6-1.1-3.6h-32.7c-2.6,0-3.1,1.4-3.6,2.8L245,28.1c-0.8,2.1-1,3.6,1.2,3.6h32.6c2.5,0,3-1.4,3.6-3L287.5,14.9z M293,30c-3,8.2-10,12.8-18.1,12.8h-32.7c-7.9,0-11.7-4.9-8.8-12.8l6.3-17.4c3.1-6.9,10.3-12.2,18-12.2h32.6c8.9,0,11.4,5.6,8.6,13.5L293,30z"/>
+    </svg>
+    <div class="foot-barberena">Barberena</div>
+    <div class="foot-div"></div>
+  </div>
+  <div class="foot-tel">📞 <a href="tel:+50238978935">3897-8935</a></div>
+  <div class="foot-sub">Barberena, Santa Rosa · Guatemala · Distribuidor Autorizado Vento</div>
+  <div class="foot-redes">
+    <a class="foot-r" href="https://www.tiktok.com/@vento_guatemala" target="_blank">TikTok</a>
+    <a class="foot-r" href="https://www.instagram.com/vento_guatemala/" target="_blank">Instagram</a>
+    <a class="foot-r" href="https://www.facebook.com/profile.php?id=61565421898877" target="_blank">Facebook</a>
+    <a class="foot-r" href="https://www.youtube.com/@Vento_guatemala" target="_blank">YouTube</a>
+  </div>
+  <div class="foot-nota">Precios sujetos a cambio · Imágenes de referencia · Cuotas estimadas con enganche del 20%</div>
+</footer>
+
+<script>
+/* ─── DATOS ───────────────────────────────────────────── */
+const CATS=[
+  {k:'scooters',        l:'Scooters'},
+  {k:'city',            l:'City'},
+  {k:'rebels',          l:'Rebels'},
+  {k:'urban-sport',     l:'Urban Sport'},
+  {k:'doble-proposito', l:'Doble Propósito'},
+  {k:'adventure',       l:'Adventure'}
+];
+
+/* Imágenes locales (fondo blanco) */
+const MOTOS=[
+{id:'spirit-170-zx',  nom:'Spirit 170 ZX',    año:'2026', cat:'scooters',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-spirit-170-zx-01.jpg',
+ p:9499,  po:10499, badge:'Popular', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Rojo',c:'#C0121E'},{n:'Blanco',c:'#ddd',b:1}],
+ specs:{
+   'Motor':      {'Cilindrada':'170 c.c.','Potencia':'10 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'184 cm','Ancho':'75 cm','Alto':'108 cm','Asiento':'75 cm','Peso':'97 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Tambor','Rin Del.':'3.50 R10','Rin Tras.':'3.50 R10'},
+   'Rendimiento':{'Tanque':'5 L','Vel. máx.':'95 km/h','Rendimiento':'35 km/l','Transmisión':'CVT Automática'}},
+ feats:['VenTec','Alarma','USB','Soporte celular','Disco delantero','Cajuela bajo asiento','LED']},
+
+{id:'cruiser-200',    nom:'Cruiser 200',        año:'2026', cat:'city',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/2024-vento-cruiser-200-01.jpg',
+ p:7999,  po:8999,  badge:'Mejor precio', bcls:'am',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Rojo',c:'#C0121E'}],
+ specs:{
+   'Motor':      {'Cilindrada':'200 c.c.','Potencia':'16 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'207 cm','Ancho':'77 cm','Alto':'139 cm','Asiento':'75 cm','Peso':'115 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Tambor','Rin Del.':'2.75 R18','Rin Tras.':'110/90 R16'},
+   'Rendimiento':{'Tanque':'9.5 L','Vel. máx.':'115 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','Soporte celular','Tablero análogo','Parrilla de carga']},
+
+{id:'ovni-170',       nom:'Ovni 170',           año:'2026', cat:'city',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/2024-vento-ovni170-016.jpg',
+ p:9999,  po:10999, badge:null,
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Azul',c:'#1a3a8a'},{n:'Gris',c:'#888'}],
+ specs:{
+   'Motor':      {'Cilindrada':'170 c.c.','Potencia':'10 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'179 cm','Ancho':'76 cm','Alto':'107 cm','Asiento':'76 cm','Peso':'96 kg'},
+   'Frenos':     {'Delantero':'Tambor','Trasero':'Tambor','Rin Del.':'90/90 R12','Rin Tras.':'3.50 R10'},
+   'Rendimiento':{'Tanque':'4.5 L','Vel. máx.':'95 km/h','Rendimiento':'35 km/l','Transmisión':'CVT Automática'}},
+ feats:['VenTec','Alarma','USB','CVT automático','Cajuela central','LED']},
+
+{id:'lithium-190',    nom:'Lithium 190 5.0',    año:'2026', cat:'city',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-lithium-190-5-01.jpg',
+ p:8999,  po:11490, badge:'🔥 Oferta', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Grafito',c:'#444'}],
+ specs:{
+   'Motor':      {'Cilindrada':'190 c.c.','Potencia':'16 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'196 cm','Ancho':'75 cm','Alto':'102 cm','Asiento':'75 cm','Peso':'107 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Tambor','Rines':'Aluminio'},
+   'Rendimiento':{'Tanque':'10 L','Vel. máx.':'110 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','Rines aluminio','Parabrisas','Escape deportivo']},
+
+{id:'thriller-250',   nom:'Thriller 250',       año:'2026', cat:'rebels',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-thriller-250-menu.jpg',
+ p:10999, po:12999, badge:null,
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Rojo',c:'#C0121E'}],
+ specs:{
+   'Motor':      {'Cilindrada':'250 c.c.','Potencia':'18 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'200 cm','Ancho':'77 cm','Alto':'110 cm','Asiento':'77 cm','Peso':'110 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Tambor','Rines':'Aluminio'},
+   'Rendimiento':{'Tanque':'10 L','Vel. máx.':'120 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','Fairing LED','Escape doble Shotgun','Velocímetro digital']},
+
+{id:'thunderstar-300',nom:'Thunderstar 300 XL',  año:'2026', cat:'rebels',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-thunderstar300xl-01.jpg',
+ p:11999, po:13999, badge:'⭐ Top Seller', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Rojo',c:'#C0121E'},{n:'Café',c:'#6b4226'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'24 HP','Tipo':'4T · Aceite','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'195 cm','Ancho':'75 cm','Alto':'109 cm','Asiento':'74 cm','Peso':'115 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Disco','Rin Del.':'90/90 R18','Rin Tras.':'130/80 R17'},
+   'Rendimiento':{'Tanque':'18 L','Vel. máx.':'135 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','Full LED','Radiador aceite','Escape Shotgun doble','Respaldo pasajero']},
+
+{id:'screamer-300',   nom:'Screamer Sportivo 300',año:'2026', cat:'rebels',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-screamer-sportivo-300-menu.jpg',
+ p:13999, po:16299, badge:'🏆 Premium', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Gris',c:'#555'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'24 HP','Tipo':'4T · Aceite','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'200 cm','Ancho':'76 cm','Alto':'115 cm','Asiento':'80 cm','Peso':'135 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Disco','Rin Del.':'100/80 R17','Rin Tras.':'130/80 R17'},
+   'Suspensión': {'Delantera':'Invertida','Trasera':'Monoshock'},
+   'Rendimiento':{'Tanque':'20 L','Vel. máx.':'135 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','Suspensión invertida','Monoshock','Sliders LED','Full LED']},
+
+{id:'onyx-250',       nom:'Onyx 250',           año:'2026', cat:'urban-sport',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-onyx-250-menu.webp',
+ p:11999, po:12999, badge:'🔥 Oferta', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Rojo',c:'#C0121E'}],
+ specs:{
+   'Motor':      {'Cilindrada':'250 c.c.','Potencia':'18 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'201 cm','Ancho':'78 cm','Alto':'112 cm','Asiento':'79.5 cm','Peso':'110 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Tambor'},
+   'Rendimiento':{'Tanque':'18 L','Vel. máx.':'130 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','Full LED','Luces LED laterales','Tablero digital','Escape deportivo']},
+
+{id:'cyclone-210',    nom:'Cyclone 210 2.0',    año:'2026', cat:'urban-sport',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-cyclone-210-menu.png',
+ p:8999,  po:11999, badge:'💰 Precio', bcls:'am',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Azul',c:'#0a2a6e'},{n:'Rojo',c:'#C0121E'}],
+ specs:{
+   'Motor':      {'Cilindrada':'210 c.c.','Potencia':'18 HP','Tipo':'4T · Aire','Ignición':'CDI'},
+   'Dimensiones':{'Largo':'195 cm','Ancho':'77 cm','Alto':'108 cm','Asiento':'74 cm','Peso':'106 kg'},
+   'Frenos':     {'Delantero':'Disco Hidráulico','Trasero':'Tambor'},
+   'Rendimiento':{'Tanque':'12.5 L','Vel. máx.':'115 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','LED 360 Multicolor','Escape HPF','Velocímetro digital']},
+
+{id:'storm-300',      nom:'Storm 300 2.0',      año:'2026', cat:'urban-sport',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/v1782782536/vento-barberena/vento-storm-300-2-01.png',
+ p:13999, po:14999, badge:null,
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Azul',c:'#0a2a6e'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'24 HP','Tipo':'4T · Radiador Aceite'},
+   'Dimensiones':{'Largo':'200 cm','Ancho':'75 cm','Alto':'111 cm','Asiento':'79 cm','Peso':'148 kg'},
+   'Frenos':     {'Delantero':'Disco 300mm','Trasero':'Disco'},
+   'Rendimiento':{'Tanque':'17 L','Vel. máx.':'135 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','300cc 24HP','Disco 300mm','Full LED','Doble Monoshock']},
+
+{id:'nitrox-300',     nom:'Nitrox 300 T3',      año:'2026', cat:'urban-sport',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-nitrox-300t3-01.jpg',
+ p:12999, po:13999, badge:'⭐ Top Spec', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Gris',c:'#555'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'25 HP','Tipo':'4T · Aceite'},
+   'Dimensiones':{'Largo':'209 cm','Ancho':'80 cm','Alto':'116 cm','Asiento':'80 cm','Peso':'120 kg'},
+   'Frenos':     {'Delantero':'Disco Ventilado 300mm','Trasero':'Disco'},
+   'Suspensión': {'Delantera':'Invertida','Trasera':'Monoshock'},
+   'Rendimiento':{'Tanque':'13.4 L','Vel. máx.':'140 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','25HP','Horquilla invertida','LCD full color','Escape HPF doble']},
+
+{id:'crossmax-170',   nom:'Crossmax 170',       año:'2026', cat:'doble-proposito',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-170-01.jpg',
+ p:8999,  po:10999, badge:null,
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Verde',c:'#1a5c1a'}],
+ specs:{
+   'Motor':      {'Cilindrada':'170 c.c.','Potencia':'14.5 HP','Tipo':'4T · Aire'},
+   'Dimensiones':{'Largo':'207 cm','Ancho':'85 cm','Alto':'115 cm','Asiento':'86 cm','Peso':'126 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Tambor','Rin Del.':'80/100 R21','Rin Tras.':'120/90 R18'},
+   'Rendimiento':{'Tanque':'12 L','Vel. máx.':'98 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','Monoshock','Cubre puños LED','Escape HPF']},
+
+{id:'crossmax-220',   nom:'Crossmax 220',       año:'2026', cat:'doble-proposito',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-220-01.jpg',
+ p:10499, po:12499, badge:null,
+ cols:[{n:'Naranja',c:'#C85800'},{n:'Negro',c:'#1a1a1a'}],
+ specs:{
+   'Motor':      {'Cilindrada':'220 c.c.','Potencia':'16 HP','Tipo':'4T · Aire'},
+   'Dimensiones':{'Largo':'207 cm','Ancho':'85 cm','Alto':'115 cm','Asiento':'86 cm','Peso':'126 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Tambor','Rin Del.':'80/100 R21','Rin Tras.':'120/90 R18'},
+   'Rendimiento':{'Tanque':'12 L','Vel. máx.':'120 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 5V'}},
+ feats:['VenTec','Alarma','USB','LED delantero','Sliders LED','Monoshock']},
+
+{id:'crossmax-300',   nom:'Crossmax 300 Rally',  año:'2026', cat:'doble-proposito',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-300-rally-01.jpg',
+ p:13999, po:14999, badge:'Off-Road Pro', bcls:'',
+ cols:[{n:'Naranja',c:'#C85800'},{n:'Negro',c:'#1a1a1a'}],
+ specs:{
+   'Motor':      {'Cilindrada':'272.9 c.c.','Potencia':'25 HP','Tipo':'4T · Aceite'},
+   'Dimensiones':{'Largo':'213 cm','Ancho':'86 cm','Alto':'131 cm','Asiento':'85 cm','Peso':'126 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Disco','Rin Del.':'90/90 R21','Rin Tras.':'4.60/100 R18'},
+   'Suspensión': {'Delantera':'Invertida','Trasera':'Monoshock'},
+   'Rendimiento':{'Tanque':'12 L','Vel. máx.':'135 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','25HP','Horquilla invertida','Doble disco','Full LED']},
+
+{id:'ovni-track-170', nom:'Ovni Track 170',      año:'2025', cat:'doble-proposito',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-ovni-track-170-01.jpg',
+ p:10999, po:11999, badge:null,
+ cols:[{n:'Verde',c:'#1a5c1a'},{n:'Negro',c:'#1a1a1a'}],
+ specs:{
+   'Motor':      {'Cilindrada':'170 c.c.','Potencia':'10 HP','Tipo':'4T · Aceite'},
+   'Dimensiones':{'Largo':'179 cm','Ancho':'76 cm','Alto':'107 cm','Asiento':'76 cm','Peso':'96 kg'},
+   'Frenos':     {'Delantero':'Tambor','Trasero':'Tambor'},
+   'Rendimiento':{'Tanque':'4.5 L','Vel. máx.':'95 km/h','Rendimiento':'35 km/l','Transmisión':'CVT Automática'}},
+ feats:['VenTec','Alarma','USB','CVT automático','Llantas offroad','Cajuela hermética','Cubre puños']},
+
+{id:'alpina-300',     nom:'Alpina 300',          año:'2026', cat:'adventure',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-alpina-300-16.jpg',
+ p:19999, po:20999, badge:'Adventure Top', bcls:'',
+ cols:[{n:'Negro',c:'#1a1a1a'},{n:'Naranja',c:'#C85800'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'28 HP','Tipo':'4T · Aceite','Válvulas':'4 por cilindro'},
+   'Dimensiones':{'Largo':'210 cm','Ancho':'77.5 cm','Alto':'136 cm','Asiento':'81 cm','Peso':'150 kg'},
+   'Frenos':     {'Delantero':'Disco','Trasero':'Disco','Rin Del.':'100/80 R17','Rin Tras.':'140/70 R17'},
+   'Rendimiento':{'Tanque':'14 L','Vel. máx.':'130 km/h','Rendimiento':'35 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','28HP 4V','Skid plate','Parabrisas','Neumáticos mixtos','Full LED']},
+
+{id:'dakar-300',      nom:'Dakar 300',           año:'2026', cat:'adventure',
+ img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-dakar-300-01.jpg',
+ p:17999, po:18999, badge:'Extremo', bcls:'',
+ cols:[{n:'Naranja',c:'#C85800'},{n:'Negro',c:'#1a1a1a'}],
+ specs:{
+   'Motor':      {'Cilindrada':'300 c.c.','Potencia':'25 HP','Torque':'22 Nm','Tipo':'4T · Aceite'},
+   'Dimensiones':{'Largo':'210 cm','Ancho':'83 cm','Alto':'131 cm','Asiento':'85.5 cm','Dist. suelo':'26 cm','Peso':'140 kg'},
+   'Frenos':     {'Delantero':'Disco Lobulado','Trasero':'Disco Lobulado','Rin Del.':'90/100 R21','Rin Tras.':'110/100 R18'},
+   'Suspensión': {'Delantera':'Invertida','Trasera':'Monoshock'},
+   'Rendimiento':{'Tanque':'18.5 L','Vel. máx.':'130 km/h','Rendimiento':'30 km/l','Transmisión':'Manual 6V'}},
+ feats:['VenTec','Alarma','USB','Llantas off-road','Doble disco lobulado','Skid plate','18.5L tanque']}
+];
+
+/* ─── ESTADO ───────────────────────────── */
+let moto=null,planIdx=0,pago='credito',reqOpen=false;
+const Q=n=>'Q '+Number(n).toLocaleString('es-GT');
+const $=id=>document.getElementById(id);
+
+function planes(p){
+  const e=Math.round(p*.2),f=p-e;
+  return[
+    {nom:'Plan Express 24',det:'24 meses · 20% enganche',m:24, cuota:Math.round(f*1.20/24),tot:Math.round(e+f*1.20)},
+    {nom:'Plan Cómodo 36', det:'36 meses · 20% enganche',m:36, cuota:Math.round(f*1.26/36),tot:Math.round(e+f*1.26)},
+    {nom:'Plan Flex 48',   det:'48 meses · 20% enganche',m:48, cuota:Math.round(f*1.32/48),tot:Math.round(e+f*1.32)}
+  ];
+}
+
+/* ─── RENDER CATÁLOGO ──────────────────── */
+function render(filtro='todos'){
+  const c=$('cat');c.innerHTML='';
+  CATS.forEach(cat=>{
+    const lista=MOTOS.filter(m=>m.cat===cat.k);
+    if(filtro!=='todos'&&filtro!==cat.k)return;
+    const cuotaMin=m=>planes(m.p)[0].cuota;
+    const s=document.createElement('section');
+    s.innerHTML=`
+      <div class="sec-hdr">
+        <div class="sec-hr"></div>
+        <div class="sec-lbl">${cat.l}</div>
+        <div class="sec-hr"></div>
+      </div>
+      <div class="grid">
+        ${lista.map(m=>`
+        <article class="card" onclick="abrir('${m.id}')">
+          ${m.badge?`<div class="badge ${m.bcls||''}">${m.badge}</div>`:''}
+          <div class="card-img"><img src="${m.img}" alt="${m.nom}" loading="lazy"></div>
+          <div class="card-body">
+            <div class="card-cat">${cat.l}</div>
+            <div class="card-nom">${m.nom}</div>
+            <div class="card-specs">
+              ${m.specs['Motor']?.Cilindrada?`<span class="cs"><b>${m.specs['Motor'].Cilindrada}</b></span>`:''}
+              ${m.specs['Motor']?.Potencia?`<span class="cs"><b>${m.specs['Motor'].Potencia}</b></span>`:''}
+              ${m.specs['Rendimiento']?.['Vel. máx.']?`<span class="cs">${m.specs['Rendimiento']['Vel. máx.']}</span>`:''}
+            </div>
+            <div class="card-price">
+              <div class="p-orig">${Q(m.po)}</div>
+              <div class="p-main">${Q(m.p)}</div>
+              <div class="p-cuota">Desde <b>${Q(cuotaMin(m))}/mes</b></div>
+            </div>
+            <button class="card-btn">Ver ficha y cotizar →</button>
+          </div>
+        </article>`).join('')}
+      </div>`;
+    c.appendChild(s);
+  });
+}
+
+function fil(btn,cat){
+  document.querySelectorAll('.fpill').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');render(cat);
+}
+
+/* ─── MODAL ────────────────────────────── */
+function abrir(id){
+  moto=MOTOS.find(m=>m.id===id);if(!moto)return;
+  planIdx=0;pago='credito';reqOpen=false;
+  $('mImg').src=moto.img;
+  $('mNom').textContent=moto.nom;
+  $('mSub').textContent=moto.año+' · '+CATS.find(c=>c.k===moto.cat)?.l;
+  $('mVal').textContent=Q(moto.p);
+  $('mOrig').textContent=Q(moto.po);
+  const sav=moto.po-moto.p;
+  $('mSav').textContent=sav>0?`Ahorras ${Q(sav)}`:'';
+  $('mSav').style.display=sav>0?'':'none';
+  $('mColores').innerHTML=moto.cols.map((c,i)=>
+    `<div class="sw ${i===0?'on':''}" style="background:${c.c};${c.b?'box-shadow:inset 0 0 0 1px #bbb;':''}" title="${c.n}" onclick="selColor(this,'${c.n}')"></div>`
+  ).join('')+`<span class="sw-nm" id="colNm">${moto.cols[0].n}</span>`;
+  document.querySelectorAll('.m-tab').forEach((t,i)=>t.classList.toggle('on',i===0));
+  document.querySelectorAll('.m-panel').forEach((p,i)=>p.classList.toggle('on',i===0));
+  document.querySelectorAll('.pt').forEach((t,i)=>t.classList.toggle('on',i===0));
+  setPagoD('credito');
+  renderFicha();
+  $('reqB').classList.remove('open');$('reqA').classList.remove('open');
+  $('overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+  $('overlay').scrollTop=0;
+}
+function cerrar(){$('overlay').classList.remove('on');document.body.style.overflow=''}
+$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))cerrar()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar()});
+
+function tab(btn,cual){
+  document.querySelectorAll('.m-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.m-panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  $(cual==='cotizar'?'pC':'pF').classList.add('on');
+}
+function selColor(el,nom){
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));
+  el.classList.add('on');
+  const n=document.getElementById('colNm');if(n)n.textContent=nom;
+  actuWA();
+}
+function setPago(tipo,btn){
+  document.querySelectorAll('.pt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');setPagoD(tipo);
+}
+function setPagoD(tipo){
+  pago=tipo;
+  const sp=$('secP'),mp=$('msgP');
+  if(tipo==='credito'){sp.style.display='';mp.style.display='none';renderPlanes();}
+  else{
+    sp.style.display='none';mp.style.display='block';
+    mp.innerHTML=tipo==='tarjeta'
+      ?'💳 <strong>Pago con tarjeta disponible en tienda.</strong> Consulta cuotas sin recargo con tu banco.'
+      :`💵 <strong>Precio contado: ${Q(moto.p)}</strong> — ¡El precio más bajo! Visítanos o escríbenos.`;
+  }
+  actuWA();
+}
+function renderPlanes(){
+  const ps=planes(moto.p);
+  $('planesW').innerHTML=ps.map((p,i)=>`
+    <div class="plan ${i===planIdx?'on':''}" onclick="selPlan(${i})">
+      <div class="prb"><div class="prbd"></div></div>
+      <div class="pi"><div class="pn">${p.nom}</div><div class="pd">${p.det}</div></div>
+      <div class="pcv">${Q(p.cuota)}<small>/mes</small></div>
+    </div>`).join('');
+  actuRes(ps[planIdx]);
+}
+function selPlan(i){planIdx=i;renderPlanes();actuWA()}
+function actuRes(p){
+  const e=Math.round(moto.p*.2);
+  $('rCuota').textContent=Q(p.cuota);$('rPlazo').textContent=p.m+' meses';
+  $('rEng').textContent=Q(e);$('rTot').textContent=Q(p.tot);
+}
+function actuWA(){
+  const col=document.querySelector('.sw.on')?.getAttribute('title')||'';
+  const ps=planes(moto.p),p=ps[planIdx];
+  let msg=`Hola! Me interesa la *${moto.nom} ${moto.año}*`;
+  if(col)msg+=` en color *${col}*`;
+  msg+=`.\nPrecio contado: *${Q(moto.p)}*`;
+  if(pago==='credito')msg+=`\nPlan: *${p.nom}* → ${Q(p.cuota)}/mes`;
+  else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta*';
+  else msg+='\nForma de pago: *Efectivo*';
+  msg+='\n\n¿Pueden darme más información? 🏍️';
+  $('waBtn').href=`https://wa.me/50238978935?text=${encodeURIComponent(msg)}`;
+}
+function togReq(){
+  reqOpen=!reqOpen;
+  $('reqB').classList.toggle('open',reqOpen);
+  $('reqA').classList.toggle('open',reqOpen);
+}
+function renderFicha(){
+  $('fichaC').innerHTML=`
+    <div class="pf-nom">${moto.nom}</div>
+    <div class="pf-meta">${moto.año} · ${CATS.find(c=>c.k===moto.cat)?.l}</div>
+    <div class="feats">${moto.feats.map(f=>`<span class="feat">✓ ${f}</span>`).join('')}</div>
+    ${Object.entries(moto.specs).map(([g,campos],i)=>`
+      <div class="acd">
+        <div class="acd-h ${i===0?'on':''}" onclick="togAcd(this)">
+          <span>${g}</span><span class="acd-ar ${i===0?'on':''}">▲</span>
+        </div>
+        <div class="acd-b ${i===0?'on':''}">
+          ${Object.entries(campos).map(([k,v])=>`
+            <div class="acd-r"><span class="ak">${k}</span><span class="av">${v}</span></div>`).join('')}
+        </div>
+      </div>`).join('')}`;
+}
+function togAcd(h){
+  document.querySelectorAll('#fichaC .acd-h').forEach(x=>{x.classList.remove('on');x.querySelector('.acd-ar').classList.remove('on')});
+  document.querySelectorAll('#fichaC .acd-b').forEach(x=>x.classList.remove('on'));
+  if(!open){b.classList.add('on');h.classList.add('on');a.classList.add('on')}
+}
+
+render('urban-sport');
+</script>
+
+<!-- ═══ LIA — Chat asistente virtual Vento Barberena ═══ -->
+<script>
+  // Pega aquí las credenciales de tu proyecto Firebase:
+  window.VENTO_FIREBASE_PROJECT_ID = 'ventobarberena-cotizador';
+  window.VENTO_FIREBASE_API_KEY    = 'AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU';
+</script>
+<script src="tabi-widget.js"></script>
+</body>
+</html>
