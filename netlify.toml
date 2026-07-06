@@ -1,3 +1,9 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+
+[functions."reporte-diario"]
+  schedule = "0 20 * * *"
+
+[functions."reporte-semanal"]
+  schedule = "0 20 * * 1"
