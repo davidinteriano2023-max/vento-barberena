@@ -1784,43 +1784,4 @@ function admMark(id) {
 async function admSaveMoto(id) {
   const btn = document.getElementById('admSaveBtn-' + id);
   btn.disabled = true; btn.textContent = '…';
-  const nom   = document.getElementById('admNom-'   + id)?.value  || '';
-  const po    = +document.getElementById('admPo-'    + id)?.value  || 0;
-  const p     = +document.getElementById('admP-'     + id)?.value  || 0;
-  const badge = document.getElementById('admBadge-'  + id)?.value  || null;
-  const disp  = document.getElementById('admDisp-'   + id)?.checked !== false;
-
-  const ok = await fsPatch('motos/' + id, { nom, p, po, badge:badge||null, disponible:disp });
-  if (ok) {
-    btn.classList.add('ok'); btn.textContent = '✓';
-    vbToast('✓ ' + nom + ' guardado');
-    setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'Guardar'; btn.disabled = false; }, 2500);
-    // Update live cotizador if MOTOS exists
-    if (typeof MOTOS !== 'undefined') {
-      const m = MOTOS.find(x => x.id === id);
-      if (m) { m.nom = nom; m.p = p; m.po = po; m.badge = badge; m.disponible = disp; }
-      render(window.vbFiltroActual||'todos');
-    }
-  } else {
-    btn.textContent = 'Error'; btn.style.background = '#EF4444';
-    setTimeout(() => { btn.textContent = 'Guardar'; btn.style.background=''; btn.disabled=false; }, 2000);
-  }
-}
-
-async function admSaveAll() {
-  for (const m of admMotos) await admSaveMoto(m.id);
-  vbToast('✓ Todos los modelos guardados en Firebase');
-}
-
-let vbToastTimer;
-function vbToast(msg) {
-  const t = document.getElementById('vbAdmToast');
-  t.textContent = msg; t.classList.add('on');
-  clearTimeout(vbToastTimer);
-  vbToastTimer = setTimeout(() => t.classList.remove('on'), 3200);
-}
-</script>
-
-</body>
-</html>
-               
+  const nom   = document.getElemen
