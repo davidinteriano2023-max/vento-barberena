@@ -1,0 +1,17 @@
+{
+  "name": "Vento Barberena — Cotizador de Motos",
+  "short_name": "Vento Barberena",
+  "description": "Cotizador oficial de motos Vento en Barberena, Santa Rosa. Precios, planes de crédito y solicitud por WhatsApp.",
+  "lang": "es-GT",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

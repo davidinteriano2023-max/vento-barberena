@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#080808">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vento Barberena">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Vento Barberena — Cotizador 2026</title>
 <!-- Open Graph / WhatsApp / Facebook -->
 <meta property="og:type"        content="website">
@@ -90,6 +97,24 @@ a{text-decoration:none;color:inherit}
 .hdr-wa:hover{opacity:.75}
 .hdr-wa svg{flex-shrink:0}
 .hdr-wa-txt{display:inline}
+
+/* ─── LOGO: micro-animación elegante ─── */
+.hdr-logo{overflow:hidden;padding:4px 8px 4px 0;}
+.hdr-logo::after{
+  content:'';position:absolute;top:-60%;bottom:-60%;width:34%;left:-55%;
+  background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.38) 50%,transparent 100%);
+  transform:skewX(-20deg);pointer-events:none;
+  animation:vbLogoShine 7s cubic-bezier(.4,0,.2,1) 1.2s infinite;
+}
+@keyframes vbLogoShine{0%{left:-55%}13%{left:140%}100%{left:140%}}
+.hdr-logo svg.vento-svg{transition:filter .35s ease,transform .35s ease;animation:vbLogoIn .7s cubic-bezier(.22,1,.36,1) both;}
+.hdr-bar-tag{animation:vbLogoIn .7s cubic-bezier(.22,1,.36,1) .18s both;}
+.hdr-logo:hover svg.vento-svg{filter:drop-shadow(0 0 9px rgba(0,87,200,.9));transform:translateY(-1px);}
+@keyframes vbLogoIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .hdr-logo::after{animation:none;display:none}
+  .hdr-logo svg.vento-svg,.hdr-bar-tag{animation:none}
+}
 
 /* ─── HERO ──────────────────────────────────────── */
 .hero{
@@ -787,9 +812,13 @@ footer::before{
   .vb-admin-panel{padding:16px 14px;}
   .hst{padding:8px 10px;}
 }
+@media(max-width:420px){
+  .hdr-wa{font-size:13px;padding:6px 6px;gap:5px;}
+}
 @media(max-width:360px){
-  .hdr-wa-btn span{display:none;}
   .hdr{padding:0 10px;}
+  .hdr-bar-tag{display:none;}
+  .hdr-wa svg{display:none;}
 }
 </style>
 </head>
@@ -1353,6 +1382,9 @@ render('urban-sport');
     <button class="vb-drw-close" onclick="vbDrawerClose()">×</button>
   </div>
   <div class="vb-drw-body">
+    <nav class="vb-drw-nav">
+      <button onclick="vbInstallApp()"><span class="nav-icon">📲</span> Descargar App</button>
+    </nav>
     <nav class="vb-drw-nav" id="vbDrwAuthNav">
       <button onclick="vbModalReset();vbModalOpen()"><span class="nav-icon">🔑</span> Ingresar</button>
     </nav>
@@ -1365,6 +1397,26 @@ render('urban-sport');
     <button class="vb-drw-btn-logout" onclick="vbLogout()">Cerrar sesión</button>
   </div>
 </aside>
+
+<!-- ═══════════ PWA: MODAL INSTALAR APP ═══════════ -->
+<div class="vb-modal-ov" id="vbPwaOv">
+  <div class="vb-modal">
+    <button class="vb-modal-close" onclick="vbPwaClose()">×</button>
+    <div class="vb-modal-title">Instalar la App</div>
+    <div class="vb-modal-sub">Lleva el cotizador Vento Barberena en tu teléfono</div>
+    <div id="vbPwaIos" style="display:none;font-size:13px;color:#C9CDD8;line-height:2;">
+      1. Toca el botón <b>Compartir</b> <span style="font-size:15px">⎋</span> en la barra de Safari.<br>
+      2. Desliza y elige <b>«Añadir a pantalla de inicio»</b>.<br>
+      3. Toca <b>Añadir</b> y listo ✅
+    </div>
+    <div id="vbPwaAndroid" style="display:none;font-size:13px;color:#C9CDD8;line-height:2;">
+      1. Abre el menú <b>⋮</b> de tu navegador.<br>
+      2. Elige <b>«Agregar a pantalla principal»</b> o <b>«Instalar app»</b>.<br>
+      3. Confirma y listo ✅
+    </div>
+    <p style="font-size:11px;color:#8A8FA0;margin-top:16px;text-align:center;">Funciona sin ocupar espacio: es la web instalada como app.</p>
+  </div>
+</div>
 
 <!-- ═══════════ LOGIN MODAL ═══════════ -->
 <div class="vb-modal-ov" id="vbModalOv">
@@ -1631,6 +1683,38 @@ document.addEventListener('DOMContentLoaded', () => {
   if (p) p.addEventListener('keydown', e => { if(e.key==='Enter') vbLoginPass(); });
 });
 
+
+// ══════════════════════════════════════════════════════════
+//  PWA: INSTALACIÓN + SERVICE WORKER
+// ══════════════════════════════════════════════════════════
+let vbPwaPrompt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); vbPwaPrompt = e; });
+
+function vbInstallApp() {
+  vbDrawerClose();
+  const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  if (standalone) { vbToast('✓ La app ya está instalada'); return; }
+  if (vbPwaPrompt) {
+    vbPwaPrompt.prompt();
+    vbPwaPrompt.userChoice.then(r => { if (r && r.outcome === 'accepted') vbToast('✓ App instalada'); vbPwaPrompt = null; });
+    return;
+  }
+  // Sin soporte de instalación automática: mostrar instrucciones según dispositivo
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  document.getElementById('vbPwaIos').style.display     = ios ? 'block' : 'none';
+  document.getElementById('vbPwaAndroid').style.display = ios ? 'none'  : 'block';
+  document.getElementById('vbPwaOv').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function vbPwaClose() {
+  document.getElementById('vbPwaOv').classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.getElementById('vbPwaOv').addEventListener('click', e => { if (e.target === e.currentTarget) vbPwaClose(); });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+}
 
 function vbLogout() {
   vbAuth.signOut();
