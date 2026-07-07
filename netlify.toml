@@ -13,3 +13,8 @@
 # Reporte semanal: lunes 8:00am Guatemala
 [functions."reporte-semanal"]
   schedule = "0 14 * * 1"
+
+# La API key de Firebase Web es un identificador publico de cliente (la seguridad
+# real esta en las reglas de Firestore). Omitirla del escaneo de secretos.
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_API_KEY"
