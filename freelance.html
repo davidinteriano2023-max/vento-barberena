@@ -4,26 +4,73 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0F1218">
-<title>Freelance — Vento Barberena</title>
+<title>Sé Freelance Vento Barberena — Vendé motos con tu link único</title>
+<meta name="description" content="Convertite en freelance Vento Barberena. Vendé motos compartiendo tu link único. Sin metas. Sin presión. Comisión hasta Q1,000 por moto.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:Inter,sans-serif;background:#0F1218;color:#E8EAF0;min-height:100vh}
-.top{background:#12151D;border-bottom:2px solid #C8970A;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.top{background:#12151D;border-bottom:2px solid #C8970A;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
 .top b{font-family:Rajdhani,sans-serif;color:#C8970A;letter-spacing:.08em;font-size:16px}
-.top a{color:#8A8FA0;font-size:13px;text-decoration:none}
-.wrap{max-width:520px;margin:0 auto;padding:28px 18px 60px}
-h1{font-family:Rajdhani,sans-serif;color:#C8970A;font-size:27px;letter-spacing:.04em;line-height:1.15}
-.sub{color:#8A8FA0;font-size:14px;margin:8px 0 22px;line-height:1.6}
+.top .acc{display:flex;gap:8px;align-items:center}
+.top a.login{color:#8A8FA0;font-size:13px;text-decoration:none;padding:7px 12px;border:1px solid #2C3140;border-radius:8px}
+.top a.aplicar{background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;font-weight:800;font-size:13px;text-decoration:none;padding:8px 14px;border-radius:8px}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px 70px}
+section{margin-top:46px}
+h1{font-family:Rajdhani,sans-serif;color:#E8EAF0;font-size:42px;letter-spacing:.03em;line-height:1.05}
+h1 em{font-style:normal;color:#C8970A}
+h2{font-family:Rajdhani,sans-serif;color:#C8970A;font-size:24px;letter-spacing:.04em;margin-bottom:8px}
+.sub{color:#8A8FA0;font-size:14.5px;margin:10px 0 18px;line-height:1.65}
+.chip{display:inline-block;background:#123A26;color:#4ADE80;font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;margin:26px 0 14px}
 .card{background:#151A23;border:1px solid #2C3140;border-radius:14px;padding:22px}
-.ben{display:flex;gap:10px;font-size:13.5px;color:#C9CDD8;margin:7px 0;line-height:1.5}
-label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
-input{width:100%;background:#0F1218;border:1px solid #2C3140;border-radius:9px;padding:12px 13px;color:#E8EAF0;font-size:15px}
-input:focus{outline:none;border-color:#C8970A}
-.btn{width:100%;margin-top:20px;background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.03em}
+.btn{display:inline-block;background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;border:none;border-radius:10px;padding:14px 24px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.03em;text-decoration:none;text-align:center}
 .btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.full{width:100%;margin-top:20px}
+/* comisiones */
+.coms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+@media(max-width:560px){.coms{grid-template-columns:1fr 1fr 1fr;gap:7px}}
+.com{background:#151A23;border:1px solid #2C3140;border-radius:12px;padding:18px 8px;text-align:center}
+.com.hot{border-color:#C8970A;background:#1a1607}
+.com b{font-family:Rajdhani,sans-serif;font-size:32px;color:#E7B416;display:block;line-height:1}
+.com span{font-size:11px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.05em;margin-top:8px;display:block;line-height:1.5}
+.paynote{font-size:13px;color:#C9CDD8;background:#151A23;border-left:3px solid #C8970A;border-radius:8px;padding:12px 14px;line-height:1.6}
+/* calculadora */
+.calc input[type=range]{width:100%;accent-color:#C8970A;margin:14px 0}
+.calc .res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.calc .r{background:#0F1218;border:1px solid #2C3140;border-radius:10px;padding:14px;text-align:center}
+.calc .r b{font-family:Rajdhani,sans-serif;font-size:26px;color:#4ADE80;display:block}
+.calc .r span{font-size:11px;color:#8A8FA0;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.calc .n{font-size:15px;font-weight:800;color:#E8EAF0;text-align:center}
+/* pasos */
+.paso{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #1D2330}
+.paso:last-child{border-bottom:none}
+.paso .num{flex:none;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.paso h3{font-size:14.5px;color:#E8EAF0;margin-bottom:4px}
+.paso p{font-size:13px;color:#8A8FA0;line-height:1.6}
+/* politicas */
+.pol{padding:14px 0;border-bottom:1px solid #1D2330}
+.pol:last-child{border-bottom:none}
+.pol h3{font-size:14.5px;color:#E7B416;margin-bottom:5px}
+.pol p{font-size:13px;color:#8A8FA0;line-height:1.65}
+.pol .x{color:#FCA5A5}
+/* form */
+label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.06em;margin:15px 0 6px}
+input,select{width:100%;background:#0F1218;border:1px solid #2C3140;border-radius:9px;padding:12px 13px;color:#E8EAF0;font-size:15px}
+input:focus,select:focus{outline:none;border-color:#C8970A}
+.hint{font-size:11.5px;color:#5B6172;margin-top:5px;line-height:1.5}
 .err{display:none;background:#3a1520;border:1px solid #EF4444;color:#FCA5A5;border-radius:9px;padding:10px 12px;font-size:13px;margin-top:14px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:13px;color:#C9CDD8;line-height:1.6}
+.chk input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:#C8970A}
+/* faq */
+details{border-bottom:1px solid #1D2330;padding:12px 0}
+details:last-child{border-bottom:none}
+summary{font-size:14px;font-weight:700;color:#E8EAF0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:'+';color:#C8970A;font-weight:800}
+details[open] summary::after{content:'−'}
+details p{font-size:13px;color:#8A8FA0;line-height:1.65;margin-top:8px}
+/* exito */
 .link-box{background:#0F1218;border:1.5px dashed #C8970A;border-radius:10px;padding:13px;font-family:monospace;font-size:13px;color:#E7B416;word-break:break-all;margin:14px 0}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .b2{flex:1;min-width:150px;background:#1D2330;border:1px solid #2C3140;color:#E8EAF0;border-radius:9px;padding:12px;font-size:13px;font-weight:700;cursor:pointer}
@@ -32,46 +79,150 @@ input:focus{outline:none;border-color:#C8970A}
 .qr{display:block;margin:16px auto;border-radius:10px;background:#fff;padding:8px}
 .login-link{text-align:center;margin-top:18px;font-size:13px;color:#8A8FA0}
 .login-link a{color:#C8970A;font-weight:700;cursor:pointer;text-decoration:none}
+.foot{text-align:center;color:#5B6172;font-size:12px;margin-top:56px;line-height:2}
+.foot a{color:#C8970A;text-decoration:none;font-weight:700}
 </style>
 </head>
 <body>
-<div class="top"><b>VENTO BARBERENA · FREELANCE</b><a href="/">← Cotizador</a></div>
+<div class="top">
+  <b>🏍️ VENTO BARBERENA</b>
+  <div class="acc">
+    <a class="login" href="panel-freelance.html">🔓 Iniciar sesión</a>
+    <a class="aplicar" href="#aplicar">Aplicar</a>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <!-- ═══ REGISTRO ═══ -->
+  <!-- ═══ REGISTRO / LANDING ═══ -->
   <div id="secReg">
-    <h1>GANÁ DINERO RECOMENDANDO MOTOS VENTO</h1>
-    <p class="sub">Suscribite gratis y recibí <b>al instante</b> tu link personal del cotizador.
-    Todo lo que tus clientes coticen con tu link te llega <b>directo a tu WhatsApp</b> y a tu portal.</p>
-    <div class="card">
-      <div class="ben">🔗 Link personal del cotizador + código QR</div>
-      <div class="ben">📲 Tus clientes te escriben directo a TU WhatsApp</div>
-      <div class="ben">📥 Las cotizaciones llegan a tu panel en tiempo real</div>
-      <div class="ben">📕 Catálogo descargable y videos de las motos</div>
-      <label>Nombre completo</label><input id="rNombre" placeholder="Ej: Pedro Fuentes">
-      <label>Teléfono (WhatsApp)</label><input id="rTel" inputmode="numeric" placeholder="Ej: 40165239" maxlength="8">
-      <label>Correo electrónico</label><input id="rEmail" type="email" placeholder="tu@correo.com">
-      <label>Contraseña (mínimo 6 caracteres)</label><input id="rPass" type="password" placeholder="••••••••">
-      <div class="err" id="rErr"></div>
-      <button class="btn" id="rBtn" onclick="registrar()">💎 SUSCRIBIRME GRATIS</button>
-      <div class="login-link">¿Ya tenés cuenta? <a href="panel-freelance.html">Entrar a mi panel</a></div>
-    </div>
+
+    <!-- HERO -->
+    <span class="chip">⚡ Aprobación inmediata</span>
+    <h1><em>VENDÉ MOTOS.</em><br><em>GENERÁ DINERO.</em><br><em>VIVÍ LIBRE.</em></h1>
+    <p class="sub">Convertite en freelance Vento Barberena. Compartís un link,
+    tus contactos cotizan solos, y vos ganás <b style="color:#E7B416">Q400 a Q1,000</b> por cada moto que se venda con tu link.</p>
+    <a class="btn" href="#aplicar">Quiero aplicar ahora →</a>
+
+    <!-- COMISIONES -->
+    <section>
+      <h2>💰 TU COMISIÓN SUBE CUANTO MÁS VENDÉS</h2>
+      <p class="sub">Cuanto más vendés en el mes, más cobrás por cada moto. Cada mes arrancás de nuevo.</p>
+      <div class="coms">
+        <div class="com"><b>Q400</b><span>por moto<br>ventas 1–10</span></div>
+        <div class="com"><b>Q600</b><span>por moto<br>ventas 11–20</span></div>
+        <div class="com hot"><b>Q1,000</b><span>por moto<br>venta 21+</span></div>
+      </div>
+      <p class="paynote">⚡ <b>Te pagamos</b> cuando la moto está autorizada, entregada y facturada — por transferencia bancaria, transferencia móvil o efectivo en tienda.</p>
+    </section>
+
+    <!-- CALCULADORA -->
+    <section class="card calc">
+      <h2>🎯 PROBÁ TU POTENCIAL — MOVÉ EL SLIDER</h2>
+      <input type="range" id="slMotos" min="1" max="30" value="3" oninput="calc()">
+      <div class="n" id="calcN">3 motos al mes</div>
+      <div class="res">
+        <div class="r"><span>💰 Al mes</span><b id="calcMes">Q 1,200</b></div>
+        <div class="r"><span>🚀 Al año</span><b id="calcAno">Q 14,400</b></div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section>
+      <h2>🎯 ASÍ FUNCIONA EL PROGRAMA</h2>
+      <p class="sub">6 pasos simples desde que prospectás hasta que cobrás. Vos no armás cotizaciones ni hacés gestión. Solo compartís tu link.</p>
+      <div class="card">
+        <div class="paso"><div class="num">1</div><div><h3>Prospectás</h3><p>Buscás clientes por <b>tus medios</b>: redes sociales, WhatsApp, contactos personales. Vos sos tu propio jefe y armás tu agenda.</p></div></div>
+        <div class="paso"><div class="num">2</div><div><h3>Compartís tu link cotizador personalizado</h3><p>Es un <b>link único tuyo</b> al cotizador completo: fotos en alta calidad, comparación de modelos, precios actualizados y simulación de financiamiento — todo desde el celular.</p></div></div>
+        <div class="paso"><div class="num">3</div><div><h3>El cliente cotiza y te escribe directo</h3><p>Cuando tu cliente toca <b>"Solicitar por WhatsApp"</b>, el mensaje con su cotización te llega <b>directamente a TU WhatsApp</b>, no a la agencia.</p></div></div>
+        <div class="paso"><div class="num">4</div><div><h3>Todo queda en tu panel</h3><p>Cada visita y cada cotización de tu link queda registrada en <b>tu panel personal</b> en tiempo real, con moto, precio y plan elegido.</p></div></div>
+        <div class="paso"><div class="num">5</div><div><h3>Coordinás la venta con la agencia</h3><p>Nos contactás con los datos de tu cliente y <b>nosotros gestionamos todo</b>: financiamiento, autorización, entrega y facturación.</p></div></div>
+        <div class="paso"><div class="num">6</div><div><h3>Cobrás tu comisión</h3><p>Cuando la moto está <b>autorizada + entregada + facturada</b>, te pagamos según la tabla: transferencia bancaria a tu nombre, transferencia móvil o efectivo en tienda.</p></div></div>
+      </div>
+    </section>
+
+    <!-- POLITICAS -->
+    <section>
+      <h2>📌 ANTES DE APLICAR, LEÉ ESTAS 5 POLÍTICAS</h2>
+      <p class="sub">Son cortas, claras y críticas. Para enviar tu aplicación vas a confirmar que las leíste, las cumplís y estás de acuerdo con cada una.</p>
+      <div class="card" id="politicas">
+        <div class="pol"><h3>1️⃣ No es relación laboral</h3><p>Sos un colaborador <b>independiente</b>. Este programa NO incluye: <span class="x">✗ Salario fijo ✗ Aguinaldo / Bono 14 ✗ Prestaciones laborales ✗ IGSS</span>. Solo cobrás comisión por las ventas que generes.</p></div>
+        <div class="pol"><h3>2️⃣ Convenio escrito tras la 4ta venta</h3><p>Las primeras 4 ventas se procesan bajo este acuerdo digital. Al concretar tu 4ta venta, Vento Barberena te contactará para firmar un <b>convenio formal por escrito</b>. A partir de la 5ta venta no se procesan comisiones hasta que el convenio esté firmado.</p></div>
+        <div class="pol"><h3>3️⃣ Terminación en cualquier momento</h3><p>Tanto vos como Vento Barberena pueden dar por terminada esta relación <b>en cualquier momento</b>, sin previo aviso ni explicación. Comisiones ya generadas se pagan normalmente; ventas en curso pueden no proceder.</p></div>
+        <div class="pol"><h3>4️⃣ Comisiones SOLO a ventas a terceros</h3><p>NO se generan comisiones cuando el cliente final sea: <span class="x">✗ vos mismo ✗ familiares directos (cónyuge, hijos, padres, hermanos) ✗ cualquier persona de tu mismo domicilio</span>. Si se detecta después del pago, la comisión puede descontarse o requerirse su devolución.</p></div>
+        <div class="pol"><h3>5️⃣ Conflicto de intereses — restricciones</h3><p>NO pueden aplicar: <span class="x">✗ vendedores activos de motos en otro distribuidor Vento ✗ vendedores de marcas competidoras ✗ empleados actuales de Vento Barberena ✗ empleados de las financieras con las que trabajamos ✗ familiares directos de empleados</span>. Si se detecta, la relación termina de inmediato y se cancelan comisiones pendientes.</p></div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section id="aplicar">
+      <h2>📝 APLICÁ AL PROGRAMA</h2>
+      <p class="sub">Te toma 2 minutos. Si todo está completo y válido, recibís tu link y tu acceso al panel <b>al instante</b>.</p>
+      <div class="card">
+        <label>Nombre completo</label><input id="rNombre" placeholder="Ej: Pedro Fuentes">
+        <p class="hint">Mínimo nombre y apellido.</p>
+        <label>DPI</label><input id="rDpi" inputmode="numeric" placeholder="Ej: 2547896540101" maxlength="13">
+        <p class="hint">Sin espacios ni guiones. Obligatorio para procesar comisiones legalmente.</p>
+        <label>Teléfono WhatsApp</label><input id="rTel" inputmode="numeric" placeholder="Ej: 40165239" maxlength="8">
+        <p class="hint">Solo los 8 dígitos, sin el 502. ⚠️ <b>Debe tener WhatsApp activo</b> — los clientes te escriben por ahí.</p>
+        <label>Correo electrónico</label><input id="rEmail" type="email" placeholder="tu@correo.com">
+        <p class="hint">Es tu usuario para entrar al panel.</p>
+        <label>Contraseña (mínimo 6 caracteres)</label><input id="rPass" type="password" placeholder="••••••••">
+        <label>¿Cómo te enteraste del programa?</label>
+        <select id="rFuente">
+          <option value="">Elegí una opción…</option>
+          <option>Facebook</option><option>Instagram</option><option>TikTok</option>
+          <option>WhatsApp / mensaje directo</option><option>Me lo recomendó otro freelance</option><option>Otro</option>
+        </select>
+        <div class="chk">
+          <input type="checkbox" id="rAcepto">
+          <span><b>Declaro que leí las 5 políticas del programa, que CUMPLO con cada una y que estoy de acuerdo con todas.</b> Confirmo que la información que ingresé es verdadera y autorizo a Vento Barberena a verificarla. <a href="#politicas" style="color:#C8970A">Ver las 5 políticas ↑</a></span>
+        </div>
+        <div class="err" id="rErr"></div>
+        <button class="btn full" id="rBtn" onclick="registrar()">Enviar aplicación →</button>
+        <div class="login-link">¿Ya tenés cuenta? <a href="panel-freelance.html">Entrar a mi panel</a></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <h2>❓ PREGUNTAS FRECUENTES</h2>
+      <div class="card">
+        <details><summary>¿Es obligatorio tener WhatsApp?</summary><p><b>Sí, sin excepciones.</b> Cuando un cliente toca "Solicitar por WhatsApp" en tu link, el mensaje llega a tu celular por WhatsApp — sin esa app no podés recibir clientes ni ganar comisiones.</p></details>
+        <details><summary>¿Necesito experiencia vendiendo?</summary><p>No. El cliente se cotiza solo desde tu link. Vos solo compartís el link y coordinás con la agencia cuando hay interesado.</p></details>
+        <details><summary>¿Necesito tener moto o vehículo?</summary><p>No. Vendés desde donde estés, con tu teléfono. Todo el proceso es por WhatsApp y digital.</p></details>
+        <details><summary>¿Puedo trabajar a tiempo parcial?</summary><p>Sí. No hay metas mensuales obligatorias. Vendés cuando podés. Si un mes no vendés, no cobrás, pero no hay penalidad.</p></details>
+        <details><summary>¿Cuándo cobro mi comisión?</summary><p>Cuando la moto está autorizada por la financiera, entregada al cliente y facturada. A partir de ese momento te pagamos.</p></details>
+        <details><summary>¿Cómo me pagan?</summary><p>Tres opciones: 1) Transferencia bancaria a una cuenta <b>a tu nombre</b>. 2) Transferencia móvil al teléfono que registraste. 3) Efectivo en tienda.</p></details>
+        <details><summary>¿Puedo ser freelance sin DPI?</summary><p>No. El DPI es obligatorio para procesar las comisiones legalmente. Si todavía no tenés DPI, regularizá tu documento y volvé a aplicar.</p></details>
+        <details><summary>¿Qué pasa si me apruebo sin haber vendido nada?</summary><p>Recibís tu link y tu panel de inmediato y empezás a usarlo cuando quieras. Si nunca vendés, simplemente no cobrás. No hay venta mínima.</p></details>
+        <details><summary>¿Hay un límite de freelancers?</summary><p>No. Cuantos más vendamos en conjunto, mejor. No competís con un cupo cerrado.</p></details>
+        <details><summary>¿Puedo comprarme una moto a mí mismo y ganar la comisión?</summary><p><b>No.</b> Las comisiones aplican únicamente a ventas a terceros. Es una política para proteger la integridad del programa.</p></details>
+      </div>
+    </section>
+
+    <p class="foot">Vento Barberena — Programa Freelance<br>
+    <a href="https://wa.me/50240165239">💬 WhatsApp 4016-5239</a> · <a href="/">Ir al cotizador</a></p>
   </div>
 
   <!-- ═══ ÉXITO ═══ -->
-  <div id="secOk" style="display:none">
-    <h1>¡LISTO! YA SOS FREELANCE VENTO 🎉</h1>
+  <div id="secOk" style="display:none;padding-top:30px">
+    <h1 style="font-size:32px"><em>¡LISTO! YA SOS</em><br><em>FREELANCE VENTO</em> 🎉</h1>
     <p class="sub">Este es tu link personal del cotizador. Compartilo con tus contactos:
-    cada visita y cada cotización queda registrada a tu nombre, y tus clientes te escriben directo a tu WhatsApp.</p>
+    cada visita y cada cotización queda registrada a tu nombre, y tus clientes te escriben <b>directo a TU WhatsApp</b>.</p>
     <div class="card">
+      <h2 style="font-size:16px">🔗 TU LINK COTIZADOR — copialo y empezá a compartir YA</h2>
       <div class="link-box" id="okLink"></div>
       <img class="qr" id="okQr" width="180" height="180" alt="QR de tu link">
       <div class="row">
-        <button class="b2" onclick="copiarLink()">📋 Copiar link</button>
+        <button class="b2" onclick="copiarLink()">📋 Copiar mi link</button>
         <button class="b2 wa" onclick="compartirWA()">📲 Compartir por WhatsApp</button>
+        <button class="b2" onclick="window.open(miLink,'_blank')">🔍 Probar mi link</button>
         <button class="b2 gold" onclick="location.href='panel-freelance.html'">🚀 Ir a mi panel</button>
       </div>
+      <p class="hint" style="margin-top:14px">📱 Cuando un cliente toque "Solicitar por WhatsApp" en tu link, el mensaje te llega <b>directo a tu teléfono</b>, NO al de la agencia. Entrás a tu panel con tu correo y contraseña.</p>
     </div>
+    <p class="foot">📞 Soporte y dudas: <a href="https://wa.me/50240165239">💬 WhatsApp 4016-5239</a></p>
   </div>
 </div>
 
@@ -93,8 +244,24 @@ const auth = firebase.auth(), db = firebase.firestore();
 const $ = id => document.getElementById(id);
 let miLink = '';
 
+// ─── Calculadora (tramos: 1-10 Q400 · 11-20 Q600 · 21+ Q1,000) ───
+function comision(n){
+  let t=0;
+  for(let i=1;i<=n;i++) t += i<=10 ? 400 : (i<=20 ? 600 : 1000);
+  return t;
+}
+function calc(){
+  const n=+$('slMotos').value;
+  const m=comision(n);
+  $('calcN').textContent = n+(n===1?' moto':' motos')+' al mes';
+  $('calcMes').textContent='Q '+m.toLocaleString('en-US');
+  $('calcAno').textContent='Q '+(m*12).toLocaleString('en-US');
+}
+calc();
+
+// ─── Registro ───
 function slug(n){
-  return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  return n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
     .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')
     .split('-').slice(0,2).join('-') || 'freelance';
 }
@@ -110,24 +277,27 @@ function err(msg){ const e=$('rErr'); e.textContent=msg; e.style.display='block'
 
 async function registrar(){
   $('rErr').style.display='none';
-  const nombre=$('rNombre').value.trim(), tel=$('rTel').value.trim(),
-        email=$('rEmail').value.trim(), pass=$('rPass').value;
-  if(nombre.length<5)          return err('Escribí tu nombre completo.');
-  if(!/^[0-9]{8}$/.test(tel))  return err('El teléfono debe tener 8 dígitos.');
-  if(!/@.+\./.test(email))     return err('Correo inválido.');
-  if(pass.length<6)            return err('La contraseña debe tener mínimo 6 caracteres.');
+  const nombre=$('rNombre').value.trim(), dpi=$('rDpi').value.trim(),
+        tel=$('rTel').value.trim(), email=$('rEmail').value.trim(),
+        pass=$('rPass').value, fuente=$('rFuente').value;
+  if(nombre.length<5)            return err('Escribí tu nombre completo (nombre y apellido).');
+  if(!/^[0-9]{13}$/.test(dpi))   return err('El DPI debe tener 13 dígitos, sin espacios ni guiones.');
+  if(!/^[0-9]{8}$/.test(tel))    return err('El teléfono debe tener 8 dígitos, sin el 502.');
+  if(!/@.+\./.test(email))       return err('Correo inválido.');
+  if(pass.length<6)              return err('La contraseña debe tener mínimo 6 caracteres.');
+  if(!$('rAcepto').checked)      return err('Debés confirmar que leíste y aceptás las 5 políticas.');
   const btn=$('rBtn'); btn.disabled=true; btn.textContent='Creando tu cuenta…';
   try{
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     const codigo = await codigoUnico(nombre);
     await db.collection('vento_freelancers').doc(codigo).set({
-      codigo, nombre, telefono: tel, email,
+      codigo, nombre, dpi, telefono: tel, email, fuente,
       authUid: cred.user.uid, activo: true,
       creadoEn: firebase.firestore.FieldValue.serverTimestamp()
     });
     mostrarExito(codigo);
   }catch(e){
-    btn.disabled=false; btn.textContent='💎 SUSCRIBIRME GRATIS';
+    btn.disabled=false; btn.textContent='Enviar aplicación →';
     if(e.code==='auth/email-already-in-use') err('Ese correo ya está registrado. Entrá a tu panel.');
     else err('Error: '+(e.message||e));
   }
@@ -146,7 +316,7 @@ function compartirWA(){
   const msg='🏍️ ¡Cotizá tu moto VENTO conmigo! Precios, cuotas y promos acá:\n'+miLink;
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
-// Si ya tiene sesión activa, ir directo al panel
+// Si ya tiene sesión activa de freelance, ir directo al panel
 auth.onAuthStateChanged(async u=>{
   if(!u) return;
   try{
