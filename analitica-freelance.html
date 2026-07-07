@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analítica Freelance — Vento Barberena</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;background:#0F1218;color:#E8EAF0;min-height:100vh}
+.top{background:#12151D;border-bottom:2px solid #C8970A;padding:12px 18px;display:flex;justify-content:space-between;align-items:center}
+.top b{font-family:Rajdhani,sans-serif;color:#C8970A;letter-spacing:.08em;font-size:15px}
+.out{background:none;border:1px solid #2C3140;color:#8A8FA0;border-radius:8px;padding:6px 11px;font-size:12px;cursor:pointer}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 16px 70px}
+h2{font-family:Rajdhani,sans-serif;color:#C8970A;font-size:19px;letter-spacing:.05em;margin-bottom:10px}
+.card{background:#151A23;border:1px solid #2C3140;border-radius:14px;padding:20px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.st{background:#151A23;border:1px solid #2C3140;border-radius:12px;padding:16px 10px;text-align:center}
+.st b{font-family:Rajdhani,sans-serif;font-size:28px;color:#E7B416;display:block;line-height:1}
+.st span{font-size:10.5px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.07em;margin-top:6px;display:block}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:#8A8FA0;font-size:11px;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:8px;border-bottom:1px solid #2C3140}
+td{padding:10px 8px;border-bottom:1px solid #1D2330;vertical-align:middle}
+tr:hover td{background:#181E29}
+.cod{font-family:monospace;color:#E7B416;font-size:12px}
+.tag-on{background:#123A26;color:#4ADE80;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-off{background:#3a1520;color:#FCA5A5;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.mini{background:#1D2330;border:1px solid #2C3140;color:#E8EAF0;border-radius:7px;padding:6px 10px;font-size:11.5px;font-weight:700;cursor:pointer;margin:2px}
+.mini.red{border-color:#EF4444;color:#FCA5A5}
+input,textarea{width:100%;background:#0F1218;border:1px solid #2C3140;border-radius:9px;padding:11px;color:#E8EAF0;font-size:13.5px;font-family:inherit}
+input:focus,textarea:focus{outline:none;border-color:#C8970A}
+label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.06em;margin:13px 0 6px}
+.btn{background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;border:none;border-radius:10px;padding:12px 22px;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:14px}
+#gate{max-width:420px;margin:60px auto;padding:0 16px}
+.err{display:none;background:#3a1520;border:1px solid #EF4444;color:#FCA5A5;border-radius:9px;padding:10px;font-size:13px;margin-top:12px}
+#panel{display:none}
+.tblwrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="top"><b>VENTO · ANALÍTICA FREELANCE</b><button class="out" id="btnOut" style="display:none" onclick="auth.signOut().then(()=>location.reload())">Salir</button></div>
+
+<div id="gate">
+  <div class="card">
+    <h2>ACCESO GERENCIA</h2>
+    <label>Correo</label><input id="lEmail" type="email">
+    <label>Contraseña</label><input id="lPass" type="password">
+    <div class="err" id="lErr"></div>
+    <button class="btn" style="width:100%" onclick="entrar()">Entrar</button>
+  </div>
+</div>
+
+<div id="panel" class="wrap">
+  <div class="stats">
+    <div class="st"><b id="tFl">0</b><span>Freelancers activos</span></div>
+    <div class="st"><b id="tVis">0</b><span>Visitas totales</span></div>
+    <div class="st"><b id="tCot">0</b><span>Cotizaciones totales</span></div>
+    <div class="st"><b id="tCot7">0</b><span>Cotizaciones 7 días</span></div>
+  </div>
+
+  <div class="card">
+    <h2>💼 FREELANCERS</h2>
+    <input id="buscar" placeholder="🔍 Buscar por nombre o código…" oninput="render()" style="margin-bottom:12px">
+    <div class="tblwrap"><table>
+      <thead><tr><th>Freelance</th><th>Código</th><th>Tel.</th><th>Visitas</th><th>Cotiz.</th><th>Últ. actividad</th><th>Estado</th><th></th></tr></thead>
+      <tbody id="tbody"><tr><td colspan="8" style="text-align:center;color:#8A8FA0;padding:30px">Cargando…</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h2>📕 RECURSOS DEL PORTAL FREELANCE</h2>
+    <label>URL del catálogo (PDF — subilo a Cloudinary, Drive público o al mismo sitio)</label>
+    <input id="cfgCat" placeholder="https://…/catalogo-vento-2026.pdf">
+    <label>Videos — uno por línea, formato: Título | ID de YouTube</label>
+    <textarea id="cfgVids" rows="5" placeholder="Conocé la Thriller 250 | dQw4w9WgXcQ&#10;Screamer Sportivo 300 | abc123XYZ"></textarea>
+    <p style="font-size:11.5px;color:#5B6172;margin-top:6px">El ID de YouTube es lo que va después de <b>watch?v=</b> en el link del video.</p>
+    <button class="btn" onclick="guardarRecursos()">💾 Guardar recursos</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// ⚠️ MISMOS correos que en las reglas de Firestore
+const ADMIN_EMAILS = ['egguatemala2@gmail.com'];
+
+const VB_FB_CONFIG = {
+  apiKey:            "AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU",
+  authDomain:        "ventobarberena-cotizador.firebaseapp.com",
+  projectId:         "ventobarberena-cotizador",
+  storageBucket:     "ventobarberena-cotizador.firebasestorage.app",
+  messagingSenderId: "406785521833",
+  appId:             "1:406785521833:web:acef9dca515da54d5c51b8"
+};
+firebase.initializeApp(VB_FB_CONFIG);
+const auth = firebase.auth(), db = firebase.firestore();
+const $ = id => document.getElementById(id);
+let FLS = [];   // freelancers + métricas agregadas
+
+async function entrar(){
+  $('lErr').style.display='none';
+  try{ await auth.signInWithEmailAndPassword($('lEmail').value.trim(), $('lPass').value); }
+  catch(e){ const el=$('lErr'); el.textContent='Credenciales incorrectas.'; el.style.display='block'; }
+}
+
+auth.onAuthStateChanged(async user=>{
+  if(!user) return;
+  if(!ADMIN_EMAILS.includes(user.email)){
+    alert('Esta cuenta no es administradora.'); await auth.signOut(); return;
+  }
+  $('gate').style.display='none'; $('panel').style.display='block';
+  $('btnOut').style.display='inline-block';
+  await cargarTodo();
+  await cargarRecursos();
+});
+
+async function cargarTodo(){
+  const [sFl, sSt, sCo] = await Promise.all([
+    db.collection('vento_freelancers').get(),
+    db.collection('vento_freelance_stats').get(),
+    db.collection('vento_cotizaciones_freelance').get()
+  ]);
+  const porCod = {};
+  sFl.forEach(d=>{ const f=d.data(); porCod[f.codigo]={...f, visitas:0, cots:0, ult:0}; });
+  sSt.forEach(d=>{
+    const e=d.data(), f=porCod[e.codigo]; if(!f) return;
+    if(e.tipo==='visita') f.visitas++;
+    const t=e.fecha?.seconds||0; if(t>f.ult) f.ult=t;
+  });
+  let cot7=0; const hace7=Date.now()/1000-7*86400;
+  sCo.forEach(d=>{
+    const c=d.data(), f=porCod[c.codigo];
+    if(f){ f.cots++; const t=c.fecha?.seconds||0; if(t>f.ult) f.ult=t; }
+    if((c.fecha?.seconds||0)>hace7) cot7++;
+  });
+  FLS = Object.values(porCod).sort((a,b)=>b.cots-a.cots || b.visitas-a.visitas);
+  $('tFl').textContent  = FLS.filter(f=>f.activo!==false).length;
+  $('tVis').textContent = FLS.reduce((s,f)=>s+f.visitas,0).toLocaleString('en-US');
+  $('tCot').textContent = FLS.reduce((s,f)=>s+f.cots,0).toLocaleString('en-US');
+  $('tCot7').textContent = cot7;
+  render();
+}
+
+function render(){
+  const q = ($('buscar').value||'').toLowerCase();
+  const lista = FLS.filter(f=>!q || (f.nombre||'').toLowerCase().includes(q) || (f.codigo||'').includes(q));
+  $('tbody').innerHTML = lista.length ? lista.map(f=>{
+    const ult = f.ult ? new Date(f.ult*1000).toLocaleDateString('es-GT',{day:'2-digit',month:'short'}) : '—';
+    const on = f.activo!==false;
+    return `<tr>
+      <td><b>${f.nombre||'—'}</b><br><span style="color:#5B6172;font-size:11px">${f.email||''}</span></td>
+      <td class="cod">${f.codigo}</td>
+      <td>${f.telefono||'—'}</td>
+      <td>${f.visitas}</td><td>${f.cots}</td><td>${ult}</td>
+      <td><span class="${on?'tag-on':'tag-off'}">${on?'ACTIVO':'INACTIVO'}</span></td>
+      <td>
+        <button class="mini" onclick="copiarLink('${f.codigo}')">📋 Link</button>
+        <button class="mini ${on?'red':''}" onclick="toggleActivo('${f.codigo}',${on})">${on?'Desactivar':'Activar'}</button>
+      </td></tr>`;
+  }).join('') : '<tr><td colspan="8" style="text-align:center;color:#8A8FA0;padding:30px">Sin resultados.</td></tr>';
+}
+
+function copiarLink(cod){
+  navigator.clipboard.writeText('https://www.ventobarberena.com/?f='+cod).then(()=>alert('✅ Link copiado'));
+}
+async function toggleActivo(cod, on){
+  if(!confirm((on?'¿Desactivar':'¿Activar')+' a '+cod+'?')) return;
+  await db.collection('vento_freelancers').doc(cod).update({activo:!on});
+  await cargarTodo();
+}
+
+// ─── Recursos ───
+async function cargarRecursos(){
+  const d = await db.collection('vento_recursos_freelance').doc('config').get();
+  const r = d.exists ? d.data() : {};
+  $('cfgCat').value = r.catalogoUrl||'';
+  $('cfgVids').value = (r.videos||[]).map(v=>`${v.titulo} | ${v.youtubeId}`).join('\n');
+}
+async function guardarRecursos(){
+  const videos = $('cfgVids').value.split('\n').map(l=>{
+    const p=l.split('|'); if(p.length<2) return null;
+    return {titulo:p[0].trim(), youtubeId:p[1].trim()};
+  }).filter(Boolean);
+  await db.collection('vento_recursos_freelance').doc('config').set({
+    catalogoUrl: $('cfgCat').value.trim(), videos,
+    actualizadoEn: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  alert('✅ Recursos guardados. Ya los ven todos los freelancers.');
+}
+</script>
+</body>
+</html>

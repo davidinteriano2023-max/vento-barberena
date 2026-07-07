@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0F1218">
+<title>Freelance — Vento Barberena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;background:#0F1218;color:#E8EAF0;min-height:100vh}
+.top{background:#12151D;border-bottom:2px solid #C8970A;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.top b{font-family:Rajdhani,sans-serif;color:#C8970A;letter-spacing:.08em;font-size:16px}
+.top a{color:#8A8FA0;font-size:13px;text-decoration:none}
+.wrap{max-width:520px;margin:0 auto;padding:28px 18px 60px}
+h1{font-family:Rajdhani,sans-serif;color:#C8970A;font-size:27px;letter-spacing:.04em;line-height:1.15}
+.sub{color:#8A8FA0;font-size:14px;margin:8px 0 22px;line-height:1.6}
+.card{background:#151A23;border:1px solid #2C3140;border-radius:14px;padding:22px}
+.ben{display:flex;gap:10px;font-size:13.5px;color:#C9CDD8;margin:7px 0;line-height:1.5}
+label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
+input{width:100%;background:#0F1218;border:1px solid #2C3140;border-radius:9px;padding:12px 13px;color:#E8EAF0;font-size:15px}
+input:focus{outline:none;border-color:#C8970A}
+.btn{width:100%;margin-top:20px;background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.03em}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.err{display:none;background:#3a1520;border:1px solid #EF4444;color:#FCA5A5;border-radius:9px;padding:10px 12px;font-size:13px;margin-top:14px}
+.link-box{background:#0F1218;border:1.5px dashed #C8970A;border-radius:10px;padding:13px;font-family:monospace;font-size:13px;color:#E7B416;word-break:break-all;margin:14px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.b2{flex:1;min-width:150px;background:#1D2330;border:1px solid #2C3140;color:#E8EAF0;border-radius:9px;padding:12px;font-size:13px;font-weight:700;cursor:pointer}
+.b2.gold{background:#C8970A;border-color:#C8970A;color:#12151D}
+.b2.wa{background:#128C4A;border-color:#128C4A;color:#fff}
+.qr{display:block;margin:16px auto;border-radius:10px;background:#fff;padding:8px}
+.login-link{text-align:center;margin-top:18px;font-size:13px;color:#8A8FA0}
+.login-link a{color:#C8970A;font-weight:700;cursor:pointer;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="top"><b>VENTO BARBERENA · FREELANCE</b><a href="/">← Cotizador</a></div>
+<div class="wrap">
+
+  <!-- ═══ REGISTRO ═══ -->
+  <div id="secReg">
+    <h1>GANÁ DINERO RECOMENDANDO MOTOS VENTO</h1>
+    <p class="sub">Suscribite gratis y recibí <b>al instante</b> tu link personal del cotizador.
+    Todo lo que tus clientes coticen con tu link te llega <b>directo a tu WhatsApp</b> y a tu portal.</p>
+    <div class="card">
+      <div class="ben">🔗 Link personal del cotizador + código QR</div>
+      <div class="ben">📲 Tus clientes te escriben directo a TU WhatsApp</div>
+      <div class="ben">📥 Las cotizaciones llegan a tu panel en tiempo real</div>
+      <div class="ben">📕 Catálogo descargable y videos de las motos</div>
+      <label>Nombre completo</label><input id="rNombre" placeholder="Ej: Pedro Fuentes">
+      <label>Teléfono (WhatsApp)</label><input id="rTel" inputmode="numeric" placeholder="Ej: 40165239" maxlength="8">
+      <label>Correo electrónico</label><input id="rEmail" type="email" placeholder="tu@correo.com">
+      <label>Contraseña (mínimo 6 caracteres)</label><input id="rPass" type="password" placeholder="••••••••">
+      <div class="err" id="rErr"></div>
+      <button class="btn" id="rBtn" onclick="registrar()">💎 SUSCRIBIRME GRATIS</button>
+      <div class="login-link">¿Ya tenés cuenta? <a href="panel-freelance.html">Entrar a mi panel</a></div>
+    </div>
+  </div>
+
+  <!-- ═══ ÉXITO ═══ -->
+  <div id="secOk" style="display:none">
+    <h1>¡LISTO! YA SOS FREELANCE VENTO 🎉</h1>
+    <p class="sub">Este es tu link personal del cotizador. Compartilo con tus contactos:
+    cada visita y cada cotización queda registrada a tu nombre, y tus clientes te escriben directo a tu WhatsApp.</p>
+    <div class="card">
+      <div class="link-box" id="okLink"></div>
+      <img class="qr" id="okQr" width="180" height="180" alt="QR de tu link">
+      <div class="row">
+        <button class="b2" onclick="copiarLink()">📋 Copiar link</button>
+        <button class="b2 wa" onclick="compartirWA()">📲 Compartir por WhatsApp</button>
+        <button class="b2 gold" onclick="location.href='panel-freelance.html'">🚀 Ir a mi panel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// Misma config que index.html (proyecto ventobarberena-cotizador)
+const VB_FB_CONFIG = {
+  apiKey:            "AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU",
+  authDomain:        "ventobarberena-cotizador.firebaseapp.com",
+  projectId:         "ventobarberena-cotizador",
+  storageBucket:     "ventobarberena-cotizador.firebasestorage.app",
+  messagingSenderId: "406785521833",
+  appId:             "1:406785521833:web:acef9dca515da54d5c51b8"
+};
+firebase.initializeApp(VB_FB_CONFIG);
+const auth = firebase.auth(), db = firebase.firestore();
+const $ = id => document.getElementById(id);
+let miLink = '';
+
+function slug(n){
+  return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')
+    .split('-').slice(0,2).join('-') || 'freelance';
+}
+async function codigoUnico(nombre){
+  for(let i=0;i<8;i++){
+    const c = slug(nombre) + '-' + Math.floor(100 + Math.random()*900);
+    const d = await db.collection('vento_freelancers').doc(c).get();
+    if(!d.exists) return c;
+  }
+  return 'fl-' + Date.now().toString(36);
+}
+function err(msg){ const e=$('rErr'); e.textContent=msg; e.style.display='block'; }
+
+async function registrar(){
+  $('rErr').style.display='none';
+  const nombre=$('rNombre').value.trim(), tel=$('rTel').value.trim(),
+        email=$('rEmail').value.trim(), pass=$('rPass').value;
+  if(nombre.length<5)          return err('Escribí tu nombre completo.');
+  if(!/^[0-9]{8}$/.test(tel))  return err('El teléfono debe tener 8 dígitos.');
+  if(!/@.+\./.test(email))     return err('Correo inválido.');
+  if(pass.length<6)            return err('La contraseña debe tener mínimo 6 caracteres.');
+  const btn=$('rBtn'); btn.disabled=true; btn.textContent='Creando tu cuenta…';
+  try{
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    const codigo = await codigoUnico(nombre);
+    await db.collection('vento_freelancers').doc(codigo).set({
+      codigo, nombre, telefono: tel, email,
+      authUid: cred.user.uid, activo: true,
+      creadoEn: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    mostrarExito(codigo);
+  }catch(e){
+    btn.disabled=false; btn.textContent='💎 SUSCRIBIRME GRATIS';
+    if(e.code==='auth/email-already-in-use') err('Ese correo ya está registrado. Entrá a tu panel.');
+    else err('Error: '+(e.message||e));
+  }
+}
+function mostrarExito(codigo){
+  miLink = 'https://www.ventobarberena.com/?f=' + codigo;
+  $('okLink').textContent = miLink;
+  $('okQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(miLink);
+  $('secReg').style.display='none'; $('secOk').style.display='block';
+  window.scrollTo(0,0);
+}
+function copiarLink(){
+  navigator.clipboard.writeText(miLink).then(()=>alert('✅ Link copiado'));
+}
+function compartirWA(){
+  const msg='🏍️ ¡Cotizá tu moto VENTO conmigo! Precios, cuotas y promos acá:\n'+miLink;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+// Si ya tiene sesión activa, ir directo al panel
+auth.onAuthStateChanged(async u=>{
+  if(!u) return;
+  try{
+    const q=await db.collection('vento_freelancers').where('authUid','==',u.uid).limit(1).get();
+    if(!q.empty) location.href='panel-freelance.html';
+  }catch(e){}
+});
+</script>
+</body>
+</html>

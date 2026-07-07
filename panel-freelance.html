@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0F1218">
+<title>Mi Panel — Freelance Vento Barberena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;background:#0F1218;color:#E8EAF0;min-height:100vh}
+.top{background:#12151D;border-bottom:2px solid #C8970A;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.top b{font-family:Rajdhani,sans-serif;color:#C8970A;letter-spacing:.08em;font-size:15px}
+.chip{background:#C8970A;color:#12151D;font-family:Rajdhani,sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;padding:4px 10px;border-radius:7px}
+.out{background:none;border:1px solid #2C3140;color:#8A8FA0;border-radius:8px;padding:6px 11px;font-size:12px;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 70px}
+h2{font-family:Rajdhani,sans-serif;color:#C8970A;font-size:19px;letter-spacing:.05em;margin-bottom:10px}
+.card{background:#151A23;border:1px solid #2C3140;border-radius:14px;padding:20px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(3,1fr)}}
+.st{background:#151A23;border:1px solid #2C3140;border-radius:12px;padding:16px 10px;text-align:center}
+.st b{font-family:Rajdhani,sans-serif;font-size:30px;color:#E7B416;display:block;line-height:1}
+.st span{font-size:10.5px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.07em;margin-top:6px;display:block}
+.link-box{background:#0F1218;border:1.5px dashed #C8970A;border-radius:10px;padding:12px;font-family:monospace;font-size:12.5px;color:#E7B416;word-break:break-all;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.b2{flex:1;min-width:130px;background:#1D2330;border:1px solid #2C3140;color:#E8EAF0;border-radius:9px;padding:11px;font-size:12.5px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none}
+.b2.gold{background:#C8970A;border-color:#C8970A;color:#12151D}
+.b2.wa{background:#128C4A;border-color:#128C4A;color:#fff}
+.qr{border-radius:10px;background:#fff;padding:6px;display:block;margin:12px auto 0}
+.cot{border-bottom:1px solid #232838;padding:12px 2px}
+.cot:last-child{border-bottom:none}
+.cot .m{font-weight:800;font-size:14px;color:#E8EAF0}
+.cot .d{font-size:12px;color:#8A8FA0;margin-top:3px;line-height:1.6}
+.cot .f{font-size:11px;color:#5B6172;margin-top:3px}
+.empty{text-align:center;color:#8A8FA0;font-size:13px;padding:24px 10px;line-height:1.7}
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.vid iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:10px;background:#000}
+.vid p{font-size:12.5px;font-weight:700;color:#C9CDD8;margin-top:6px}
+.note{font-size:11.5px;color:#5B6172;text-align:center;margin-top:20px;line-height:1.6}
+/* login */
+#gate{max-width:420px;margin:60px auto;padding:0 16px}
+#gate .card{padding:24px}
+label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:uppercase;letter-spacing:.06em;margin:13px 0 6px}
+input{width:100%;background:#0F1218;border:1px solid #2C3140;border-radius:9px;padding:12px;color:#E8EAF0;font-size:15px}
+input:focus{outline:none;border-color:#C8970A}
+.btn{width:100%;margin-top:18px;background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;cursor:pointer}
+.err{display:none;background:#3a1520;border:1px solid #EF4444;color:#FCA5A5;border-radius:9px;padding:10px;font-size:13px;margin-top:12px}
+#panel{display:none}
+</style>
+</head>
+<body>
+<div class="top">
+  <b>VENTO · MI PANEL</b>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="chip" id="chipCod" style="display:none"></span>
+    <button class="out" id="btnOut" style="display:none" onclick="salir()">Salir</button>
+  </div>
+</div>
+
+<!-- ═══ LOGIN GATE ═══ -->
+<div id="gate">
+  <div class="card">
+    <h2>ENTRAR A MI PANEL</h2>
+    <label>Correo</label><input id="lEmail" type="email" placeholder="tu@correo.com">
+    <label>Contraseña</label><input id="lPass" type="password" placeholder="••••••••">
+    <div class="err" id="lErr"></div>
+    <button class="btn" onclick="entrar()">Entrar</button>
+    <p style="font-size:12.5px;color:#8A8FA0;margin-top:14px;text-align:center">
+      ¿Aún no sos freelance? <a href="freelance.html" style="color:#C8970A;font-weight:700">Suscribite gratis</a></p>
+  </div>
+</div>
+
+<!-- ═══ PANEL ═══ -->
+<div id="panel" class="wrap">
+  <div class="stats">
+    <div class="st"><b id="stVis">0</b><span>Visitas a tu link</span></div>
+    <div class="st"><b id="stCot">0</b><span>Cotizaciones</span></div>
+    <div class="st"><b id="stSem">0</b><span>Últimos 7 días</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🔗 TU LINK DEL COTIZADOR</h2>
+    <p style="font-size:12.5px;color:#8A8FA0;margin-bottom:10px">Cuando tus clientes cotizan con tu link, el botón de WhatsApp los conecta <b>directo con tu número</b>.</p>
+    <div class="link-box" id="miLink"></div>
+    <div class="row">
+      <button class="b2" onclick="copiar()">📋 Copiar</button>
+      <button class="b2 wa" onclick="compartir()">📲 Compartir WA</button>
+      <button class="b2" onclick="togQR()">📱 Ver QR</button>
+    </div>
+    <img class="qr" id="imgQR" width="170" height="170" style="display:none" alt="QR">
+  </div>
+
+  <div class="card">
+    <h2>📥 COTIZACIONES DE TUS CLIENTES</h2>
+    <div id="listaCot"><div class="empty">Cargando…</div></div>
+  </div>
+
+  <div class="card">
+    <h2>📕 CATÁLOGO</h2>
+    <p style="font-size:13px;color:#8A8FA0;margin-bottom:12px">Descargá el catálogo oficial y compartilo con tus clientes.</p>
+    <div class="row"><a class="b2 gold" id="btnCat" href="#" target="_blank" style="display:none">⬇️ Descargar catálogo</a></div>
+    <div class="empty" id="catEmpty" style="display:none">Aún no hay catálogo cargado.</div>
+  </div>
+
+  <div class="card">
+    <h2>🎬 VIDEOS</h2>
+    <div class="vids" id="vids"><div class="empty">Cargando…</div></div>
+  </div>
+
+  <p class="note">Este portal registra visitas y cotizaciones de tu link.<br>
+  El envío de papelería y precalificaciones <b>no está disponible</b> para freelancers Vento.</p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const VB_FB_CONFIG = {
+  apiKey:            "AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU",
+  authDomain:        "ventobarberena-cotizador.firebaseapp.com",
+  projectId:         "ventobarberena-cotizador",
+  storageBucket:     "ventobarberena-cotizador.firebasestorage.app",
+  messagingSenderId: "406785521833",
+  appId:             "1:406785521833:web:acef9dca515da54d5c51b8"
+};
+firebase.initializeApp(VB_FB_CONFIG);
+const auth = firebase.auth(), db = firebase.firestore();
+const $ = id => document.getElementById(id);
+let FL = null, miLink = '';
+
+// ─── Login ───
+async function entrar(){
+  $('lErr').style.display='none';
+  try{ await auth.signInWithEmailAndPassword($('lEmail').value.trim(), $('lPass').value); }
+  catch(e){ const el=$('lErr'); el.textContent='Correo o contraseña incorrectos.'; el.style.display='block'; }
+}
+function salir(){ auth.signOut().then(()=>location.reload()); }
+
+auth.onAuthStateChanged(async user=>{
+  if(!user) return;
+  const q = await db.collection('vento_freelancers').where('authUid','==',user.uid).limit(1).get();
+  if(q.empty){ await auth.signOut(); alert('Esta cuenta no es de freelance.'); return; }
+  FL = q.docs[0].data();
+  if(FL.activo === false){ alert('Tu cuenta está desactivada. Contactá a la agencia.'); await auth.signOut(); location.reload(); return; }
+  iniciarPanel(user.uid);
+});
+
+// ─── Panel ───
+function iniciarPanel(uid){
+  $('gate').style.display='none'; $('panel').style.display='block';
+  $('btnOut').style.display='inline-block';
+  $('chipCod').style.display='inline-block'; $('chipCod').textContent = FL.codigo;
+  miLink = 'https://www.ventobarberena.com/?f=' + FL.codigo;
+  $('miLink').textContent = miLink;
+  $('imgQR').src = 'https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=' + encodeURIComponent(miLink);
+  cargarStats(uid);
+  escucharCotizaciones(uid);
+  cargarRecursos();
+}
+
+async function cargarStats(uid){
+  try{
+    const snap = await db.collection('vento_freelance_stats')
+      .where('freelanceAuthUid','==',uid).limit(2000).get();
+    let vis=0;
+    snap.forEach(d=>{ if(d.data().tipo==='visita') vis++; });
+    $('stVis').textContent = vis.toLocaleString('en-US');
+  }catch(e){ console.warn('stats:',e); }
+}
+
+function escucharCotizaciones(uid){
+  db.collection('vento_cotizaciones_freelance')
+    .where('freelanceAuthUid','==',uid).limit(200)
+    .onSnapshot(snap=>{
+      const cots=[];
+      snap.forEach(d=>cots.push(d.data()));
+      cots.sort((a,b)=>(b.fecha?.seconds||0)-(a.fecha?.seconds||0));
+      $('stCot').textContent = cots.length;
+      const hace7 = Date.now()/1000 - 7*86400;
+      $('stSem').textContent = cots.filter(c=>(c.fecha?.seconds||0)>hace7).length;
+      if(!cots.length){
+        $('listaCot').innerHTML = '<div class="empty">Aún no hay cotizaciones.<br>Compartí tu link con 5 contactos hoy 💪</div>';
+        return;
+      }
+      $('listaCot').innerHTML = cots.slice(0,50).map(c=>{
+        const f = c.fecha ? new Date(c.fecha.seconds*1000).toLocaleString('es-GT',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+        const plan = c.plan ? `Plan: <b>${c.plan}</b> · Q${Number(c.cuota||0).toLocaleString('en-US')}/mes` : `Pago: <b>${c.pago||'—'}</b>`;
+        return `<div class="cot">
+          <div class="m">🏍️ ${c.motoNombre||'Moto'} ${c.color?('· '+c.color):''}</div>
+          <div class="d">Precio: <b>Q${Number(c.precio||0).toLocaleString('en-US')}</b> &nbsp;·&nbsp; ${plan}</div>
+          <div class="f">🕐 ${f}</div>
+        </div>`;
+      }).join('');
+    }, e=>{
+      console.warn('cots:',e);
+      $('listaCot').innerHTML='<div class="empty">No se pudieron cargar las cotizaciones.</div>';
+    });
+}
+
+async function cargarRecursos(){
+  try{
+    const d = await db.collection('vento_recursos_freelance').doc('config').get();
+    const r = d.exists ? d.data() : {};
+    if(r.catalogoUrl){ $('btnCat').href=r.catalogoUrl; $('btnCat').style.display='block'; }
+    else $('catEmpty').style.display='block';
+    const vids = r.videos || [];
+    $('vids').innerHTML = vids.length
+      ? vids.map(v=>`<div class="vid">
+          <iframe src="https://www.youtube-nocookie.com/embed/${v.youtubeId}" allowfullscreen loading="lazy"></iframe>
+          <p>${v.titulo||''}</p></div>`).join('')
+      : '<div class="empty">Aún no hay videos cargados.</div>';
+  }catch(e){ console.warn('recursos:',e); }
+}
+
+// ─── Acciones link ───
+function copiar(){ navigator.clipboard.writeText(miLink).then(()=>alert('✅ Link copiado')); }
+function compartir(){
+  const msg='🏍️ ¡Cotizá tu moto VENTO conmigo! Precios, cuotas y promos acá:\n'+miLink;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+function togQR(){ const q=$('imgQR'); q.style.display = q.style.display==='none'?'block':'none'; }
+</script>
+</body>
+</html>

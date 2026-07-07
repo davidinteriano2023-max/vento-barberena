@@ -1333,8 +1333,11 @@ function actuWA(){
   if(pago==='credito')msg+=`\nPlan: *${p.nom}* → ${Q(p.cuota)}/mes`;
   else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta*';
   else msg+='\nForma de pago: *Efectivo*';
+  const _ref = window.vbFLRef && window.vbFLRef();
+  if(_ref) msg += `\nMe recomendó: *${_ref.nombre}* (ref ${_ref.codigo})`;
   msg+='\n\n¿Pueden darme más información? 🏍️';
-  $('waBtn').href=`https://wa.me/50240165239?text=${encodeURIComponent(msg)}`;
+  const _waNum = (_ref && _ref.telefono) ? ('502'+_ref.telefono) : '50240165239';
+  $('waBtn').href=`https://wa.me/${_waNum}?text=${encodeURIComponent(msg)}`;
 }
 function togReq(){
   reqOpen=!reqOpen;
@@ -1384,6 +1387,7 @@ render('urban-sport');
   <div class="vb-drw-body">
     <nav class="vb-drw-nav">
       <button onclick="vbInstallApp()"><span class="nav-icon">📲</span> Descargar App</button>
+      <button onclick="location.href='freelance.html'"><span class="nav-icon">💎</span> Freelance</button>
     </nav>
     <nav class="vb-drw-nav" id="vbDrwAuthNav">
       <button onclick="vbModalReset();vbModalOpen()"><span class="nav-icon">🔑</span> Ingresar</button>
@@ -1901,6 +1905,86 @@ function vbToast(msg) {
   clearTimeout(vbToastTimer);
   vbToastTimer = setTimeout(() => t.classList.remove('on'), 3200);
 }
+</script>
+
+<!-- ═══════════ SISTEMA FREELANCE ═══════════ -->
+<a href="freelance.html" id="vbFlCta" style="position:fixed;bottom:18px;left:18px;z-index:800;
+  background:linear-gradient(135deg,#C8970A,#E7B416);color:#12151D;font-weight:800;font-size:13px;
+  padding:11px 16px;border-radius:30px;text-decoration:none;box-shadow:0 4px 14px rgba(200,151,10,.45);
+  font-family:Inter,sans-serif;letter-spacing:.02em;">💎 Quiero ser Freelance</a>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  var db = firebase.firestore();
+  var REF_KEY = 'vbFreelanceRef', DIAS = 30;
+
+  window.vbFLRef = function(){
+    try{
+      var r = JSON.parse(localStorage.getItem(REF_KEY)||'null');
+      if(r && r.exp > Date.now()) return r;
+      localStorage.removeItem(REF_KEY);
+    }catch(e){}
+    return null;
+  };
+
+  // 1) Detectar ?f=codigo → validar → guardar referencia + visita
+  (async function(){
+    var f = new URLSearchParams(location.search).get('f');
+    if(!f) return;
+    try{
+      var d = await db.collection('vento_freelancers').doc(f).get();
+      if(!d.exists || d.data().activo === false) return;
+      var fl = d.data();
+      localStorage.setItem(REF_KEY, JSON.stringify({
+        codigo: fl.codigo, authUid: fl.authUid, nombre: fl.nombre,
+        telefono: fl.telefono || '',
+        exp: Date.now() + DIAS*864e5
+      }));
+      if(typeof actuWA === 'function' && window.moto) try{ actuWA(); }catch(e){}
+      if(!sessionStorage.getItem('vbFLvisita')){
+        sessionStorage.setItem('vbFLvisita','1');
+        db.collection('vento_freelance_stats').add({
+          codigo: fl.codigo, freelanceAuthUid: fl.authUid, tipo: 'visita',
+          fecha: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(function(){});
+      }
+    }catch(e){ console.warn('[FL]', e); }
+  })();
+
+  // 2) Registrar cotización (la llama el click del botón WhatsApp)
+  window.vbFLRegistrarCotizacion = function(datos){
+    var r = window.vbFLRef(); if(!r) return;
+    db.collection('vento_cotizaciones_freelance').add(Object.assign({
+      codigo: r.codigo, freelanceAuthUid: r.authUid,
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }, datos||{})).catch(function(e){ console.warn('[FL cot]', e); });
+    db.collection('vento_freelance_stats').add({
+      codigo: r.codigo, freelanceAuthUid: r.authUid, tipo: 'click_whatsapp',
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(){});
+  };
+
+  // 3) Hook al botón WhatsApp del cotizador (delegado — funciona aunque
+  //    la ficha se re-renderice)
+  document.addEventListener('click', function(ev){
+    var b = ev.target.closest && ev.target.closest('#waBtn');
+    if(!b || !window.vbFLRef()) return;
+    try{
+      var ps = planes(moto.p), p = ps[planIdx];
+      var col = document.querySelector('.sw.on');
+      window.vbFLRegistrarCotizacion({
+        motoId: moto.id,
+        motoNombre: moto.nom + ' ' + moto.año,
+        color: col ? (col.getAttribute('title')||'') : '',
+        precio: moto.p,
+        pago: pago,
+        plan:  pago==='credito' ? p.nom   : null,
+        cuota: pago==='credito' ? p.cuota : null
+      });
+    }catch(e){ window.vbFLRegistrarCotizacion({motoNombre:'(cotización)'}); }
+  }, true);
+})();
 </script>
 
 </body>
