@@ -21,9 +21,9 @@
     // ── Estilos (tema rojo/negro de Vento Barberena) ─────────────────────────
     var css =
       '#liaBtn{position:fixed;right:18px;bottom:18px;z-index:9999;width:62px;height:62px;border-radius:50%;' +
-      'background:#E8142B;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;' +
-      'box-shadow:0 4px 20px rgba(232,20,43,.45),0 2px 8px rgba(0,0,0,.3);transition:transform .15s,box-shadow .15s}' +
-      '#liaBtn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(232,20,43,.55)}' +
+      'background:#0057C8;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;' +
+      'box-shadow:0 4px 20px rgba(0,87,200,.45),0 2px 8px rgba(0,0,0,.3);transition:transform .15s,box-shadow .15s}' +
+      '#liaBtn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,87,200,.55)}' +
       '#liaBtn svg{width:30px;height:30px}' +
 
       '#liaPanel{position:fixed;right:18px;bottom:90px;z-index:9998;width:340px;max-width:calc(100vw - 36px);' +
@@ -34,7 +34,7 @@
 
       '#liaHead{background:#111;color:#fff;padding:13px 16px;display:flex;align-items:center;gap:10px;' +
       'border-bottom:1px solid #222}' +
-      '#liaHead .lia-avatar{width:36px;height:36px;border-radius:50%;background:#E8142B;display:flex;' +
+      '#liaHead .lia-avatar{width:36px;height:36px;border-radius:50%;background:#0057C8;display:flex;' +
       'align-items:center;justify-content:center;flex-shrink:0;font-size:18px}' +
       '#liaHead .lia-info b{display:block;font-size:14px;color:#fff}' +
       '#liaHead .lia-info span{font-size:11px;color:#25D366}' +
@@ -45,26 +45,26 @@
       'background:#0d0d0d;scrollbar-width:thin;scrollbar-color:#333 transparent}' +
       '.lia-msg{max-width:82%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.55;white-space:pre-wrap}' +
       '.lia-msg.bot{align-self:flex-start;background:#1a1a1a;color:#eee;border-bottom-left-radius:4px}' +
-      '.lia-msg.user{align-self:flex-end;background:#E8142B;color:#fff;border-bottom-right-radius:4px}' +
+      '.lia-msg.user{align-self:flex-end;background:#0057C8;color:#fff;border-bottom-right-radius:4px}' +
       '.lia-typing{display:flex;gap:4px;padding:10px 13px;background:#1a1a1a;border-radius:14px;' +
       'border-bottom-left-radius:4px;align-self:flex-start}' +
       '.lia-dot{width:7px;height:7px;border-radius:50%;background:#666;animation:liaPulse 1.2s ease-in-out infinite}' +
       '.lia-dot:nth-child(2){animation-delay:.2s}.lia-dot:nth-child(3){animation-delay:.4s}' +
       '@keyframes liaPulse{0%,60%,100%{opacity:.3;transform:scale(.8)}30%{opacity:1;transform:scale(1.1)}}' +
       '.lia-chips{display:flex;flex-wrap:wrap;gap:6px}' +
-      '.lia-chip{background:transparent;border:1.5px solid #E8142B;color:#E8142B;border-radius:20px;' +
+      '.lia-chip{background:transparent;border:1.5px solid #0057C8;color:#0057C8;border-radius:20px;' +
       'padding:6px 13px;font-size:12.5px;cursor:pointer;transition:background .15s,color .15s}' +
-      '.lia-chip:hover{background:#E8142B;color:#fff}' +
+      '.lia-chip:hover{background:#0057C8;color:#fff}' +
 
       '#liaInputRow{display:flex;gap:8px;padding:10px 12px;background:#111;border-top:1px solid #1e1e1e}' +
       '#liaInput{flex:1;background:#1a1a1a;border:1.5px solid #2a2a2a;border-radius:20px;' +
       'padding:9px 14px;color:#fff;font-size:13.5px;outline:none;transition:border-color .15s}' +
-      '#liaInput:focus{border-color:#E8142B}' +
+      '#liaInput:focus{border-color:#0057C8}' +
       '#liaInput::placeholder{color:#555}' +
-      '#liaSend{background:#E8142B;color:#fff;border:none;border-radius:50%;width:38px;height:38px;' +
+      '#liaSend{background:#0057C8;color:#fff;border:none;border-radius:50%;width:38px;height:38px;' +
       'flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;' +
       'transition:background .15s,transform .1s}' +
-      '#liaSend:hover{background:#c0101f;transform:scale(1.05)}' +
+      '#liaSend:hover{background:#004aaa;transform:scale(1.05)}' +
 
       '#liaWa{display:flex;align-items:center;justify-content:center;gap:6px;' +
       'color:#25D366;font-size:11.5px;padding:6px 0 2px;cursor:pointer;text-decoration:none}' +
@@ -233,4 +233,3 @@
     inputEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(inputEl.value); } });
   }
 })();
-         

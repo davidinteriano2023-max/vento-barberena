@@ -80,18 +80,16 @@ a{text-decoration:none;color:inherit}
 
 .hdr-wa{
   display:flex;align-items:center;gap:7px;
-  background:var(--wa);color:#fff;
+  background:transparent;color:#fff;
   border-radius:999px;
-  padding:8px 16px;
-  font-family:var(--fh);font-weight:700;font-size:13px;letter-spacing:.04em;
-  transition:background .18s,box-shadow .18s,transform .12s;
+  padding:8px 10px;
+  font-family:var(--fh);font-weight:700;font-size:15px;letter-spacing:.05em;
+  transition:opacity .18s;
   white-space:nowrap;
-  box-shadow:0 2px 12px rgba(37,211,102,.28);
 }
-.hdr-wa:hover{background:#1da851;box-shadow:0 4px 20px rgba(37,211,102,.4);transform:scale(1.03)}
+.hdr-wa:hover{opacity:.75}
 .hdr-wa svg{flex-shrink:0}
-.hdr-wa-txt{display:none}
-@media(min-width:420px){.hdr-wa-txt{display:inline}}
+.hdr-wa-txt{display:inline}
 
 /* ─── HERO ──────────────────────────────────────── */
 .hero{
@@ -813,9 +811,9 @@ footer::before{
   </div>
 
   <div style="display:flex;align-items:center;gap:8px">
-    <a class="hdr-wa" href="tel:+50238978935">
+    <a class="hdr-wa" href="tel:+50240165239">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.26.2 2.47.57 3.6.1.34.02.74-.24 1.01L6.6 10.8z"/></svg>
-      <span class="hdr-wa-txt">3897-8935</span>
+      <span class="hdr-wa-txt">4016-5239</span>
     </a>
     <button class="hdr-menu-btn" id="hdrMenuBtn" onclick="vbDrawerToggle()">
       <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
@@ -958,7 +956,7 @@ footer::before{
     <div class="foot-barberena">Barberena</div>
     <div class="foot-div"></div>
   </div>
-  <div class="foot-tel">📞 <a href="tel:+50238978935">3897-8935</a></div>
+  <div class="foot-tel">📞 <a href="tel:+50240165239">4016-5239</a></div>
   <div class="foot-sub">Barberena, Santa Rosa · Guatemala · Distribuidor Autorizado Vento</div>
   <div class="foot-redes">
     <a class="foot-r" href="https://www.tiktok.com/@vento_guatemala" target="_blank">TikTok</a>
@@ -1307,7 +1305,7 @@ function actuWA(){
   else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta*';
   else msg+='\nForma de pago: *Efectivo*';
   msg+='\n\n¿Pueden darme más información? 🏍️';
-  $('waBtn').href=`https://wa.me/50238978935?text=${encodeURIComponent(msg)}`;
+  $('waBtn').href=`https://wa.me/50240165239?text=${encodeURIComponent(msg)}`;
 }
 function togReq(){
   reqOpen=!reqOpen;
@@ -1784,4 +1782,42 @@ function admMark(id) {
 async function admSaveMoto(id) {
   const btn = document.getElementById('admSaveBtn-' + id);
   btn.disabled = true; btn.textContent = '…';
-  const nom   = document.getElemen
+  const nom   = document.getElementById('admNom-'   + id)?.value  || '';
+  const po    = +document.getElementById('admPo-'    + id)?.value  || 0;
+  const p     = +document.getElementById('admP-'     + id)?.value  || 0;
+  const badge = document.getElementById('admBadge-'  + id)?.value  || null;
+  const disp  = document.getElementById('admDisp-'   + id)?.checked !== false;
+
+  const ok = await fsPatch('motos/' + id, { nom, p, po, badge:badge||null, disponible:disp });
+  if (ok) {
+    btn.classList.add('ok'); btn.textContent = '✓';
+    vbToast('✓ ' + nom + ' guardado');
+    setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'Guardar'; btn.disabled = false; }, 2500);
+    // Update live cotizador if MOTOS exists
+    if (typeof MOTOS !== 'undefined') {
+      const m = MOTOS.find(x => x.id === id);
+      if (m) { m.nom = nom; m.p = p; m.po = po; m.badge = badge; m.disponible = disp; }
+      render(window.vbFiltroActual||'todos');
+    }
+  } else {
+    btn.textContent = 'Error'; btn.style.background = '#EF4444';
+    setTimeout(() => { btn.textContent = 'Guardar'; btn.style.background=''; btn.disabled=false; }, 2000);
+  }
+}
+
+async function admSaveAll() {
+  for (const m of admMotos) await admSaveMoto(m.id);
+  vbToast('✓ Todos los modelos guardados en Firebase');
+}
+
+let vbToastTimer;
+function vbToast(msg) {
+  const t = document.getElementById('vbAdmToast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(vbToastTimer);
+  vbToastTimer = setTimeout(() => t.classList.remove('on'), 3200);
+}
+</script>
+
+</body>
+</html>
