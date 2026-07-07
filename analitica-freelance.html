@@ -48,6 +48,7 @@ label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:
     <label>Contraseña</label><input id="lPass" type="password">
     <div class="err" id="lErr"></div>
     <button class="btn" style="width:100%" onclick="entrar()">Entrar</button>
+    <button class="btn" style="width:100%;background:#fff;color:#1a1a1a;margin-top:10px" onclick="entrarGoogle()">🔴 Entrar con Google</button>
   </div>
 </div>
 
@@ -84,7 +85,7 @@ label{display:block;font-size:12px;font-weight:700;color:#8A8FA0;text-transform:
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 // ⚠️ MISMOS correos que en las reglas de Firestore
-const ADMIN_EMAILS = ['egguatemala2@gmail.com'];
+const ADMIN_EMAILS = ['davidinteriano2023@gmail.com', 'egguatemala2@gmail.com'];
 
 const VB_FB_CONFIG = {
   apiKey:            "AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU",
@@ -103,6 +104,11 @@ async function entrar(){
   $('lErr').style.display='none';
   try{ await auth.signInWithEmailAndPassword($('lEmail').value.trim(), $('lPass').value); }
   catch(e){ const el=$('lErr'); el.textContent='Credenciales incorrectas.'; el.style.display='block'; }
+}
+async function entrarGoogle(){
+  $('lErr').style.display='none';
+  try{ await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+  catch(e){ const el=$('lErr'); el.textContent='No se pudo iniciar con Google.'; el.style.display='block'; }
 }
 
 auth.onAuthStateChanged(async user=>{
