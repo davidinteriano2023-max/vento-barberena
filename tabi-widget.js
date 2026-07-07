@@ -99,9 +99,9 @@
       '<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>' +
       '</button>' +
       '</div>' +
-      '<a id="liaWa" href="https://wa.me/50238978935" target="_blank" rel="noopener">' +
+      '<a id="liaWa" href="https://wa.me/50240165239" target="_blank" rel="noopener">' +
       '<svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.105.549 4.082 1.51 5.8L0 24l6.388-1.674A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.6c-1.944 0-3.77-.538-5.328-1.472l-.38-.227-3.795.994 1.012-3.694-.248-.381A9.554 9.554 0 012.4 12c0-5.295 4.305-9.6 9.6-9.6 5.295 0 9.6 4.305 9.6 9.6 0 5.295-4.305 9.6-9.6 9.6z"/></svg>' +
-      ' Escribir por WhatsApp al 3897-8935' +
+      ' Escribir por WhatsApp al 4016-5239' +
       '</a>';
 
     document.body.appendChild(btn);
@@ -188,14 +188,14 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           ocultarTyping();
-          var reply = (data && data.reply) || 'Perdona, no pude responder. Escribinos al WhatsApp 3897-8935.';
+          var reply = (data && data.reply) || 'Perdona, no pude responder. Escribinos al WhatsApp 4016-5239.';
           renderRespuesta(reply);
           historial.push({ role: 'assistant', content: reply });
           guardarHistorial();
         })
         .catch(function () {
           ocultarTyping();
-          agregarBurbuja('Se me trabó la conexión. Escribinos al WhatsApp 3897-8935 para ayudarte. 📲', 'bot');
+          agregarBurbuja('Se me trabó la conexión. Escribinos al WhatsApp 4016-5239 para ayudarte. 📲', 'bot');
         })
         .finally(function () { enviando = false; });
     }
