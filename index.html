@@ -1333,7 +1333,11 @@ function actuWA(){
   if(pago==='credito')msg+=`\nPlan: *${p.nom}* → ${Q(p.cuota)}/mes`;
   else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta*';
   else msg+='\nForma de pago: *Efectivo*';
-  const _ref = window.vbFLRef && window.vbFLRef();
+  // El número del freelance SOLO aplica si el cliente está en la URL con ?f=
+  // que coincide con la referencia guardada. Entrada directa => número principal.
+  const _fCode = new URLSearchParams(location.search).get('f');
+  const _refRaw = window.vbFLRef && window.vbFLRef();
+  const _ref = (_fCode && _refRaw && _refRaw.codigo === _fCode) ? _refRaw : null;
   if(_ref) msg += `\nMe recomendó: *${_ref.nombre}* (ref ${_ref.codigo})`;
   msg+='\n\n¿Pueden darme más información? 🏍️';
   const _waNum = (_ref && _ref.telefono) ? ('502'+_ref.telefono) : '50240165239';
@@ -1964,7 +1968,12 @@ function vbToast(msg) {
   //    la ficha se re-renderice)
   document.addEventListener('click', function(ev){
     var b = ev.target.closest && ev.target.closest('#waBtn');
-    if(!b || !window.vbFLRef()) return;
+    if(!b) return;
+    // Solo se registra la cotización al freelance si el cliente vino por su link
+    // (?f= en la URL actual y coincide con la referencia guardada).
+    var _fCode = new URLSearchParams(location.search).get('f');
+    var r = window.vbFLRef();
+    if(!_fCode || !r || r.codigo !== _fCode) return;
     try{
       var ps = planes(moto.p), p = ps[planIdx];
       var col = document.querySelector('.sw.on');
@@ -2007,23 +2016,4 @@ function vbToast(msg) {
       datos = {
         motoId: moto.id,
         motoNombre: moto.nom + ' ' + moto.año,
-        color: col ? (col.getAttribute('title')||'') : '',
-        precio: moto.p,
-        pago: pago,
-        plan:  pago==='credito' ? p.nom   : 'Contado',
-        cuota: pago==='credito' ? p.cuota : null
-      };
-    }catch(e){}
-    db.collection('vento_cotizaciones').add(Object.assign({
-      fecha: firebase.firestore.FieldValue.serverTimestamp()
-    }, datos)).catch(function(){});
-    db.collection('vento_stats_main').add({
-      tipo: 'click_cotizar',
-      fecha: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(function(){});
-  }, true);
-})();
-</script>
-
-</body>
-</html>
+     
