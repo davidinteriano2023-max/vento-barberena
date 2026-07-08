@@ -1982,5 +1982,48 @@ function vbToast(msg) {
 })();
 </script>
 
+<!-- ANALITICA PAGINA PRINCIPAL -->
+<script>
+(function(){
+  var db = firebase.firestore();
+  try{
+    if(!sessionStorage.getItem('vbMainVisita')){
+      sessionStorage.setItem('vbMainVisita','1');
+      db.collection('vento_stats_main').add({
+        tipo: 'visita',
+        ref: new URLSearchParams(location.search).get('f') ? 'freelance' : 'directo',
+        pagina: location.pathname,
+        fecha: firebase.firestore.FieldValue.serverTimestamp()
+      }).catch(function(){});
+    }
+  }catch(e){}
+  document.addEventListener('click', function(ev){
+    var b = ev.target.closest && ev.target.closest('#waBtn');
+    if(!b) return;
+    var datos = { motoNombre:'(cotización)', color:'', plan:null };
+    try{
+      var ps = planes(moto.p), p = ps[planIdx];
+      var col = document.querySelector('.sw.on');
+      datos = {
+        motoId: moto.id,
+        motoNombre: moto.nom + ' ' + moto.año,
+        color: col ? (col.getAttribute('title')||'') : '',
+        precio: moto.p,
+        pago: pago,
+        plan:  pago==='credito' ? p.nom   : 'Contado',
+        cuota: pago==='credito' ? p.cuota : null
+      };
+    }catch(e){}
+    db.collection('vento_cotizaciones').add(Object.assign({
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }, datos)).catch(function(){});
+    db.collection('vento_stats_main').add({
+      tipo: 'click_cotizar',
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(){});
+  }, true);
+})();
+</script>
+
 </body>
 </html>

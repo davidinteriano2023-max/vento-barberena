@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Administrativo — Vento Barberena</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C8970A;--gold-light:#E7B416;--dark:#0F1218;--dark2:#151A23;--dark3:#1D2330;--dark4:#2C3140;--text:#E8EAF0;--muted:#8A8FA0;--green:#22C55E;--red:#EF4444;--radius:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--dark);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:Rajdhani,sans-serif;letter-spacing:.04em}
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--dark2);border:1px solid var(--dark4);border-radius:16px;padding:44px 36px;width:100%;max-width:420px;text-align:center}
+.login-logo{width:150px;margin-bottom:6px}
+.login-title{font-size:24px;font-weight:700;color:var(--gold)}
+.login-subtitle{color:var(--muted);font-size:13px;margin:6px 0 26px}
+.btn-google{width:100%;padding:13px;background:#fff;color:#1a1a1a;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-google:hover{background:#f1f1f1}
+.login-error{background:#3f1515;color:#ff8080;border:1px solid #7f2020;border-radius:8px;padding:10px 14px;font-size:13px;margin-top:14px;display:none}
+.login-hint{color:var(--muted);font-size:12px;margin-top:18px;line-height:1.5}
+#adminPanel{display:none}
+.topbar{background:var(--dark2);border-bottom:1px solid var(--dark4);padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.topbar-brand{display:flex;align-items:center;gap:12px}
+.topbar-logo{height:30px}
+.topbar-title{font-size:17px;font-weight:700;color:var(--gold);font-family:Rajdhani}
+.topbar-email{font-size:11.5px;color:var(--muted)}
+.btn-back{padding:7px 14px;background:var(--dark3);border:1px solid var(--dark4);border-radius:8px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;display:none;align-items:center;gap:6px}
+.btn-back:hover{border-color:var(--gold);color:var(--gold)}
+.btn-logout{padding:7px 15px;background:transparent;border:1px solid var(--dark4);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
+.topbar-right{display:flex;gap:10px;align-items:center}
+.main{padding:26px 22px 80px;max-width:1200px;margin:0 auto}
+.view{display:none}
+.view.active{display:block}
+.dash-hello{font-size:15px;color:var(--muted);margin-bottom:4px}
+.dash-title{font-size:30px;font-weight:700;color:var(--text);margin-bottom:26px}
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.panel-card{background:var(--dark2);border:1px solid var(--dark4);border-radius:var(--radius);padding:26px 22px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.panel-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.panel-card .ico{font-size:34px;margin-bottom:14px;display:block}
+.panel-card h3{font-size:20px;color:var(--gold);margin-bottom:6px}
+.panel-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.panel-card .go{position:absolute;top:22px;right:22px;color:var(--muted);font-size:20px;transition:.2s}
+.panel-card:hover .go{color:var(--gold);transform:translateX(3px)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--dark2);border:1px solid var(--dark4);border-radius:12px;padding:18px 14px;text-align:center}
+.stat-value{font-family:Rajdhani;font-size:30px;font-weight:700;color:var(--gold-light);line-height:1}
+.stat-label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:8px;display:block}
+.section-title{font-size:22px;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card{background:var(--dark2);border:1px solid var(--dark4);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+.card h3{font-size:17px;color:var(--gold);margin-bottom:14px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.toolbar-left{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;background:var(--dark3);border:1px solid var(--dark4);border-radius:20px;color:var(--muted);font-size:12.5px;cursor:pointer;transition:.2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);border-color:var(--gold);color:#000;font-weight:600}
+.btn-primary{padding:9px 18px;background:var(--gold);border:none;border-radius:8px;color:#000;font-size:13.5px;font-weight:700;cursor:pointer}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-ghost{padding:9px 15px;background:transparent;border:1px solid var(--dark4);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+#motosGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.moto-card{background:var(--dark2);border:1px solid var(--dark4);border-radius:var(--radius);overflow:hidden}
+.moto-card.inactive{opacity:.55}
+.card-img-wrap{position:relative;height:170px;background:var(--dark3);overflow:hidden}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover}
+.card-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#000;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px}
+.card-status{position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.card-status.on{background:#14532d;color:#4ade80}
+.card-status.off{background:#450a0a;color:#f87171}
+.card-body{padding:15px}
+.card-id{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.card-prices{display:flex;gap:12px;margin:8px 0 12px}
+.price-group{flex:1}
+.price-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.price-input,.name-input,.badge-input{width:100%;padding:8px 10px;background:var(--dark3);border:1px solid var(--dark4);border-radius:6px;color:var(--text);font-size:14px}
+.price-input{font-weight:700}
+.name-input{margin-bottom:10px}
+.price-input:focus,.name-input:focus,.badge-input:focus{outline:none;border-color:var(--gold)}
+.price-prefix{font-size:12px;color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;margin-top:8px;border-top:1px solid var(--dark4)}
+.toggle{position:relative;display:inline-block;width:44px;height:24px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--dark4);border-radius:24px;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.toggle input:checked + .toggle-slider{background:var(--green)}
+.toggle input:checked + .toggle-slider:before{transform:translateX(20px)}
+.toggle-label{font-size:12px;color:var(--muted);margin-left:8px}
+.btn-save{padding:7px 16px;background:var(--gold);border:none;border-radius:7px;color:#000;font-size:13px;font-weight:700;cursor:pointer}
+.btn-save:hover{background:var(--gold-light)}
+.btn-save.saved{background:var(--green);color:#fff}
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:9px 8px;border-bottom:1px solid var(--dark4)}
+td{padding:10px 8px;border-bottom:1px solid var(--dark3);vertical-align:middle}
+tr:hover td{background:#181E29}
+.cod{font-family:monospace;color:var(--gold-light);font-size:12px}
+.tag-on{background:#123A26;color:#4ADE80;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-off{background:#3a1520;color:#FCA5A5;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.mini{background:var(--dark3);border:1px solid var(--dark4);color:var(--text);border-radius:7px;padding:6px 10px;font-size:11.5px;font-weight:700;cursor:pointer;margin:2px}
+.mini:hover{border-color:var(--gold)}
+.mini.red{border-color:var(--red);color:#FCA5A5}
+label.fld{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:13px 0 6px}
+input.fld,textarea.fld{width:100%;background:var(--dark);border:1px solid var(--dark4);border-radius:9px;padding:11px;color:var(--text);font-size:14px;font-family:inherit}
+input.fld:focus,textarea.fld:focus{outline:none;border-color:var(--gold)}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 52px;align-items:center;gap:10px;font-size:13px}
+@media(max-width:560px){.bar-row{grid-template-columns:110px 1fr 44px}}
+.bar-name{color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{background:var(--dark3);border-radius:6px;height:20px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:6px;min-width:2px;transition:width .5s}
+.bar-val{text-align:right;font-weight:700;color:var(--gold-light);font-family:Rajdhani;font-size:15px}
+.swatch{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;border:1px solid rgba(255,255,255,.2);vertical-align:middle}
+.empty{text-align:center;color:var(--muted);padding:28px;font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-bg.on{display:flex}
+.modal{background:var(--dark2);border:1px solid var(--dark4);border-radius:16px;padding:26px;width:100%;max-width:440px}
+.modal h3{font-size:20px;color:var(--gold);margin-bottom:6px}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--dark2);border:1px solid var(--dark4);border-radius:10px;padding:12px 20px;font-size:14px;transform:translateY(80px);opacity:0;transition:.3s;display:flex;align-items:center;gap:8px;z-index:999}
+#toast.show{transform:translateY(0);opacity:1}
+.loader{text-align:center;padding:50px;color:var(--muted)}
+.spinner{width:34px;height:34px;border:3px solid var(--dark4);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <img class="login-logo" src="logo-vento.svg" alt="Vento Barberena" onerror="this.style.display='none'">
+    <p class="login-title">Panel Administrativo</p>
+    <p class="login-subtitle">Vento Barberena — Gerencia</p>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Entrar con Google
+    </button>
+    <div class="login-error" id="loginError"></div>
+    <p class="login-hint">Si ya iniciaste sesión en el sitio, entrás automáticamente. Solo correos de gerencia autorizados.</p>
+  </div>
+</div>
+
+<div id="adminPanel">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <button class="btn-back" id="btnBack" onclick="goHome()">← Inicio</button>
+      <img class="topbar-logo" src="logo-vento.svg" alt="VB" onerror="this.style.display='none'">
+      <div>
+        <div class="topbar-title">Panel Admin</div>
+        <div class="topbar-email" id="adminEmailDisplay"></div>
+      </div>
+    </div>
+    <div class="topbar-right"><button class="btn-logout" onclick="doLogout()">⏻ Salir</button></div>
+  </div>
+
+  <div class="main">
+
+    <div class="view active" id="view-home">
+      <div class="dash-hello">Bienvenido</div>
+      <div class="dash-title">¿Qué querés administrar hoy?</div>
+      <div class="panel-grid">
+        <div class="panel-card" onclick="openView('precios')">
+          <span class="go">→</span><span class="ico">💰</span>
+          <h3>Precios</h3>
+          <p>Editá precios de contado y financiado, nombres, badges y disponibilidad de cada moto.</p>
+        </div>
+        <div class="panel-card" onclick="openView('freelance')">
+          <span class="go">→</span><span class="ico">💼</span>
+          <h3>Analítica Freelance</h3>
+          <p>Freelancers suscritos, sus visitas y cotizaciones. Editá, dá de alta/baja y activá o desactivá cada uno.</p>
+        </div>
+        <div class="panel-card" onclick="openView('principal')">
+          <span class="go">→</span><span class="ico">📊</span>
+          <h3>Analítica Página Principal</h3>
+          <p>Visitas a la web, clics en cotizar, y qué moto, color y plan se cotiza más.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-precios">
+      <div class="section-title">💰 Precios — Catálogo de Motos</div>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-value" id="statTotal">—</div><span class="stat-label">Total modelos</span></div>
+        <div class="stat-card"><div class="stat-value" id="statActive" style="color:var(--green)">—</div><span class="stat-label">Disponibles</span></div>
+        <div class="stat-card"><div class="stat-value" id="statMin" style="font-size:20px">—</div><span class="stat-label">Precio mínimo</span></div>
+        <div class="stat-card"><div class="stat-value" id="statMax" style="font-size:20px">—</div><span class="stat-label">Precio máximo</span></div>
+      </div>
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button class="filter-btn active" onclick="filterCat('all',this)">Todos</button>
+          <button class="filter-btn" onclick="filterCat('scooters',this)">Scooters</button>
+          <button class="filter-btn" onclick="filterCat('city',this)">City</button>
+          <button class="filter-btn" onclick="filterCat('rebels',this)">Rebels</button>
+          <button class="filter-btn" onclick="filterCat('urban-sport',this)">Urban Sport</button>
+          <button class="filter-btn" onclick="filterCat('doble-proposito',this)">Doble Propósito</button>
+          <button class="filter-btn" onclick="filterCat('adventure',this)">Adventure</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-ghost" onclick="seedFirestore()">↑ Inicializar catálogo</button>
+          <button class="btn-primary" onclick="saveAll()">💾 Guardar todos</button>
+        </div>
+      </div>
+      <div id="motosGrid"><div class="loader"><div class="spinner"></div>Cargando catálogo…</div></div>
+    </div>
+
+    <div class="view" id="view-freelance">
+      <div class="section-title">💼 Analítica Freelance</div>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-value" id="flActivos">0</div><span class="stat-label">Freelancers activos</span></div>
+        <div class="stat-card"><div class="stat-value" id="flVisitas">0</div><span class="stat-label">Visitas totales</span></div>
+        <div class="stat-card"><div class="stat-value" id="flCots">0</div><span class="stat-label">Cotizaciones totales</span></div>
+        <div class="stat-card"><div class="stat-value" id="flCots7">0</div><span class="stat-label">Cotizaciones 7 días</span></div>
+      </div>
+      <div class="card">
+        <div class="toolbar">
+          <h3 style="margin:0">Freelancers suscritos</h3>
+          <button class="btn-primary" onclick="openFlModal()">＋ Dar de alta</button>
+        </div>
+        <input class="fld" id="flBuscar" placeholder="🔍 Buscar por nombre o código…" oninput="renderFl()" style="margin-bottom:12px">
+        <div class="tblwrap"><table>
+          <thead><tr><th>Freelance</th><th>Código</th><th>Tel.</th><th>Visitas</th><th>Cotiz.</th><th>Últ. actividad</th><th>Estado</th><th></th></tr></thead>
+          <tbody id="flTbody"><tr><td colspan="8" class="empty">Cargando…</td></tr></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3>🏍️ Moto más cotizada (freelance)</h3>
+        <div class="bars" id="flBarsMoto"><div class="empty">Sin datos.</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>🎨 Colores más cotizados</h3><div class="bars" id="flBarsColor"><div class="empty">Sin datos.</div></div></div>
+        <div class="card"><h3>💳 Planes más elegidos</h3><div class="bars" id="flBarsPlan"><div class="empty">Sin datos.</div></div></div>
+      </div>
+      <div class="card">
+        <h3>📕 Recursos del portal freelance</h3>
+        <label class="fld">URL del catálogo (PDF)</label>
+        <input class="fld" id="cfgCat" placeholder="https://…/catalogo-vento-2026.pdf">
+        <label class="fld">Videos — uno por línea: Título | ID de YouTube</label>
+        <textarea class="fld" id="cfgVids" rows="4" placeholder="Conocé la Thriller 250 | dQw4w9WgXcQ"></textarea>
+        <button class="btn-primary" style="margin-top:14px" onclick="guardarRecursos()">💾 Guardar recursos</button>
+      </div>
+    </div>
+
+    <div class="view" id="view-principal">
+      <div class="section-title">📊 Analítica Página Principal</div>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-value" id="mpVisitas">0</div><span class="stat-label">Visitas totales</span></div>
+        <div class="stat-card"><div class="stat-value" id="mpVisitas7">0</div><span class="stat-label">Visitas 7 días</span></div>
+        <div class="stat-card"><div class="stat-value" id="mpClicks">0</div><span class="stat-label">Clics en cotizar</span></div>
+        <div class="stat-card"><div class="stat-value" id="mpConv">0%</div><span class="stat-label">Conversión</span></div>
+      </div>
+      <div class="card">
+        <h3>🏍️ Moto más cotizada</h3>
+        <div class="bars" id="mpBarsMoto"><div class="empty">Sin datos todavía.</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>🎨 Colores más cotizados</h3><div class="bars" id="mpBarsColor"><div class="empty">Sin datos.</div></div></div>
+        <div class="card"><h3>💳 Planes más elegidos</h3><div class="bars" id="mpBarsPlan"><div class="empty">Sin datos.</div></div></div>
+      </div>
+      <p style="color:var(--muted);font-size:12px;text-align:center;margin-top:8px">Los datos empiezan a llenarse a medida que la gente visita el sitio y cotiza.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-bg" id="flModal">
+  <div class="modal">
+    <h3 id="flModalTitle">Dar de alta freelance</h3>
+    <p style="color:var(--muted);font-size:12.5px" id="flModalSub">Completá los datos del freelancer.</p>
+    <label class="fld">Nombre completo</label>
+    <input class="fld" id="fmNombre" placeholder="Ej: Juan Pérez">
+    <label class="fld">Código (link ?f=)</label>
+    <input class="fld" id="fmCodigo" placeholder="Ej: JUAN01">
+    <label class="fld">Teléfono</label>
+    <input class="fld" id="fmTel" placeholder="Ej: 3897-8935">
+    <label class="fld">Correo (opcional)</label>
+    <input class="fld" id="fmEmail" placeholder="correo@ejemplo.com">
+    <div class="modal-actions">
+      <button class="btn-primary" style="flex:1" onclick="guardarFl()">💾 Guardar</button>
+      <button class="btn-ghost" style="flex:1" onclick="closeFlModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span class="toast-icon">✓</span><span id="toastMsg"></span></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const VB_FB_CONFIG={apiKey:"AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU",authDomain:"ventobarberena-cotizador.firebaseapp.com",projectId:"ventobarberena-cotizador",storageBucket:"ventobarberena-cotizador.firebasestorage.app",messagingSenderId:"406785521833",appId:"1:406785521833:web:acef9dca515da54d5c51b8"};
+const ADMIN_EMAILS=['egguatemala2@gmail.com','davidinteriano2023@gmail.com','davidinteriano@gmail.com'];
+firebase.initializeApp(VB_FB_CONFIG);
+const auth=firebase.auth();
+const db=firebase.firestore();
+const $=id=>document.getElementById(id);
+let userEmail=null,allMotos=[],currentCat='all',FLS=[],flEditCodigo=null;
+
+const CATALOG=[
+  {id:'spirit-170-zx', nom:'Spirit 170 ZX', año:'2026', cat:'scooters', p:8999, po:11499, badge:'Popular', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-spirit-170-zx-01.jpg'},
+  {id:'cruiser-200', nom:'Cruiser 200', año:'2026', cat:'city', p:7999, po:9999, badge:'Mejor precio', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/2024-vento-cruiser-200-01.jpg'},
+  {id:'ovni-170', nom:'Ovni 170', año:'2026', cat:'city', p:9999, po:11999, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/2024-vento-ovni170-016.jpg'},
+  {id:'thriller-250', nom:'Thriller 250', año:'2026', cat:'rebels', p:9999, po:12999, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-thriller-250-menu.jpg'},
+  {id:'thunderstar-300', nom:'Thunderstar 300 XL', año:'2026', cat:'rebels', p:11999, po:14999, badge:'⭐ Top Seller', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-thunderstar300xl-01.jpg'},
+  {id:'screamer-300', nom:'Screamer Sportivo 300', año:'2026', cat:'rebels', p:13999, po:17299, badge:'🏆 Premium', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-screamer-sportivo-300-menu.jpg'},
+  {id:'onyx-250', nom:'Onyx 250', año:'2026', cat:'urban-sport', p:10999, po:13999, badge:'🔥 Oferta', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-onyx-250-menu.webp'},
+  {id:'cyclone-210', nom:'Cyclone 210 2.0', año:'2026', cat:'urban-sport', p:8999, po:11999, badge:'💰 Precio', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-cyclone-210-menu.png'},
+  {id:'storm-300', nom:'Storm 300 2.0', año:'2026', cat:'urban-sport', p:13999, po:15999, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/v1782782536/vento-barberena/vento-storm-300-2-01.png'},
+  {id:'nitrox-300', nom:'Nitrox 300 T3', año:'2026', cat:'urban-sport', p:12999, po:14999, badge:'⭐ Top Spec', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-nitrox-300t3-01.jpg'},
+  {id:'crossmax-170', nom:'Crossmax 170', año:'2026', cat:'doble-proposito', p:8499, po:10999, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-170-01.jpg'},
+  {id:'crossmax-220', nom:'Crossmax 220', año:'2026', cat:'doble-proposito', p:10499, po:13499, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-220-01.jpg'},
+  {id:'crossmax-300', nom:'Crossmax 300 Rally', año:'2026', cat:'doble-proposito', p:13999, po:15999, badge:'Off-Road Pro', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-crossmax-300-rally-01.jpg'},
+  {id:'ovni-track-170', nom:'Ovni Track 170', año:'2025', cat:'doble-proposito', p:10999, po:12999, badge:null, img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-ovni-track-170-01.jpg'},
+  {id:'alpina-300', nom:'Alpina 300', año:'2026', cat:'adventure', p:18999, po:21999, badge:'Adventure Top', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-alpina-300-16.jpg'},
+  {id:'dakar-300', nom:'Dakar 300', año:'2026', cat:'adventure', p:16999, po:19999, badge:'Extremo', img:'https://res.cloudinary.com/dondwgkhw/image/upload/vento-barberena/vento-dakar-300-01.jpg'}
+];
+
+auth.onAuthStateChanged(async user=>{
+  if(!user){ showLogin(); return; }
+  if(!ADMIN_EMAILS.includes(user.email)){ showLoginError('Esta cuenta no tiene acceso de administrador.'); await auth.signOut(); return; }
+  userEmail=user.email; openAdmin();
+});
+async function loginGoogle(){ showLoginError(''); try{ await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }catch(e){ showLoginError('No se pudo iniciar con Google.'); } }
+function showLogin(){ $('loginScreen').style.display='flex'; $('adminPanel').style.display='none'; }
+function showLoginError(msg){ const el=$('loginError'); if(!msg){ el.style.display='none'; return; } el.textContent=msg; el.style.display='block'; }
+function doLogout(){ auth.signOut().then(()=>location.reload()); }
+function openAdmin(){ $('loginScreen').style.display='none'; $('adminPanel').style.display='block'; $('adminEmailDisplay').textContent=userEmail; goHome(); }
+
+function goHome(){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); $('view-home').classList.add('active'); $('btnBack').style.display='none'; window.scrollTo(0,0); }
+function openView(name){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); $('view-'+name).classList.add('active'); $('btnBack').style.display='inline-flex'; window.scrollTo(0,0); if(name==='precios')loadMotos(); if(name==='freelance')cargarFreelance(); if(name==='principal')cargarPrincipal(); }
+
+async function loadMotos(){
+  $('motosGrid').innerHTML='<div class="loader"><div class="spinner"></div>Cargando catálogo…</div>';
+  const fsMap={};
+  try{ const snap=await db.collection('motos').get(); snap.forEach(d=>{ fsMap[d.id]=d.data(); }); }catch(e){}
+  allMotos=CATALOG.map(m=>{ const fs=fsMap[m.id]||{}; return {...m, nom:fs.nom??m.nom, p:fs.p??m.p, po:fs.po??m.po, badge:fs.badge!==undefined?fs.badge:m.badge, disponible:fs.disponible!==undefined?fs.disponible:true, _dirty:false}; });
+  renderGrid(); updateStats();
+}
+function renderGrid(){
+  const visible=allMotos.filter(m=>currentCat==='all'||m.cat===currentCat);
+  if(!visible.length){ $('motosGrid').innerHTML='<div class="empty">No hay modelos en esta categoría.</div>'; return; }
+  $('motosGrid').innerHTML=visible.map(m=>{
+    const disp=m.disponible!==false;
+    return '<div class="moto-card '+(disp?'':'inactive')+'" id="card-'+m.id+'">'+
+      '<div class="card-img-wrap"><img src="'+m.img+'" alt="'+escHtml(m.nom)+'" loading="lazy" onerror="this.src=\'https://via.placeholder.com/320x170/1A1D24/C8970A?text='+encodeURIComponent(m.nom)+'\'">'+
+      (m.badge?'<span class="card-badge">'+escHtml(m.badge)+'</span>':'')+
+      '<span class="card-status '+(disp?'on':'off')+'" id="status-'+m.id+'">'+(disp?'Disponible':'Oculta')+'</span></div>'+
+      '<div class="card-body"><div class="card-id">'+m.id+' · '+m.cat+'</div>'+
+      '<input class="name-input" value="'+escHtml(m.nom)+'" onchange="updateField(\''+m.id+'\',\'nom\',this.value)">'+
+      '<div class="card-prices"><div class="price-group"><div class="price-lbl">Contado</div>'+
+      '<div style="display:flex;align-items:center;gap:4px"><span class="price-prefix">Q</span>'+
+      '<input class="price-input" type="number" value="'+m.p+'" min="0" step="100" onchange="updateField(\''+m.id+'\',\'p\',+this.value)"></div></div>'+
+      '<div class="price-group"><div class="price-lbl">Financiado</div>'+
+      '<div style="display:flex;align-items:center;gap:4px"><span class="price-prefix">Q</span>'+
+      '<input class="price-input" type="number" value="'+m.po+'" min="0" step="100" onchange="updateField(\''+m.id+'\',\'po\',+this.value)"></div></div></div>'+
+      '<div style="margin-bottom:8px"><div class="price-lbl" style="margin-bottom:6px">Badge</div>'+
+      '<input class="badge-input" value="'+escHtml(m.badge||'')+'" placeholder="ej: Popular, 🔥 Oferta" onchange="updateField(\''+m.id+'\',\'badge\',this.value||null)"></div>'+
+      '<div class="card-footer"><div style="display:flex;align-items:center;gap:8px">'+
+      '<label class="toggle"><input type="checkbox" '+(disp?'checked':'')+' onchange="toggleDisp(\''+m.id+'\',this.checked)"><span class="toggle-slider"></span></label>'+
+      '<span class="toggle-label" id="dispLbl-'+m.id+'">'+(disp?'Visible':'Oculta')+'</span></div>'+
+      '<button class="btn-save" onclick="saveMoto(\''+m.id+'\')" id="save-'+m.id+'">Guardar</button></div></div></div>';
+  }).join('');
+}
+function updateStats(){ const prices=allMotos.map(m=>m.p); $('statTotal').textContent=allMotos.length; $('statActive').textContent=allMotos.filter(m=>m.disponible!==false).length; $('statMin').textContent='Q'+Math.min(...prices).toLocaleString(); $('statMax').textContent='Q'+Math.max(...prices).toLocaleString(); }
+function updateField(id,field,val){ const m=allMotos.find(x=>x.id===id); if(!m)return; m[field]=val; m._dirty=true; if(field==='p')updateStats(); }
+function toggleDisp(id,ck){ const m=allMotos.find(x=>x.id===id); if(!m)return; m.disponible=ck; m._dirty=true; const c=$('card-'+id),s=$('status-'+id),l=$('dispLbl-'+id); if(c)c.classList.toggle('inactive',!ck); if(s){s.textContent=ck?'Disponible':'Oculta';s.className='card-status '+(ck?'on':'off');} if(l)l.textContent=ck?'Visible':'Oculta'; }
+async function saveMoto(id){
+  const m=allMotos.find(x=>x.id===id); if(!m)return;
+  const btn=$('save-'+id); btn.disabled=true; btn.textContent='…';
+  try{ await db.collection('motos').doc(id).set({nom:m.nom,p:m.p,po:m.po,badge:m.badge||null,disponible:m.disponible!==false},{merge:true});
+    btn.textContent='✓ Guardado'; btn.classList.add('saved'); m._dirty=false; showToast('✓','"'+m.nom+'" guardado');
+    setTimeout(()=>{btn.textContent='Guardar';btn.classList.remove('saved');btn.disabled=false;},2200);
+  }catch(e){ btn.textContent='Error'; btn.style.background='var(--red)'; setTimeout(()=>{btn.textContent='Guardar';btn.style.background='';btn.disabled=false;},2000); }
+}
+async function saveAll(){ const dirty=allMotos.filter(m=>m._dirty); if(!dirty.length){ showToast('ℹ','No hay cambios pendientes'); return; } for(const m of dirty) await saveMoto(m.id); showToast('✓',dirty.length+' modelo(s) guardados'); }
+async function seedFirestore(){ if(!confirm('¿Inicializar Firestore con los '+CATALOG.length+' modelos del catálogo?'))return; showToast('⚙','Inicializando…'); let ok=0; for(const m of CATALOG){ try{ await db.collection('motos').doc(m.id).set({nom:m.nom,p:m.p,po:m.po,badge:m.badge||null,disponible:true},{merge:true}); ok++; }catch(e){} } showToast('✓',ok+'/'+CATALOG.length+' modelos inicializados'); await loadMotos(); }
+function filterCat(cat,btn){ currentCat=cat; document.querySelectorAll('#view-precios .filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderGrid(); }
+
+async function cargarFreelance(){
+  $('flTbody').innerHTML='<tr><td colspan="8" class="empty">Cargando…</td></tr>';
+  let sFl={forEach:()=>{}},sSt={forEach:()=>{}},sCo={forEach:()=>{}};
+  try{ [sFl,sSt,sCo]=await Promise.all([ db.collection('vento_freelancers').get(), db.collection('vento_freelance_stats').get(), db.collection('vento_cotizaciones_freelance').get() ]); }catch(e){ showToast('⚠','Error cargando datos freelance'); }
+  const porCod={};
+  sFl.forEach(d=>{ const f=d.data(); porCod[f.codigo]={...f, codigo:f.codigo||d.id, visitas:0, cots:0, ult:0}; });
+  sSt.forEach(d=>{ const e=d.data(),f=porCod[e.codigo]; if(!f)return; if(e.tipo==='visita')f.visitas++; const t=e.fecha?.seconds||0; if(t>f.ult)f.ult=t; });
+  const cots=[]; let cot7=0; const hace7=Date.now()/1000-7*86400;
+  sCo.forEach(d=>{ const c=d.data(); cots.push(c); const f=porCod[c.codigo]; if(f){f.cots++; const t=c.fecha?.seconds||0; if(t>f.ult)f.ult=t;} if((c.fecha?.seconds||0)>hace7)cot7++; });
+  FLS=Object.values(porCod).sort((a,b)=>b.cots-a.cots||b.visitas-a.visitas);
+  $('flActivos').textContent=FLS.filter(f=>f.activo!==false).length;
+  $('flVisitas').textContent=FLS.reduce((s,f)=>s+f.visitas,0).toLocaleString('en-US');
+  $('flCots').textContent=FLS.reduce((s,f)=>s+f.cots,0).toLocaleString('en-US');
+  $('flCots7').textContent=cot7;
+  renderFl();
+  renderBars('flBarsMoto', agrupar(cots,'motoNombre'));
+  renderBars('flBarsColor', agrupar(cots,'color'), true);
+  renderBars('flBarsPlan', agrupar(cots,'plan'));
+  cargarRecursos();
+}
+function renderFl(){
+  const q=($('flBuscar').value||'').toLowerCase();
+  const lista=FLS.filter(f=>!q||(f.nombre||'').toLowerCase().includes(q)||(f.codigo||'').toLowerCase().includes(q));
+  $('flTbody').innerHTML=lista.length?lista.map(f=>{
+    const ult=f.ult?new Date(f.ult*1000).toLocaleDateString('es-GT',{day:'2-digit',month:'short'}):'—';
+    const on=f.activo!==false;
+    return '<tr><td><b>'+escHtml(f.nombre||'—')+'</b><br><span style="color:#5B6172;font-size:11px">'+escHtml(f.email||'')+'</span></td>'+
+      '<td class="cod">'+escHtml(f.codigo)+'</td><td>'+escHtml(f.telefono||'—')+'</td>'+
+      '<td>'+f.visitas+'</td><td>'+f.cots+'</td><td>'+ult+'</td>'+
+      '<td><span class="'+(on?'tag-on':'tag-off')+'">'+(on?'ACTIVO':'INACTIVO')+'</span></td>'+
+      '<td style="white-space:nowrap"><button class="mini" onclick="copiarLink(\''+f.codigo+'\')">📋 Link</button>'+
+      '<button class="mini" onclick="editarFl(\''+f.codigo+'\')">✏️ Editar</button>'+
+      '<button class="mini '+(on?'red':'')+'" onclick="toggleActivo(\''+f.codigo+'\','+on+')">'+(on?'Baja':'Alta')+'</button></td></tr>';
+  }).join(''):'<tr><td colspan="8" class="empty">Sin freelancers todavía.</td></tr>';
+}
+function copiarLink(cod){ navigator.clipboard.writeText('https://www.ventobarberena.com/?f='+cod).then(()=>showToast('📋','Link copiado')); }
+async function toggleActivo(cod,on){ if(!confirm((on?'¿Dar de baja (desactivar)':'¿Dar de alta (activar)')+' a '+cod+'?'))return; try{ await db.collection('vento_freelancers').doc(cod).update({activo:!on}); showToast('✓',on?'Freelancer desactivado':'Freelancer activado'); await cargarFreelance(); }catch(e){ showToast('⚠','No se pudo actualizar'); } }
+function openFlModal(){ flEditCodigo=null; $('flModalTitle').textContent='Dar de alta freelance'; $('flModalSub').textContent='Completá los datos del nuevo freelancer.'; $('fmNombre').value=''; $('fmCodigo').value=''; $('fmTel').value=''; $('fmEmail').value=''; $('fmCodigo').disabled=false; $('flModal').classList.add('on'); }
+function editarFl(cod){ const f=FLS.find(x=>x.codigo===cod); if(!f)return; flEditCodigo=cod; $('flModalTitle').textContent='Editar freelance'; $('flModalSub').textContent='El código no se puede cambiar.'; $('fmNombre').value=f.nombre||''; $('fmCodigo').value=f.codigo; $('fmTel').value=f.telefono||''; $('fmEmail').value=f.email||''; $('fmCodigo').disabled=true; $('flModal').classList.add('on'); }
+function closeFlModal(){ $('flModal').classList.remove('on'); }
+async function guardarFl(){
+  const nombre=$('fmNombre').value.trim();
+  const codigo=$('fmCodigo').value.trim().toUpperCase().replace(/\s+/g,'');
+  const tel=$('fmTel').value.trim(), email=$('fmEmail').value.trim();
+  if(!nombre||!codigo){ showToast('⚠','Nombre y código son obligatorios'); return; }
+  try{
+    if(flEditCodigo){ await db.collection('vento_freelancers').doc(flEditCodigo).update({nombre,telefono:tel,email}); showToast('✓','Freelancer actualizado'); }
+    else{ const ex=await db.collection('vento_freelancers').doc(codigo).get(); if(ex.exists){ showToast('⚠','Ese código ya existe'); return; }
+      await db.collection('vento_freelancers').doc(codigo).set({nombre,codigo,telefono:tel,email,activo:true,authUid:'',creadoEn:firebase.firestore.FieldValue.serverTimestamp()}); showToast('✓','Freelancer dado de alta'); }
+    closeFlModal(); await cargarFreelance();
+  }catch(e){ showToast('⚠','Error al guardar (revisá reglas Firestore)'); }
+}
+async function cargarRecursos(){ try{ const d=await db.collection('vento_recursos_freelance').doc('config').get(); const r=d.exists?d.data():{}; $('cfgCat').value=r.catalogoUrl||''; $('cfgVids').value=(r.videos||[]).map(v=>v.titulo+' | '+v.youtubeId).join('\n'); }catch(e){} }
+async function guardarRecursos(){ const videos=$('cfgVids').value.split('\n').map(l=>{const p=l.split('|');if(p.length<2)return null;return{titulo:p[0].trim(),youtubeId:p[1].trim()};}).filter(Boolean); try{ await db.collection('vento_recursos_freelance').doc('config').set({catalogoUrl:$('cfgCat').value.trim(),videos,actualizadoEn:firebase.firestore.FieldValue.serverTimestamp()}); showToast('✓','Recursos guardados'); }catch(e){ showToast('⚠','No se pudo guardar'); } }
+
+async function cargarPrincipal(){
+  ['mpBarsMoto','mpBarsColor','mpBarsPlan'].forEach(id=>$(id).innerHTML='<div class="loader"><div class="spinner"></div></div>');
+  let sSt={forEach:()=>{}},sCo={forEach:()=>{}};
+  try{ [sSt,sCo]=await Promise.all([ db.collection('vento_stats_main').get(), db.collection('vento_cotizaciones').get() ]); }catch(e){ showToast('⚠','Error cargando analítica principal'); }
+  let vis=0,vis7=0,clk=0; const hace7=Date.now()/1000-7*86400;
+  sSt.forEach(d=>{ const e=d.data(); if(e.tipo==='visita'){vis++; if((e.fecha?.seconds||0)>hace7)vis7++;} if(e.tipo==='click_cotizar')clk++; });
+  const cots=[]; sCo.forEach(d=>cots.push(d.data()));
+  $('mpVisitas').textContent=vis.toLocaleString('en-US');
+  $('mpVisitas7').textContent=vis7.toLocaleString('en-US');
+  $('mpClicks').textContent=clk.toLocaleString('en-US');
+  $('mpConv').textContent=vis?Math.round(clk/vis*100)+'%':'0%';
+  renderBars('mpBarsMoto', agrupar(cots,'motoNombre'));
+  renderBars('mpBarsColor', agrupar(cots,'color'), true);
+  renderBars('mpBarsPlan', agrupar(cots,'plan'));
+}
+
+function agrupar(arr,campo){ const m={}; arr.forEach(x=>{ let k=(x[campo]||'').toString().trim(); if(!k||k==='(cotización)')k='(sin dato)'; m[k]=(m[k]||0)+1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,8); }
+const COLOR_MAP={negro:'#111',blanco:'#eee',rojo:'#e11',azul:'#1e5fd8',verde:'#1a9e4b',gris:'#888',plata:'#c0c0c0',plateado:'#c0c0c0',amarillo:'#e7b416',naranja:'#e8720b',dorado:'#C8970A',celeste:'#4fb8e8',morado:'#7d3ac1',rosa:'#e84f9c',cafe:'#6b4423'};
+function renderBars(elId,pares,esColor){
+  const el=$(elId);
+  if(!pares.length){ el.innerHTML='<div class="empty">Sin datos todavía.</div>'; return; }
+  const max=pares[0][1]||1;
+  el.innerHTML=pares.map(pair=>{
+    const nom=pair[0],val=pair[1],pct=Math.round(val/max*100);
+    let sw=''; if(esColor){ const c=COLOR_MAP[nom.toLowerCase()]; if(c)sw='<span class="swatch" style="background:'+c+'"></span>'; }
+    return '<div class="bar-row"><div class="bar-name" title="'+escHtml(nom)+'">'+sw+escHtml(nom)+'</div>'+
+      '<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%"></div></div><div class="bar-val">'+val+'</div></div>';
+  }).join('');
+}
+
+let toastTimer;
+function showToast(icon,msg){ const t=$('toast'); t.querySelector('.toast-icon').textContent=icon; $('toastMsg').textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3000); }
+function escHtml(s){ return String(s??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
