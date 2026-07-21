@@ -293,6 +293,11 @@ a{text-decoration:none;color:inherit}
   position:relative;
 }
 @media(min-width:540px){.card-img{height:186px}}
+/* Movil: marco con la misma proporcion que la foto (3:2) para que la moto llene la ficha */
+@media(max-width:539px){
+  .card-img{height:auto;aspect-ratio:3/2;}
+  .card-img img{padding:8px;}
+}
 .card-img::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
   background:linear-gradient(transparent,rgba(0,0,0,.03));
@@ -1267,8 +1272,17 @@ function fil(btn,cat){
 function abrir(id){
   moto=MOTOS.find(m=>m.id===id);if(!moto)return;
   planIdx=0;pago='credito';reqOpen=false;
-  $('mImg').onerror=function(){this.onerror=null;this.src=moto.img;};
-  $('mImg').src=cldImg(moto.img,'modal');
+  (function(){
+    var mi=$('mImg'); mi.dataset.mid=moto.id;
+    var lo=cldImg(moto.img,'card'), hi=cldImg(moto.img,'modal');
+    mi.onerror=function(){this.onerror=null;this.src=moto.img;};
+    mi.src=lo;                                   /* muestra YA la moto correcta (ligera, ya cacheada) */
+    if(hi!==lo){                                 /* mejora a alta resolucion al terminar de cargar */
+      var up=new Image();
+      up.onload=function(){ if(mi.dataset.mid===moto.id) mi.src=hi; };
+      up.src=hi;
+    }
+  })();
   $('mNom').textContent=moto.nom;
   $('mSub').textContent=moto.año+' · '+CATS.find(c=>c.k===moto.cat)?.l;
   $('mVal').textContent=Q(moto.p);
