@@ -295,6 +295,14 @@ firebase.initializeApp(VB_FB_CONFIG);
 const auth=firebase.auth();
 const db=firebase.firestore();
 const $=id=>document.getElementById(id);
+/* ── Optimización IA Cloudinary: mejora tamaño+calidad y ajuste proporcional a la ficha ── */
+function cldImg(url,ctx){
+  if(!url||url.indexOf('res.cloudinary.com')<0) return url;
+  if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
+  var t=(ctx==='modal')?'e_upscale/c_fit,w_2000,h_1520/e_enhance/f_auto,q_auto:best'
+                       :'e_upscale/c_fill,w_1280,h_720,g_auto/e_enhance/f_auto,q_auto:good';
+  return url.replace('/image/upload/','/image/upload/'+t+'/');
+}
 let userEmail=null,allMotos=[],currentCat='all',FLS=[],flEditCodigo=null;
 
 const CATALOG=[
@@ -343,7 +351,7 @@ function renderGrid(){
   $('motosGrid').innerHTML=visible.map(m=>{
     const disp=m.disponible!==false;
     return '<div class="moto-card '+(disp?'':'inactive')+'" id="card-'+m.id+'">'+
-      '<div class="card-img-wrap"><img src="'+m.img+'" alt="'+escHtml(m.nom)+'" loading="lazy" onerror="this.src=\'https://via.placeholder.com/320x170/1A1D24/C8970A?text='+encodeURIComponent(m.nom)+'\'">'+
+      '<div class="card-img-wrap"><img src="'+cldImg(m.img,'admin')+'" alt="'+escHtml(m.nom)+'" loading="lazy" onerror="this.src=\'https://via.placeholder.com/320x170/1A1D24/C8970A?text='+encodeURIComponent(m.nom)+'\'">'+
       (m.badge?'<span class="card-badge">'+escHtml(m.badge)+'</span>':'')+
       '<span class="card-status '+(disp?'on':'off')+'" id="status-'+m.id+'">'+(disp?'Disponible':'Oculta')+'</span></div>'+
       '<div class="card-body"><div class="card-id">'+m.id+' · '+m.cat+'</div>'+

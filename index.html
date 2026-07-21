@@ -1007,6 +1007,18 @@ const CATS=[
   {k:'adventure',       l:'Adventure'}
 ];
 
+/* ── Optimización IA Cloudinary: mejora tamaño+calidad y mantiene la imagen
+   proporcional a la ficha donde se muestra (contain=c_fit / cover=c_fill) ── */
+function cldImg(url,ctx){
+  if(!url||url.indexOf('res.cloudinary.com')<0) return url;
+  if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
+  var t;
+  if(ctx==='modal')      t='e_upscale/c_fit,w_2000,h_1520/e_enhance/f_auto,q_auto:best';
+  else if(ctx==='admin') t='e_upscale/c_fill,w_1280,h_720,g_auto/e_enhance/f_auto,q_auto:good';
+  else                   t='e_upscale/c_fit,w_1200,h_840/e_enhance/f_auto,q_auto:good';
+  return url.replace('/image/upload/','/image/upload/'+t+'/');
+}
+
 /* Imágenes locales (fondo blanco) */
 const MOTOS=[
 {id:'spirit-170-zx',  nom:'Spirit 170 ZX',    año:'2026', cat:'scooters',
@@ -1223,7 +1235,7 @@ function render(filtro='todos'){
         ${lista.map(m=>`
         <article class="card" onclick="abrir('${m.id}')">
           ${m.badge?`<div class="badge ${m.bcls||''}">${m.badge}</div>`:''}
-          <div class="card-img"><img src="${m.img}" alt="${m.nom}" loading="lazy"></div>
+          <div class="card-img"><img src="${cldImg(m.img,'card')}" alt="${m.nom}" loading="lazy" onerror="this.onerror=null;this.src='${m.img}'"></div>
           <div class="card-body">
             <div class="card-cat">${cat.l}</div>
             <div class="card-nom">${m.nom}</div>
@@ -1255,7 +1267,8 @@ function fil(btn,cat){
 function abrir(id){
   moto=MOTOS.find(m=>m.id===id);if(!moto)return;
   planIdx=0;pago='credito';reqOpen=false;
-  $('mImg').src=moto.img;
+  $('mImg').onerror=function(){this.onerror=null;this.src=moto.img;};
+  $('mImg').src=cldImg(moto.img,'modal');
   $('mNom').textContent=moto.nom;
   $('mSub').textContent=moto.año+' · '+CATS.find(c=>c.k===moto.cat)?.l;
   $('mVal').textContent=Q(moto.p);
@@ -1831,7 +1844,7 @@ async function admLoadPrices() {
 
   document.getElementById('admPriceGrid').innerHTML = admMotos.map(m => `
     <div class="adm-moto-card">
-      <div class="adm-card-img"><img src="${m.img}" alt="${m.nom}" loading="lazy"></div>
+      <div class="adm-card-img"><img src="${cldImg(m.img,'admin')}" alt="${m.nom}" loading="lazy" onerror="this.onerror=null;this.src='${m.img}'"></div>
       <div class="adm-card-body">
         <div class="adm-card-id">${m.id} · ${m.cat}</div>
         <input class="adm-fname" value="${esc(m.nom)}" placeholder="Nombre"
@@ -2016,4 +2029,23 @@ function vbToast(msg) {
       datos = {
         motoId: moto.id,
         motoNombre: moto.nom + ' ' + moto.año,
-     
+        color: col ? (col.getAttribute('title')||'') : '',
+        precio: moto.p,
+        pago: pago,
+        plan:  pago==='credito' ? p.nom   : 'Contado',
+        cuota: pago==='credito' ? p.cuota : null
+      };
+    }catch(e){}
+    db.collection('vento_cotizaciones').add(Object.assign({
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }, datos)).catch(function(){});
+    db.collection('vento_stats_main').add({
+      tipo: 'click_cotizar',
+      fecha: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(){});
+  }, true);
+})();
+</script>
+
+</body>
+</html>
