@@ -287,16 +287,10 @@ a{text-decoration:none;color:inherit}
 /* Imagen */
 .card-img{
   background:linear-gradient(160deg,#fafafa 0%,#f5f5f5 100%);
-  height:168px;
+  aspect-ratio:1/1;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;
   position:relative;
-}
-@media(min-width:540px){.card-img{height:186px}}
-/* Movil: marco con la misma proporcion que la foto (3:2) para que la moto llene la ficha */
-@media(max-width:539px){
-  .card-img{height:auto;aspect-ratio:3/2;}
-  .card-img img{padding:8px;}
 }
 .card-img::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
@@ -305,7 +299,7 @@ a{text-decoration:none;color:inherit}
 }
 .card-img img{
   width:100%;height:100%;object-fit:contain;
-  padding:14px;transition:transform .38s cubic-bezier(.4,0,.2,1);
+  padding:6px;transition:transform .38s cubic-bezier(.4,0,.2,1);
 }
 .card:hover .card-img img{transform:scale(1.08)}
 
@@ -1018,9 +1012,9 @@ function cldImg(url,ctx){
   if(!url||url.indexOf('res.cloudinary.com')<0) return url;
   if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
   var t;
-  if(ctx==='modal')      t='e_upscale/c_fit,w_2000,h_1520/e_enhance/f_auto,q_auto:best';
-  else if(ctx==='admin') t='e_upscale/c_fill,w_1280,h_720,g_auto/e_enhance/f_auto,q_auto:good';
-  else                   t='e_upscale/c_fit,w_1200,h_840/e_enhance/f_auto,q_auto:good';
+  if(ctx==='modal')      t='e_trim:10/e_upscale/c_fit,w_1600,h_1600/e_enhance/f_auto,q_auto:best';
+  else if(ctx==='admin') t='e_trim:10/e_upscale/c_fill,w_1000,h_1000,g_auto/e_enhance/f_auto,q_auto:good';
+  else                   t='e_trim:10/e_upscale/c_fit,w_1000,h_1000/e_enhance/f_auto,q_auto:good';
   return url.replace('/image/upload/','/image/upload/'+t+'/');
 }
 
