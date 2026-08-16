@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#080808">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Precalificá tu crédito en 1 minuto | Vento Barberena</title>
+<meta name="description" content="Precalificá tu crédito de moto Vento en Barberena, Santa Rosa. Sin costo, sin compromiso y con respuesta inmediata. Planes de 24, 36 y 48 meses.">
+<link rel="canonical" href="https://ventobarberena.com/precalificar/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:locale" content="es_GT">
+<meta property="og:site_name" content="Vento Barberena">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ventobarberena.com/precalificar/">
+<meta property="og:title" content="Precalificá tu crédito en 1 minuto — Vento Barberena">
+<meta property="og:description" content="Sin costo, sin compromiso y con respuesta inmediata. Planes de 24, 36 y 48 meses.">
+<meta property="og:image" content="https://res.cloudinary.com/dondwgkhw/image/upload/v1782782932/vento-barberena/vento-barberena-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --rojo:#0057C8; --rojo-glow:rgba(0,87,200,.18);
+  --negro:#080808; --gt:#888;
+  --fondo:#f3f4f6; --borde:#e0e2e8;
+  --r:12px;
+  --fh:'Rajdhani',sans-serif; --fb:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--fb);background:var(--fondo);color:var(--negro);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+
+header{background:var(--negro);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:20}
+.hd-back{display:inline-flex;align-items:center;gap:7px;color:#fff;font-size:13px;font-weight:600}
+.hd-tel{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700}
+
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px 48px}
+
+.hero{text-align:center;margin-bottom:20px}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,87,200,.10);color:var(--rojo);border-radius:999px;padding:5px 13px;font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--rojo)}
+.hero-banner{position:relative;margin-top:14px;background:linear-gradient(160deg,#131313 0%,#080808 100%);border-radius:14px;padding:22px 16px 25px;overflow:hidden}
+.hero-banner::after{content:'';position:absolute;left:5%;right:5%;bottom:0;height:5px;border-radius:999px 999px 0 0;background:var(--rojo);box-shadow:0 0 22px 5px var(--rojo-glow)}
+.hb1{font-family:var(--fh);font-size:14px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#9a9a9a}
+.hb2{font-family:var(--fh);font-size:28px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1.08;margin-top:3px}
+.hb3{font-family:var(--fh);font-size:18px;font-weight:700;letter-spacing:.035em;text-transform:uppercase;color:#4A8BF0;margin-top:4px}
+
+.card{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:20px 18px 22px;box-shadow:0 1px 4px rgba(0,0,0,.05),0 8px 28px rgba(0,0,0,.05)}
+
+.f-row{margin-bottom:15px}
+label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px}
+.req{color:var(--rojo)}
+.hint{font-size:11px;color:#9aa0aa;font-weight:400;margin-top:4px;line-height:1.45}
+input,select{
+  width:100%;padding:12px 13px;background:#fff;
+  border:1.5px solid var(--borde);border-radius:10px;
+  font-size:15px;font-weight:500;transition:border-color .15s,box-shadow .15s;
+}
+input:focus,select:focus{outline:none;border-color:var(--rojo);box-shadow:0 0 0 3px rgba(0,87,200,.10)}
+input.bad,select.bad{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.09)}
+select{appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:20px;padding-right:38px}
+.err{display:none;font-size:11.5px;color:#dc2626;font-weight:600;margin-top:5px}
+.err.on{display:block}
+
+.send{
+  display:flex;align-items:center;justify-content:center;gap:11px;
+  width:100%;margin-top:6px;padding:16px 12px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#0b63de 0%,#0047a8 100%);color:#fff;
+  font-family:var(--fh);font-weight:700;font-size:17px;letter-spacing:.09em;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 6px 26px rgba(0,87,200,.34);transition:transform .12s,box-shadow .2s;
+}
+.send:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(0,87,200,.44)}
+.send:active{transform:translateY(0)}
+.foot-note{margin-top:10px;text-align:center;font-size:11px;color:#9aa0aa}
+
+.dpi{margin-top:16px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:13px 14px}
+.dpi-t{font-size:12.5px;font-weight:800;color:#92400e;margin-bottom:5px}
+.dpi-x{font-size:12.5px;line-height:1.6;color:#78350f}
+
+/* ── Pantalla de confirmación ── */
+.ok{display:none;text-align:center}
+.ok.on{display:block}
+.ok-ic{width:62px;height:62px;margin:0 auto 14px;border-radius:50%;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;font-size:30px}
+.ok-t{font-family:var(--fh);font-size:26px;font-weight:700;text-transform:uppercase;line-height:1.15}
+.ok-s{margin-top:9px;font-size:13.5px;line-height:1.65;color:#4b5563}
+.ok-dpi{margin-top:18px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:16px;text-align:left}
+.ok-dpi-t{font-family:var(--fh);font-size:17px;font-weight:700;text-transform:uppercase;color:#92400e;display:flex;align-items:center;gap:8px}
+.ok-li{display:flex;gap:9px;align-items:flex-start;margin-top:10px;font-size:13px;line-height:1.55;color:#78350f}
+.ok-n{flex:0 0 20px;height:20px;border-radius:50%;background:#f59e0b;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:18px;padding:15px;border-radius:12px;background:#25D366;color:#fff;font-family:var(--fh);font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 4px 20px rgba(37,211,102,.28)}
+.ok-back{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;color:var(--rojo)}
+
+footer{background:var(--negro);color:#8a8a8a;text-align:center;padding:22px 16px;font-size:11.5px;line-height:1.7}
+footer a{color:#fff;font-weight:600}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="hd-back" href="/">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Volver al catálogo
+  </a>
+  <a class="hd-tel" href="tel:+50240165239">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.26.2 2.47.57 3.6.1.34.02.74-.24 1.01L6.6 10.8z"/></svg>
+    4016-5239
+  </a>
+</header>
+
+<div class="wrap">
+
+  <!-- ═══ FORMULARIO ═══ -->
+  <div id="vista-form">
+    <div class="hero">
+      <span class="hero-badge"><span class="hero-dot"></span>Financiamiento Vento</span>
+      <div class="hero-banner">
+        <div class="hb1">Contamos con los mejores</div>
+        <h1 class="hb2">Planes de Financiamiento</h1>
+        <div class="hb3">Formulario Precalificación</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <form id="frm" novalidate>
+
+        <div class="f-row">
+          <label for="nombre">Nombre completo <span class="req">*</span></label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" placeholder="Como aparece en tu DPI" required>
+          <div class="err" id="e-nombre">Escribí tu nombre completo.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="dpi">Número de DPI <span class="req">*</span></label>
+          <input id="dpi" name="dpi" type="text" inputmode="numeric" placeholder="0000 00000 0000" maxlength="17" required>
+          <div class="hint">13 dígitos, sin espacios ni guiones.</div>
+          <div class="err" id="e-dpi">El DPI debe tener 13 dígitos.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="nac">Fecha de nacimiento <span class="req">*</span></label>
+          <input id="nac" name="nac" type="date" required>
+          <div class="err" id="e-nac">Tenés que ser mayor de 18 años para aplicar.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="trabajo">¿De qué trabaja? <span class="req">*</span></label>
+          <input id="trabajo" name="trabajo" type="text" placeholder="Ej. Piloto, comerciante, albañil, empleado" required>
+          <div class="err" id="e-trabajo">Contanos a qué te dedicás.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="tiempo">¿Cuánto tiempo lleva trabajando? <span class="req">*</span></label>
+          <input id="tiempo" name="tiempo" type="text" placeholder="Ej. 2 años y medio" required>
+          <div class="err" id="e-tiempo">Contanos cuánto tiempo llevás trabajando.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="docs">¿Qué documentos puede presentar? <span class="req">*</span></label>
+          <select id="docs" name="docs" required>
+            <option value="">Elegí una opción</option>
+            <option>Carta laboral</option>
+            <option>Estados de cuenta</option>
+            <option>Carta laboral y estados de cuenta</option>
+            <option>Otros</option>
+            <option>Ninguno de los dos</option>
+          </select>
+          <div class="hint">Si no tenés ninguno, igual podés aplicar. Hay planes para vos.</div>
+          <div class="err" id="e-docs">Elegí qué documentos podés presentar.</div>
+        </div>
+
+        <div class="f-row" id="row-otros" hidden>
+          <label for="docsOtro">¿Cuáles? <span class="req">*</span></label>
+          <input id="docsOtro" name="docsOtro" type="text" placeholder="Ej. Constancia del IGSS, contrato, recibos">
+          <div class="err" id="e-docsOtro">Escribí qué documentos podés presentar.</div>
+        </div>
+
+        <div class="f-row">
+          <label for="moto">¿Qué moto desea? <span class="req">*</span></label>
+          <select id="moto" name="moto" required>
+            <option value="">Elegí un modelo</option>
+          </select>
+          <div class="err" id="e-moto">Elegí la moto que te interesa.</div>
+        </div>
+
+        <button class="send" type="submit">Enviar <span aria-hidden="true">&rarr;</span></button>
+        <div class="foot-note">Sin costo &middot; Sin compromiso &middot; Respuesta inmediata</div>
+
+        <div class="dpi">
+          <div class="dpi-t">📸 Antes de enviar, tené a mano tu DPI</div>
+          <div class="dpi-x">Al terminar te vamos a pedir las <b>fotos de tu DPI por ambos lados</b> para completar la precalificación.</div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ CONFIRMACIÓN ═══ -->
+  <div id="vista-ok" class="ok">
+    <div class="card">
+      <div class="ok-ic">✅</div>
+      <div class="ok-t">¡Datos enviados!</div>
+      <p class="ok-s">Ya tenemos tu información, <b id="ok-nombre">—</b>. Falta un solo paso para que podamos precalificarte.</p>
+
+      <div class="ok-dpi">
+        <div class="ok-dpi-t">📸 Enviá las fotos de tu DPI</div>
+        <div class="ok-li"><span class="ok-n">1</span><span>Abrí el chat de WhatsApp con el botón de abajo.</span></div>
+        <div class="ok-li"><span class="ok-n">2</span><span>Mandá la <b>foto del frente de tu DPI</b> (el lado de la foto).</span></div>
+        <div class="ok-li"><span class="ok-n">3</span><span>Mandá la <b>foto del reverso de tu DPI</b> (el lado de atrás).</span></div>
+        <div class="ok-li"><span class="ok-n">4</span><span>Listo. Te damos respuesta en pocos minutos.</span></div>
+      </div>
+
+      <a class="wa" id="waLink" href="#" target="_blank" rel="noopener">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Abrir WhatsApp y enviar DPI
+      </a>
+      <div class="foot-note">Si no se abrió solo, tocá el botón.</div>
+      <a class="ok-back" href="/">← Volver al catálogo</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <b style="color:#fff">Vento Barberena</b> — Distribuidor Autorizado<br>
+  Km 54, Barrio El Centro, 1a Avenida 80-01, Zona 1, Barberena, Santa Rosa<br>
+  <a href="tel:+50240165239">4016-5239</a> &middot; Lunes a domingo, 8:00 a.m. – 6:00 p.m.
+</footer>
+
+<script>
+/* ─── Catálogo de modelos (mismos ids que index.html) ─── */
+var MODELOS=[
+ {id:'spirit-170-zx',  nom:'Spirit 170 ZX',          p:8999},
+ {id:'cruiser-200',    nom:'Cruiser 200',            p:7999},
+ {id:'ovni-170',       nom:'Ovni 170',               p:9999},
+ {id:'thriller-250',   nom:'Thriller 250',           p:9999},
+ {id:'thunderstar-300',nom:'Thunderstar 300 XL',     p:11999},
+ {id:'screamer-300',   nom:'Screamer Sportivo 300',  p:13999},
+ {id:'onyx-250',       nom:'Onyx 250',               p:10999},
+ {id:'cyclone-210',    nom:'Cyclone 210 2.0',        p:8999},
+ {id:'storm-300',      nom:'Storm 300 2.0',          p:13999},
+ {id:'nitrox-300',     nom:'Nitrox 300 T3',          p:12999},
+ {id:'crossmax-170',   nom:'Crossmax 170',           p:8499},
+ {id:'crossmax-220',   nom:'Crossmax 220',           p:10499},
+ {id:'crossmax-300',   nom:'Crossmax 300 Rally',     p:13999},
+ {id:'ovni-track-170', nom:'Ovni Track 170',         p:10999},
+ {id:'alpina-300',     nom:'Alpina 300',             p:18999},
+ {id:'dakar-300',      nom:'Dakar 300',              p:16999}
+];
+
+var $=function(id){return document.getElementById(id)};
+var Q=function(n){return 'Q '+Number(n).toLocaleString('es-GT')};
+var params=new URLSearchParams(location.search);
+
+/* Llenar el listado de motos y preseleccionar la que venía en la URL */
+(function(){
+  var sel=$('moto'), pre=params.get('m');
+  MODELOS.forEach(function(m){
+    var o=document.createElement('option');
+    o.value=m.id; o.textContent=m.nom+' — desde '+Q(m.p);
+    sel.appendChild(o);
+  });
+  if(pre && MODELOS.some(function(m){return m.id===pre})) sel.value=pre;
+})();
+
+/* ─── Validación ─── */
+function marcar(campo,malo,errId){
+  var el=$(campo), e=$(errId);
+  el.classList.toggle('bad',malo);
+  e.classList.toggle('on',malo);
+  return !malo;
+}
+function edad(iso){
+  if(!iso) return -1;
+  var h=new Date(), n=new Date(iso+'T00:00:00');
+  if(isNaN(n)) return -1;
+  var a=h.getFullYear()-n.getFullYear(), m=h.getMonth()-n.getMonth();
+  if(m<0 || (m===0 && h.getDate()<n.getDate())) a--;
+  return a;
+}
+
+/* "Otros" en documentos abre un campo para que escriba cuáles */
+$('docs').addEventListener('change',function(){
+  var otros = this.value === 'Otros';
+  $('row-otros').hidden = !otros;
+  if(!otros){
+    $('docsOtro').value='';
+    $('docsOtro').classList.remove('bad');
+    $('e-docsOtro').classList.remove('on');
+  }
+});
+
+/* Formato suave del DPI mientras escribe */
+$('dpi').addEventListener('input',function(){
+  var d=this.value.replace(/\D/g,'').slice(0,13), out=d;
+  if(d.length>4)  out=d.slice(0,4)+' '+d.slice(4);
+  if(d.length>9)  out=d.slice(0,4)+' '+d.slice(4,9)+' '+d.slice(9);
+  this.value=out;
+});
+
+$('frm').addEventListener('submit',function(ev){
+  ev.preventDefault();
+
+  var nombre = $('nombre').value.trim();
+  var dpi    = $('dpi').value.replace(/\D/g,'');
+  var nac    = $('nac').value;
+  var trabajo= $('trabajo').value.trim();
+  var tiempo = $('tiempo').value.trim();
+  var docs   = $('docs').value;
+  var otro   = $('docsOtro').value.trim();
+  var motoId = $('moto').value;
+
+  var ok = true;
+  ok = marcar('nombre',  nombre.length < 5 || nombre.split(/\s+/).length < 2, 'e-nombre') && ok;
+  ok = marcar('dpi',     dpi.length !== 13,      'e-dpi')     && ok;
+  ok = marcar('nac',     edad(nac) < 18,         'e-nac')     && ok;
+  ok = marcar('trabajo', trabajo.length < 3,     'e-trabajo') && ok;
+  ok = marcar('tiempo',  tiempo.length < 2,      'e-tiempo')  && ok;
+  ok = marcar('docs',    !docs,                  'e-docs')    && ok;
+  ok = marcar('moto',    !motoId,                'e-moto')    && ok;
+  if(docs === 'Otros') ok = marcar('docsOtro', otro.length < 3, 'e-docsOtro') && ok;
+
+  /* Si eligió "Otros", en el mensaje va lo que escribió */
+  var docsTexto = (docs === 'Otros') ? ('Otros — ' + otro) : docs;
+
+  if(!ok){
+    var mal=document.querySelector('.bad');
+    if(mal){
+      try{ mal.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+      try{ mal.focus({preventScroll:true}); }catch(e){}
+    }
+    return;
+  }
+
+  var moto = MODELOS.filter(function(m){return m.id===motoId})[0];
+
+  /* ─── Mensaje de WhatsApp ─── */
+  var L=[];
+  L.push('*PRECALIFICACIÓN DE CRÉDITO*');
+  L.push('');
+  L.push('Nombre: *'+nombre+'*');
+  L.push('DPI: *'+dpi+'*');
+  L.push('Fecha de nacimiento: *'+nac+'* ('+edad(nac)+' años)');
+  L.push('Trabaja de: *'+trabajo+'*');
+  L.push('Tiempo trabajando: *'+tiempo+'*');
+  L.push('Documentos que puede presentar: *'+docsTexto+'*');
+  L.push('Moto que desea: *'+moto.nom+'* ('+Q(moto.p)+')');
+
+  /* Referencia de freelance: solo si el cliente llegó con ?f= válido */
+  var fCode = params.get('f');
+  var ref = null;
+  try{ var r = window.vbFLRef && window.vbFLRef(); if(fCode && r && r.codigo===fCode) ref=r; }catch(e){}
+  if(!ref && fCode) L.push('Referencia: *'+fCode+'*');
+  if(ref) L.push('Me recomendó: *'+ref.nombre+'* (ref '+ref.codigo+')');
+
+  L.push('');
+  L.push('Enseguida les envío las *fotos de mi DPI por ambos lados* 🪪');
+
+  var num = (ref && ref.telefono) ? ('502'+ref.telefono) : '50240165239';
+  var url = 'https://wa.me/'+num+'?text='+encodeURIComponent(L.join('\n'));
+
+  $('waLink').href = url;
+  $('ok-nombre').textContent = nombre.split(/\s+/)[0];
+
+  $('vista-form').style.display='none';
+  $('vista-ok').classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  /* Abrimos WhatsApp en una pestaña nueva; si el navegador lo bloquea,
+     la pantalla de confirmación ya tiene el botón visible. */
+  window.open(url,'_blank','noopener');
+});
+</script>
+
+</body>
+</html>
