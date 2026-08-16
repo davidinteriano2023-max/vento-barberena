@@ -693,6 +693,10 @@ a{text-decoration:none;color:inherit}
 .fin-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;margin-top:12px;padding:16px 12px;border:none;border-radius:12px;background:linear-gradient(135deg,#0b63de 0%,#0047a8 100%);color:#fff;font-family:var(--fh);font-weight:700;font-size:16px;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 26px rgba(0,87,200,.34);transition:transform .12s,box-shadow .2s}
 .fin-btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(0,87,200,.44)}
 .fin-foot{margin-top:9px;font-size:11px;color:#9aa0aa}
+.fin-btn-wa{background:linear-gradient(135deg,#2fd96d 0%,#1eb457 100%);box-shadow:0 6px 26px rgba(37,211,102,.34)}
+.fin-btn-wa:hover{box-shadow:0 10px 34px rgba(37,211,102,.44)}
+.fin-b3.sm{font-size:15px;letter-spacing:.02em}
+@media(max-width:400px){.fin-b3.sm{font-size:13px}}
 @media(max-width:400px){
   .fin-b2{font-size:22px}
   .fin-b3{font-size:15.5px}
@@ -1267,20 +1271,20 @@ footer::before{
 
         <div id="secP">
           <div class="fin">
-            <span class="fin-badge"><span class="fin-dot"></span>Financiamiento Vento</span>
+            <span class="fin-badge"><span class="fin-dot"></span><span id="finBadge">Financiamiento Vento</span></span>
             <div class="fin-banner">
-              <div class="fin-b1">Contamos con los mejores</div>
-              <div class="fin-b2">Planes de Financiamiento</div>
-              <div class="fin-b3">Para tu motocicleta Vento</div>
+              <div class="fin-b1" id="finB1">Contamos con los mejores</div>
+              <div class="fin-b2" id="finB2">Planes de Financiamiento</div>
+              <div class="fin-b3" id="finB3">Para tu motocicleta Vento</div>
             </div>
-            <p class="fin-sub">Plazos desde 6 hasta 48 meses &middot; <b>PLANES SIN ENGANCHE</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.</p>
-            <div class="fin-sep"></div>
-            <div class="fin-cta-t">Precalifica ya !! <span class="fin-min">1 minuto</span></div>
+            <p class="fin-sub" id="finSub">Plazos desde 6 hasta 48 meses &middot; <b>PLANES SIN ENGANCHE</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.</p>
+            <div class="fin-sep" id="finSep"></div>
+            <div class="fin-cta-t" id="finCta">Precalifica ya !! <span class="fin-min">1 minuto</span></div>
             <a class="fin-btn" id="preBtn" href="/precalificar/">Precalificar <span aria-hidden="true">&rarr;</span></a>
-            <div class="fin-foot">Sin costo &middot; Sin compromiso &middot; Respuesta inmediata</div>
+            <a class="fin-btn fin-btn-wa" id="waBtn" href="#" target="_blank" rel="noopener" hidden>Continuar por WhatsApp <span aria-hidden="true">&rarr;</span></a>
+            <div class="fin-foot" id="finFoot">Sin costo &middot; Sin compromiso &middot; Respuesta inmediata</div>
           </div>
         </div>
-        <div class="msg-pg" id="msgP"></div>
       </div>
     </div>
 
@@ -1753,17 +1757,58 @@ function setPago(tipo,btn){
   document.querySelectorAll('.pt').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');setPagoD(tipo);
 }
+/* Contenido del bloque según la forma de pago elegida */
+const PAGOS={
+  credito:{
+    badge:'Financiamiento Vento',
+    b1:'Contamos con los mejores',
+    b2:'Planes de Financiamiento',
+    b3:'Para tu motocicleta Vento',
+    sub:'Plazos desde 6 hasta 48 meses &middot; <b>PLANES SIN ENGANCHE</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.',
+    cta:'Precalifica ya !! <span class="fin-min">1 minuto</span>',
+    btn:'pre',
+    foot:'Sin costo &middot; Sin compromiso &middot; Respuesta inmediata'
+  },
+  tarjeta:{
+    badge:'Pago con tarjeta',
+    b1:'Aceptamos',
+    b2:'Todas las tarjetas',
+    b3:'De cr\u00e9dito',
+    sub:'',
+    cta:'Dale click',
+    btn:'wa',
+    foot:'Pago en tienda &middot; Sin compromiso &middot; Respuesta inmediata'
+  },
+  efectivo:{
+    badge:'Pago en efectivo',
+    b1:'Consulta',
+    b2:'Promociones especiales',
+    b3:'Comprando tu Vento en efectivo',
+    sub:'',
+    cta:'Dale click',
+    btn:'wa',
+    foot:'Precio contado &middot; Sin compromiso &middot; Respuesta inmediata'
+  }
+};
+
 function setPagoD(tipo){
   pago=tipo;
-  const sp=$('secP'),mp=$('msgP');
-  if(tipo==='credito'){sp.style.display='';mp.style.display='none';renderPlanes();}
-  else{
-    sp.style.display='none';mp.style.display='block';
-    mp.innerHTML=tipo==='tarjeta'
-      ?'💳 <strong>Pago con tarjeta disponible en tienda.</strong> Consulta cuotas sin recargo con tu banco.'
-      :`💵 <strong>Precio contado: ${Q(moto.p)}</strong> — ¡El precio más bajo! Visítanos o escríbenos.`;
-  }
+  const c=PAGOS[tipo]||PAGOS.credito;
+  $('finBadge').textContent=c.badge;
+  $('finB1').textContent=c.b1;
+  $('finB2').textContent=c.b2;
+  const b3=$('finB3');
+  b3.textContent=c.b3;
+  b3.classList.toggle('sm',c.b3.length>22);
+  $('finSub').innerHTML=c.sub;
+  $('finSub').hidden=!c.sub;
+  $('finSep').hidden=!c.sub;
+  $('finCta').innerHTML=c.cta;
+  $('finFoot').innerHTML=c.foot;
+  $('preBtn').hidden=(c.btn!=='pre');
+  $('waBtn').hidden =(c.btn!=='wa');
   actuWA();
+  actuPre();
 }
 function renderPlanes(){
   if(!$('planesW')) return;
@@ -1792,14 +1837,14 @@ function actuPre(){
   b.href='/precalificar/?'+qs.toString();
 }
 function actuWA(){
-  if(!$('waBtn')){ actuPre(); return; }
+  if(!$('waBtn')) return;
   const col=document.querySelector('.sw.on')?.getAttribute('title')||'';
   const ps=planes(moto.p),p=ps[planIdx];
   let msg=`Hola! Me interesa la *${moto.nom} ${moto.año}*`;
   if(col)msg+=` en color *${col}*`;
   msg+=`.\nPrecio contado: *${Q(moto.p)}*`;
   if(pago==='credito')msg+=`\nPlan: *${p.nom}* → ${Q(p.cuota)}/mes`;
-  else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta*';
+  else if(pago==='tarjeta')msg+='\nForma de pago: *Tarjeta de crédito*';
   else msg+='\nForma de pago: *Efectivo*';
   // El número del freelance SOLO aplica si el cliente está en la URL con ?f=
   // que coincide con la referencia guardada. Entrada directa => número principal.
