@@ -367,14 +367,17 @@ a{text-decoration:none;color:inherit}
 }
 @keyframes pop{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:none}}
 
+/* Círculo blanco con la X negra: se ve tanto sobre el encabezado negro de
+   "Cómo llegar" como sobre la foto clara de la ficha de moto. */
 .m-close{
   position:absolute;top:12px;right:12px;z-index:10;
-  width:32px;height:32px;
-  background:rgba(0,0,0,.06);border-radius:999px;
+  width:34px;height:34px;
+  background:#fff;border-radius:999px;
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:var(--negro);
+  font-size:15px;font-weight:700;line-height:1;color:#080808;
   transition:background .18s,color .18s,transform .12s;cursor:pointer;
-  border:1px solid rgba(0,0,0,.06);
+  border:1px solid rgba(0,0,0,.10);
+  box-shadow:0 2px 10px rgba(0,0,0,.30);
 }
 .m-close:hover{background:var(--rojo);color:#fff;transform:scale(1.1);border-color:var(--rojo)}
 
@@ -959,7 +962,7 @@ footer::before{
         <span class="slbl" style="margin-top:18px">Forma de pago</span>
         <div class="ptabs">
           <button class="pt on" onclick="setPago('credito',this)">Crédito</button>
-          <button class="pt" onclick="setPago('tarjeta',this)">Tarjeta</button>
+          <button class="pt" onclick="setPago('tarjeta',this)">Tarjeta de crédito</button>
           <button class="pt" onclick="setPago('efectivo',this)">Efectivo</button>
         </div>
 
@@ -971,7 +974,7 @@ footer::before{
               <div class="fin-b2">Planes de Financiamiento</div>
               <div class="fin-b3">Para tu motocicleta Vento</div>
             </div>
-            <p class="fin-sub">Plazos de 24, 36 y 48 meses &middot; <b>planes sin enganche disponibles</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.</p>
+            <p class="fin-sub">Plazos desde 6 hasta 48 meses &middot; <b>PLANES SIN ENGANCHE</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.</p>
             <div class="fin-sep"></div>
             <div class="fin-cta-t">Precalifica ya !! <span class="fin-min">1 minuto</span></div>
             <a class="fin-btn" id="preBtn" href="/precalificar/">Precalificar <span aria-hidden="true">&rarr;</span></a>

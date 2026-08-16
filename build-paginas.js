@@ -204,7 +204,7 @@ function finBloque(href) {
     <div class="fin-b2">Planes de Financiamiento</div>
     <div class="fin-b3">Para tu motocicleta Vento</div>
   </div>
-  <p class="fin-sub">Plazos de 24, 36 y 48 meses &middot; <b>planes sin enganche disponibles</b> &middot; aprobación rápida y requisitos sencillos.</p>
+  <p class="fin-sub">Plazos desde 6 hasta 48 meses &middot; <b>PLANES SIN ENGANCHE</b> &middot; aprobación rápida y requisitos sencillos.</p>
   <div class="fin-sep"></div>
   <div class="fin-cta-t">Precalifica ya !! <span class="fin-min">1 minuto</span></div>
   <a class="fin-btn" href="${href}">Precalificar <span aria-hidden="true">&rarr;</span></a>
