@@ -295,13 +295,12 @@ firebase.initializeApp(VB_FB_CONFIG);
 const auth=firebase.auth();
 const db=firebase.firestore();
 const $=id=>document.getElementById(id);
-/* ── Optimización Cloudinary (SIN IA): solo resize + formato/calidad automática.
-   Se eliminaron e_trim, e_upscale, e_enhance y g_auto (add-ons de IA caros). ── */
+/* ── Optimización IA Cloudinary: mejora tamaño+calidad y ajuste proporcional a la ficha ── */
 function cldImg(url,ctx){
   if(!url||url.indexOf('res.cloudinary.com')<0) return url;
   if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
-  var t=(ctx==='modal')?'c_fit,w_1600,h_1600/f_auto,q_auto:good'
-                       :'c_fill,w_1000,h_1000,g_center/f_auto,q_auto:good';
+  var t=(ctx==='modal')?'e_trim:10/e_upscale/c_fit,w_1600,h_1600/e_enhance/f_auto,q_auto:best'
+                       :'e_trim:10/e_upscale/c_fill,w_1000,h_1000,g_auto/e_enhance/f_auto,q_auto:good';
   return url.replace('/image/upload/','/image/upload/'+t+'/');
 }
 let userEmail=null,allMotos=[],currentCat='all',FLS=[],flEditCodigo=null;

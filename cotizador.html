@@ -487,6 +487,35 @@ a{text-decoration:none;color:inherit}
 
 .msg-pg{display:none;margin-top:12px;background:var(--fondo);border:1px solid var(--borde);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.65;color:#444}
 
+
+/* Precalificación CTA */
+.fin-cta{margin-top:16px;border:1.5px solid var(--borde);border-radius:12px;background:linear-gradient(180deg,#fafbfc 0%,#fff 100%);padding:20px 18px 18px;text-align:center}
+.fin-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:20px;background:rgba(0,87,200,.08);color:var(--rojo);font-size:9px;font-weight:700;letter-spacing:.18em}
+.fin-dot{width:6px;height:6px;border-radius:50%;background:var(--rojo);animation:finDot 1.6s ease-in-out infinite}
+.fin-tit{margin-top:14px;display:block;width:100%;background:linear-gradient(180deg,#1b1b1b 0%,#080808 100%);border-radius:14px;padding:20px 18px;box-shadow:0 6px 0 var(--rojo),0 12px 24px rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s}
+.fin-tit:hover{transform:translateY(3px);box-shadow:0 3px 0 var(--rojo),0 8px 18px rgba(0,0,0,.26)}
+.fin-tit-in{font-family:var(--fh);display:flex;flex-direction:column;gap:2px;color:#fff;text-transform:uppercase;line-height:1.02;font-weight:700;letter-spacing:.01em}
+.fin-t1{font-size:19px;color:#9aa4b2;font-weight:600;letter-spacing:.06em}
+.fin-t2{font-size:31px}
+.fin-t3{font-size:24px;color:#4d8df0}
+.fin-sub strong{color:var(--negro);font-weight:700}
+.fin-sub{margin:10px auto 0;max-width:38ch;font-size:12px;line-height:1.55;color:var(--gt);font-weight:500}
+.fin-hr{margin:18px auto 0;height:1px;width:56px;background:var(--borde)}
+.fin-line{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.fin-ya{font-family:var(--fh);font-size:22px;font-weight:700;color:var(--negro)}
+.fin-min{display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#16a34a;font-size:10px;font-weight:700;letter-spacing:.1em;white-space:nowrap;flex:none}
+.fin-nota{margin-top:10px;font-size:10px;letter-spacing:.06em;color:#bbb;font-weight:500}
+.preca-btn{margin-top:14px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border-radius:12px;background:var(--rojo);color:#fff;font-size:13px;font-weight:700;letter-spacing:.14em;text-decoration:none;animation:precaPulse 2.6s ease-in-out infinite;will-change:transform}
+.preca-btn:hover{background:#00429b;animation-play-state:paused;transform:translateY(-2px) scale(1.01)}
+.preca-btn>span{position:relative;z-index:1}
+.preca-ar{display:inline-block;font-size:15px;animation:precaAr 1.4s ease-in-out infinite}
+.preca-sheen{position:absolute;top:0;left:0;width:36%;height:100%;z-index:0;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.32) 50%,rgba(255,255,255,0) 100%);animation:precaSheen 3.2s ease-in-out infinite}
+@keyframes precaPulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 4px 18px rgba(0,87,200,.30),0 0 0 0 rgba(0,87,200,.40)}50%{transform:translateY(-1px) scale(1.012);box-shadow:0 8px 26px rgba(0,87,200,.36),0 0 0 12px rgba(0,87,200,0)}}
+@keyframes precaSheen{0%{transform:translateX(-130%) skewX(-18deg)}55%,100%{transform:translateX(340%) skewX(-18deg)}}
+@keyframes finDot{0%,100%{opacity:.3;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+@keyframes precaAr{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.preca-btn,.preca-ar,.preca-sheen,.fin-dot{animation:none}}
+
 /* Requisitos */
 .req-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 0 10px;border-top:1px solid var(--borde);margin-top:12px;cursor:pointer}
 .req-t{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#bbb}
@@ -933,6 +962,16 @@ footer::before{
         </div>
 
         <div id="secP">
+          <div class="fin-cta">
+            <div class="fin-badge"><span class="fin-dot"></span>FINANCIAMIENTO VENTO</div>
+            <div class="fin-tit"><div class="fin-tit-in"><span class="fin-t1">Contamos con los mejores</span><span class="fin-t2">Planes de financiamiento</span><span class="fin-t3">Para tu motocicleta Vento</span></div></div>
+            <div class="fin-sub">Plazos de 24, 36 y 48 meses · <strong>planes sin enganche disponibles</strong> · aprobación rápida y requisitos sencillos.</div>
+            <div class="fin-hr"></div>
+            <div class="fin-line"><span class="fin-ya">PRECALIFICA YA !!</span><span class="fin-min">1 MINUTO</span></div>
+            <a class="preca-btn" id="precaBtn" href="https://wa.me/50240165239" target="_blank" rel="noopener"><span>PRECALIFICAR</span><span class="preca-ar">→</span><span class="preca-sheen"></span></a>
+            <div class="fin-nota">Sin costo · Sin compromiso · Respuesta inmediata</div>
+          </div>
+          <div id="planesLegacy" style="display:none">
           <span class="slbl" style="margin-top:12px">Elige tu plan</span>
           <div class="planes" id="planesW"></div>
           <div class="res" id="resumen">
@@ -941,26 +980,10 @@ footer::before{
             <div class="rr"><span class="rk">Enganche (~20%)</span><span class="rv" id="rEng">—</span></div>
             <div class="rr"><span class="rk">Total financiado</span><span class="rv" id="rTot">—</span></div>
           </div>
+          </div>
         </div>
         <div class="msg-pg" id="msgP"></div>
 
-        <div class="req-hdr" onclick="togReq()">
-          <span class="req-t">📋 Requisitos de financiamiento</span>
-          <span class="req-a" id="reqA">▼</span>
-        </div>
-        <div class="req-bd" id="reqB">
-          <div class="req-it">🪪 DPI vigente (ambos lados)</div>
-          <div class="req-it">🤳 Foto sosteniendo el DPI</div>
-          <div class="req-it">🔢 NIT actualizado</div>
-          <div class="req-it">💡 Recibo de luz reciente</div>
-          <div class="req-it">📅 4 meses mínimo de trabajo</div>
-          <div class="req-it">📄 Carta laboral o estados de cuenta</div>
-        </div>
-
-        <a class="wa-btn" id="waBtn" href="#" target="_blank" rel="noopener">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Solicitar por WhatsApp →
-        </a>
       </div>
     </div>
 
@@ -1006,17 +1029,15 @@ const CATS=[
   {k:'adventure',       l:'Adventure'}
 ];
 
-/* ── Optimización Cloudinary (SIN IA): solo resize + formato/calidad automática.
-   Se eliminaron e_trim, e_upscale, e_enhance y g_auto porque son add-ons de IA
-   que consumen créditos caros. c_fit/c_fill + f_auto/q_auto son transformaciones
-   estándar (mucho más baratas) y dan prácticamente el mismo resultado visual. ── */
+/* ── Optimización IA Cloudinary: mejora tamaño+calidad y mantiene la imagen
+   proporcional a la ficha donde se muestra (contain=c_fit / cover=c_fill) ── */
 function cldImg(url,ctx){
   if(!url||url.indexOf('res.cloudinary.com')<0) return url;
   if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
   var t;
-  if(ctx==='modal')      t='c_fit,w_1600,h_1600/f_auto,q_auto:good';
-  else if(ctx==='admin') t='c_fill,w_1000,h_1000,g_center/f_auto,q_auto:good';
-  else                   t='c_fit,w_1000,h_1000/f_auto,q_auto:good';
+  if(ctx==='modal')      t='e_trim:10/e_upscale/c_fit,w_1600,h_1600/e_enhance/f_auto,q_auto:best';
+  else if(ctx==='admin') t='e_trim:10/e_upscale/c_fill,w_1000,h_1000,g_auto/e_enhance/f_auto,q_auto:good';
+  else                   t='e_trim:10/e_upscale/c_fit,w_1000,h_1000/e_enhance/f_auto,q_auto:good';
   return url.replace('/image/upload/','/image/upload/'+t+'/');
 }
 
@@ -1294,7 +1315,7 @@ function abrir(id){
   document.querySelectorAll('.pt').forEach((t,i)=>t.classList.toggle('on',i===0));
   setPagoD('credito');
   renderFicha();
-  $('reqB').classList.remove('open');$('reqA').classList.remove('open');
+  { const _rb=$('reqB'), _ra=$('reqA'); if(_rb)_rb.classList.remove('open'); if(_ra)_ra.classList.remove('open'); }
   $('overlay').classList.add('on');
   document.body.style.overflow='hidden';
   $('overlay').scrollTop=0;
@@ -1364,12 +1385,14 @@ function actuWA(){
   if(_ref) msg += `\nMe recomendó: *${_ref.nombre}* (ref ${_ref.codigo})`;
   msg+='\n\n¿Pueden darme más información? 🏍️';
   const _waNum = (_ref && _ref.telefono) ? ('502'+_ref.telefono) : '50240165239';
-  $('waBtn').href=`https://wa.me/${_waNum}?text=${encodeURIComponent(msg)}`;
+  const _wb=$('waBtn'); if(_wb)_wb.href=`https://wa.me/${_waNum}?text=${encodeURIComponent(msg)}`;
+  const _pb=$('precaBtn'); if(_pb)_pb.href='https://wa.me/'+_waNum+'?text='+encodeURIComponent('Hola! Quiero PRECALIFICAR para el crédito de mi moto Vento 🏍️ — dice que toma 1 minuto.');
 }
 function togReq(){
   reqOpen=!reqOpen;
-  $('reqB').classList.toggle('open',reqOpen);
-  $('reqA').classList.toggle('open',reqOpen);
+  const _rb=$('reqB'), _ra=$('reqA');
+  if(_rb)_rb.classList.toggle('open',reqOpen);
+  if(_ra)_ra.classList.toggle('open',reqOpen);
 }
 function renderFicha(){
   $('fichaC').innerHTML=`
