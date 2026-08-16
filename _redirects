@@ -1,4 +1,15 @@
+# Netlify sirve primero los archivos reales que existen en el sitio, así que
+# /motos/<modelo>/ y /precalificar/ se resuelven solos con su propio index.html
+# y NO caen en el catch-all de abajo.
+
 /freelance          /freelance.html            200
 /panel-freelance    /panel-freelance.html      200
 /analitica          /analitica-freelance.html  200
+/cotizador          /cotizador.html            200
+
+# Alias sin barra final → la URL canónica con barra
+/motos              /motos/                    301
+/precalificar       /precalificar/             301
+
+# Cualquier otra ruta cae en la SPA
 /* /index.html 200

@@ -1,5 +1,8 @@
 [build]
-  command   = 'sed -i "s|FIREBASE_KEY_PLACEHOLDER|${FIREBASE_API_KEY}|g" cotizador.html'
+  # 1) Inyecta la API key de Firebase en el cotizador.
+  # 2) Genera las páginas indexables de /motos/, el sitemap y el robots.txt
+  #    leyendo el catálogo directamente de index.html.
+  command   = 'sed -i "s|FIREBASE_KEY_PLACEHOLDER|${FIREBASE_API_KEY}|g" cotizador.html && node build-paginas.js'
   publish   = "."
   functions = "netlify/functions"
 

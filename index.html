@@ -652,35 +652,6 @@ a{text-decoration:none;color:inherit}
 
 .msg-pg{display:none;margin-top:12px;background:var(--fondo);border:1px solid var(--borde);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.65;color:#444}
 
-
-/* Precalificación CTA */
-.fin-cta{margin-top:16px;border:1.5px solid var(--borde);border-radius:12px;background:linear-gradient(180deg,#fafbfc 0%,#fff 100%);padding:20px 18px 18px;text-align:center}
-.fin-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:20px;background:rgba(0,87,200,.08);color:var(--rojo);font-size:9px;font-weight:700;letter-spacing:.18em}
-.fin-dot{width:6px;height:6px;border-radius:50%;background:var(--rojo);animation:finDot 1.6s ease-in-out infinite}
-.fin-tit{margin-top:14px;display:block;width:100%;background:linear-gradient(180deg,#1b1b1b 0%,#080808 100%);border-radius:14px;padding:20px 18px;box-shadow:0 6px 0 var(--rojo),0 12px 24px rgba(0,0,0,.28);transition:transform .12s,box-shadow .12s}
-.fin-tit:hover{transform:translateY(3px);box-shadow:0 3px 0 var(--rojo),0 8px 18px rgba(0,0,0,.26)}
-.fin-tit-in{font-family:var(--fh);display:flex;flex-direction:column;gap:2px;color:#fff;text-transform:uppercase;line-height:1.02;font-weight:700;letter-spacing:.01em}
-.fin-t1{font-size:19px;color:#9aa4b2;font-weight:600;letter-spacing:.06em}
-.fin-t2{font-size:31px}
-.fin-t3{font-size:24px;color:#4d8df0}
-.fin-sub strong{color:var(--negro);font-weight:700}
-.fin-sub{margin:10px auto 0;max-width:38ch;font-size:12px;line-height:1.55;color:var(--gt);font-weight:500}
-.fin-hr{margin:18px auto 0;height:1px;width:56px;background:var(--borde)}
-.fin-line{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
-.fin-ya{font-family:var(--fh);font-size:22px;font-weight:700;color:var(--negro)}
-.fin-min{display:inline-flex;align-items:center;padding:4px 9px;border-radius:7px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#16a34a;font-size:10px;font-weight:700;letter-spacing:.1em;white-space:nowrap;flex:none}
-.fin-nota{margin-top:10px;font-size:10px;letter-spacing:.06em;color:#bbb;font-weight:500}
-.preca-btn{margin-top:14px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border-radius:12px;background:var(--rojo);color:#fff;font-size:13px;font-weight:700;letter-spacing:.14em;text-decoration:none;animation:precaPulse 2.6s ease-in-out infinite;will-change:transform}
-.preca-btn:hover{background:#00429b;animation-play-state:paused;transform:translateY(-2px) scale(1.01)}
-.preca-btn>span{position:relative;z-index:1}
-.preca-ar{display:inline-block;font-size:15px;animation:precaAr 1.4s ease-in-out infinite}
-.preca-sheen{position:absolute;top:0;left:0;width:36%;height:100%;z-index:0;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.32) 50%,rgba(255,255,255,0) 100%);animation:precaSheen 3.2s ease-in-out infinite}
-@keyframes precaPulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 4px 18px rgba(0,87,200,.30),0 0 0 0 rgba(0,87,200,.40)}50%{transform:translateY(-1px) scale(1.012);box-shadow:0 8px 26px rgba(0,87,200,.36),0 0 0 12px rgba(0,87,200,0)}}
-@keyframes precaSheen{0%{transform:translateX(-130%) skewX(-18deg)}55%,100%{transform:translateX(340%) skewX(-18deg)}}
-@keyframes finDot{0%,100%{opacity:.3;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
-@keyframes precaAr{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
-@media (prefers-reduced-motion:reduce){.preca-btn,.preca-ar,.preca-sheen,.fin-dot{animation:none}}
-
 /* Requisitos */
 .req-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 0 10px;border-top:1px solid var(--borde);margin-top:12px;cursor:pointer}
 .req-t{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#bbb}
@@ -701,6 +672,30 @@ a{text-decoration:none;color:inherit}
   transition:background .2s,box-shadow .2s,transform .12s;
 }
 .wa-btn:hover{background:#1da851;box-shadow:0 6px 28px rgba(37,211,102,.38);transform:translateY(-2px) scale(1.01)}
+
+/* ─── FINANCIAMIENTO / PRECALIFICAR ─────────────────────── */
+.fin{margin-top:14px;background:var(--fondo);border:1px solid var(--borde);border-radius:14px;padding:18px 15px 16px;text-align:center}
+.fin-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,87,200,.10);color:var(--rojo);border-radius:999px;padding:5px 13px;font-size:9.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.fin-dot{width:5px;height:5px;border-radius:50%;background:var(--rojo);flex:0 0 auto}
+.fin-banner{position:relative;margin-top:14px;background:linear-gradient(160deg,#131313 0%,#080808 100%);border-radius:14px;padding:20px 16px 23px;overflow:hidden}
+.fin-banner::after{content:'';position:absolute;left:5%;right:5%;bottom:0;height:5px;border-radius:999px 999px 0 0;background:var(--rojo);box-shadow:0 0 22px 5px var(--rojo-glow)}
+.fin-b1{font-family:var(--fh);font-size:14px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#9a9a9a;line-height:1.2}
+.fin-b2{font-family:var(--fh);font-size:26px;font-weight:700;letter-spacing:.01em;text-transform:uppercase;color:#fff;line-height:1.08;margin-top:3px}
+.fin-b3{font-family:var(--fh);font-size:18px;font-weight:700;letter-spacing:.035em;text-transform:uppercase;color:#4A8BF0;line-height:1.2;margin-top:4px}
+.fin-sub{margin:13px 2px 0;font-size:12.5px;line-height:1.62;color:#6b7280}
+.fin-sub b{color:#333;font-weight:700}
+.fin-sep{height:1px;background:var(--borde);margin:16px auto 0;width:36%}
+.fin-cta-t{margin-top:14px;font-family:var(--fh);font-size:19px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--negro);display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;line-height:1.2}
+.fin-min{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.35);color:#15803d;border-radius:999px;padding:3px 10px;font-family:var(--fb);font-size:10.5px;font-weight:700;letter-spacing:.06em;white-space:nowrap}
+.fin-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;margin-top:12px;padding:16px 12px;border:none;border-radius:12px;background:linear-gradient(135deg,#0b63de 0%,#0047a8 100%);color:#fff;font-family:var(--fh);font-weight:700;font-size:16px;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 26px rgba(0,87,200,.34);transition:transform .12s,box-shadow .2s}
+.fin-btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(0,87,200,.44)}
+.fin-foot{margin-top:9px;font-size:11px;color:#9aa0aa}
+@media(max-width:400px){
+  .fin-b2{font-size:22px}
+  .fin-b3{font-size:15.5px}
+  .fin-b1{font-size:12.5px}
+}
+
 
 /* ─── PANEL FICHA ────────────────────────────────────── */
 .pf{padding:20px 20px 32px}
@@ -766,6 +761,9 @@ footer::before{
   transition:border-color .2s,color .2s,background .2s;
 }
 .foot-r:hover{border-color:var(--rojo);color:#fff;background:rgba(0,87,200,.08)}
+.foot-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:7px 9px;margin:16px auto 0;max-width:520px;padding:0 12px}
+.foot-nav a{font-size:11.5px;font-weight:600;color:#b9bcc4;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:5px 12px;transition:color .15s,border-color .15s}
+.foot-nav a:hover{color:#fff;border-color:rgba(255,255,255,.42)}
 .foot-nota{font-size:10px;color:var(--g3);font-weight:400}
 
 /* ─── RESPONSIVE TWEAKS ──────────────────────────────── */
@@ -1265,28 +1263,21 @@ footer::before{
         </div>
 
         <div id="secP">
-          <div class="fin-cta">
-            <div class="fin-badge"><span class="fin-dot"></span>FINANCIAMIENTO VENTO</div>
-            <div class="fin-tit"><div class="fin-tit-in"><span class="fin-t1">Contamos con los mejores</span><span class="fin-t2">Planes de financiamiento</span><span class="fin-t3">Para tu motocicleta Vento</span></div></div>
-            <div class="fin-sub">Plazos de 24, 36 y 48 meses · <strong>planes sin enganche disponibles</strong> · aprobación rápida y requisitos sencillos.</div>
-            <div class="fin-hr"></div>
-            <div class="fin-line"><span class="fin-ya">PRECALIFICA YA !!</span><span class="fin-min">1 MINUTO</span></div>
-            <a class="preca-btn" id="precaBtn" href="https://wa.me/50240165239" target="_blank" rel="noopener"><span>PRECALIFICAR</span><span class="preca-ar">→</span><span class="preca-sheen"></span></a>
-            <div class="fin-nota">Sin costo · Sin compromiso · Respuesta inmediata</div>
-          </div>
-          <div id="planesLegacy" style="display:none">
-          <span class="slbl" style="margin-top:12px">Elige tu plan</span>
-          <div class="planes" id="planesW"></div>
-          <div class="res" id="resumen">
-            <div class="rr"><span class="rk">Cuota mensual</span><span class="rv" id="rCuota">—</span></div>
-            <div class="rr"><span class="rk">Plazo</span><span class="rv" id="rPlazo">—</span></div>
-            <div class="rr"><span class="rk">Enganche (~20%)</span><span class="rv" id="rEng">—</span></div>
-            <div class="rr"><span class="rk">Total financiado</span><span class="rv" id="rTot">—</span></div>
-          </div>
+          <div class="fin">
+            <span class="fin-badge"><span class="fin-dot"></span>Financiamiento Vento</span>
+            <div class="fin-banner">
+              <div class="fin-b1">Contamos con los mejores</div>
+              <div class="fin-b2">Planes de Financiamiento</div>
+              <div class="fin-b3">Para tu motocicleta Vento</div>
+            </div>
+            <p class="fin-sub">Plazos de 24, 36 y 48 meses &middot; <b>planes sin enganche disponibles</b> &middot; aprobaci&oacute;n r&aacute;pida y requisitos sencillos.</p>
+            <div class="fin-sep"></div>
+            <div class="fin-cta-t">Precalifica ya !! <span class="fin-min">1 minuto</span></div>
+            <a class="fin-btn" id="preBtn" href="/precalificar/">Precalificar <span aria-hidden="true">&rarr;</span></a>
+            <div class="fin-foot">Sin costo &middot; Sin compromiso &middot; Respuesta inmediata</div>
           </div>
         </div>
         <div class="msg-pg" id="msgP"></div>
-
       </div>
     </div>
 
@@ -1318,6 +1309,16 @@ footer::before{
     <a class="foot-r" href="https://www.facebook.com/profile.php?id=61565421898877" target="_blank">Facebook</a>
     <a class="foot-r" href="https://www.youtube.com/@Vento_guatemala" target="_blank">YouTube</a>
   </div>
+  <nav class="foot-nav" aria-label="Catálogo por línea">
+    <a href="/motos/">Todo el catálogo</a>
+    <a href="/motos/scooters/">Scooters</a>
+    <a href="/motos/city/">City</a>
+    <a href="/motos/rebels/">Rebels</a>
+    <a href="/motos/urban-sport/">Urban Sport</a>
+    <a href="/motos/doble-proposito/">Doble Propósito</a>
+    <a href="/motos/adventure/">Adventure</a>
+    <a href="/precalificar/">Precalificar crédito</a>
+  </nav>
   <div class="foot-nota">Precios sujetos a cambio · Imágenes de referencia · Cuotas estimadas con enganche del 20%</div>
 </footer>
 
@@ -1332,15 +1333,17 @@ const CATS=[
   {k:'adventure',       l:'Adventure'}
 ];
 
-/* ── Optimización IA Cloudinary: mejora tamaño+calidad y mantiene la imagen
-   proporcional a la ficha donde se muestra (contain=c_fit / cover=c_fill) ── */
+/* ── Optimización Cloudinary (SIN IA): solo resize + formato/calidad automática.
+   Se eliminaron e_trim, e_upscale, e_enhance y g_auto porque son add-ons de IA
+   que consumen créditos caros. c_fit/c_fill + f_auto/q_auto son transformaciones
+   estándar (mucho más baratas) y dan prácticamente el mismo resultado visual. ── */
 function cldImg(url,ctx){
   if(!url||url.indexOf('res.cloudinary.com')<0) return url;
   if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
   var t;
-  if(ctx==='modal')      t='e_trim:10/e_upscale/c_fit,w_1600,h_1600/e_enhance/f_auto,q_auto:best';
-  else if(ctx==='admin') t='e_trim:10/e_upscale/c_fill,w_1000,h_1000,g_auto/e_enhance/f_auto,q_auto:good';
-  else                   t='e_trim:10/e_upscale/c_fit,w_1000,h_1000/e_enhance/f_auto,q_auto:good';
+  if(ctx==='modal')      t='c_fit,w_1600,h_1600/f_auto,q_auto:good';
+  else if(ctx==='admin') t='c_fill,w_1000,h_1000,g_center/f_auto,q_auto:good';
+  else                   t='c_fit,w_1000,h_1000/f_auto,q_auto:good';
   return url.replace('/image/upload/','/image/upload/'+t+'/');
 }
 
@@ -1541,6 +1544,12 @@ function planes(p){
   ];
 }
 
+/* Slug público de cada moto — debe coincidir con build-paginas.js */
+function vbSlug(s){
+  return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+
 /* ─── RENDER CATÁLOGO ──────────────────── */
 function render(filtro='todos'){
   window.vbFiltroActual=filtro;
@@ -1558,7 +1567,7 @@ function render(filtro='todos'){
       </div>
       <div class="grid">
         ${lista.map(m=>`
-        <article class="card" onclick="abrir('${m.id}')">
+        <a class="card" href="/motos/${vbSlug(m.nom)}/" onclick="if(event.metaKey||event.ctrlKey||event.shiftKey||event.button)return true;event.preventDefault();abrir('${m.id}')">
           ${m.badge?`<div class="badge ${m.bcls||''}">${m.badge}</div>`:''}
           <div class="card-img"><img src="${cldImg(m.img,'card')}" alt="${m.nom}" loading="lazy" onerror="this.onerror=null;this.src='${m.img}'"></div>
           <div class="card-body">
@@ -1575,9 +1584,9 @@ function render(filtro='todos'){
               <div class="p-main">${Q(m.p)}</div>
               <div class="p-cuota">Desde <b>${Q(cuotaMin(m))}/mes</b></div>
             </div>
-            <button class="card-btn">Ver ficha y cotizar →</button>
+            <span class="card-btn">Ver ficha y cotizar →</span>
           </div>
-        </article>`).join('')}
+        </a>`).join('')}
       </div>`;
     c.appendChild(s);
   });
@@ -1664,7 +1673,7 @@ function abrir(id){
   document.querySelectorAll('.pt').forEach((t,i)=>t.classList.toggle('on',i===0));
   setPagoD('credito');
   renderFicha();
-  { const _rb=$('reqB'), _ra=$('reqA'); if(_rb)_rb.classList.remove('open'); if(_ra)_ra.classList.remove('open'); }
+  if($('reqB')){$('reqB').classList.remove('open');$('reqA').classList.remove('open');}
   $('overlay').classList.add('on');
   document.body.style.overflow='hidden';
   $('overlay').scrollTop=0;
@@ -1754,6 +1763,7 @@ function setPagoD(tipo){
   actuWA();
 }
 function renderPlanes(){
+  if(!$('planesW')) return;
   const ps=planes(moto.p);
   $('planesW').innerHTML=ps.map((p,i)=>`
     <div class="plan ${i===planIdx?'on':''}" onclick="selPlan(${i})">
@@ -1765,11 +1775,21 @@ function renderPlanes(){
 }
 function selPlan(i){planIdx=i;renderPlanes();actuWA()}
 function actuRes(p){
+  if(!$('rCuota')) return;
   const e=Math.round(moto.p*.2);
   $('rCuota').textContent=Q(p.cuota);$('rPlazo').textContent=p.m+' meses';
   $('rEng').textContent=Q(e);$('rTot').textContent=Q(p.tot);
 }
+function actuPre(){
+  const b=$('preBtn'); if(!b||!moto) return;
+  const qs=new URLSearchParams();
+  qs.set('m',moto.id);
+  const col=document.querySelector('.sw.on')?.getAttribute('title'); if(col) qs.set('c',col);
+  const f=new URLSearchParams(location.search).get('f'); if(f) qs.set('f',f);
+  b.href='/precalificar/?'+qs.toString();
+}
 function actuWA(){
+  if(!$('waBtn')){ actuPre(); return; }
   const col=document.querySelector('.sw.on')?.getAttribute('title')||'';
   const ps=planes(moto.p),p=ps[planIdx];
   let msg=`Hola! Me interesa la *${moto.nom} ${moto.año}*`;
@@ -1786,14 +1806,13 @@ function actuWA(){
   if(_ref) msg += `\nMe recomendó: *${_ref.nombre}* (ref ${_ref.codigo})`;
   msg+='\n\n¿Pueden darme más información? 🏍️';
   const _waNum = (_ref && _ref.telefono) ? ('502'+_ref.telefono) : '50240165239';
-  const _wb=$('waBtn'); if(_wb)_wb.href=`https://wa.me/${_waNum}?text=${encodeURIComponent(msg)}`;
-  const _pb=$('precaBtn'); if(_pb)_pb.href='https://wa.me/'+_waNum+'?text='+encodeURIComponent('Hola! Quiero PRECALIFICAR para el crédito de mi moto Vento 🏍️ — dice que toma 1 minuto.');
+  $('waBtn').href=`https://wa.me/${_waNum}?text=${encodeURIComponent(msg)}`;
 }
 function togReq(){
+  if(!$('reqB')) return;
   reqOpen=!reqOpen;
-  const _rb=$('reqB'), _ra=$('reqA');
-  if(_rb)_rb.classList.toggle('open',reqOpen);
-  if(_ra)_ra.classList.toggle('open',reqOpen);
+  $('reqB').classList.toggle('open',reqOpen);
+  $('reqA').classList.toggle('open',reqOpen);
 }
 function renderFicha(){
   $('fichaC').innerHTML=`
@@ -2415,7 +2434,7 @@ function vbToast(msg) {
   // 3) Hook al botón WhatsApp del cotizador (delegado — funciona aunque
   //    la ficha se re-renderice)
   document.addEventListener('click', function(ev){
-    var b = ev.target.closest && ev.target.closest('#waBtn');
+    var b = ev.target.closest && ev.target.closest('#waBtn,#preBtn');
     if(!b) return;
     // Solo se registra la cotización al freelance si el cliente vino por su link
     // (?f= en la URL actual y coincide con la referencia guardada).
@@ -2455,7 +2474,7 @@ function vbToast(msg) {
     }
   }catch(e){}
   document.addEventListener('click', function(ev){
-    var b = ev.target.closest && ev.target.closest('#waBtn');
+    var b = ev.target.closest && ev.target.closest('#waBtn,#preBtn');
     if(!b) return;
     var datos = { motoNombre:'(cotización)', color:'', plan:null };
     try{
