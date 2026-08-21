@@ -141,21 +141,33 @@ const CAMPOS = [
 ];
 
 async function crearCampos() {
-  // 1. El grupo (la "pestaña" PRECALIFICACION en la tarjeta del lead)
+  // 1. El grupo (la "pestaña" PRECALIFICACION en la tarjeta del lead).
+  //    Si el plan de Kommo no permite grupos, seguimos sin él: los campos se
+  //    crean igual y caen en la sección por defecto.
   let grupoId = null;
-  const grupos = await kommo('/leads/custom_field_groups');
-  const existente = ((grupos && grupos._embedded && grupos._embedded.custom_field_groups) || [])
-    .find((g) => String(g.name).toUpperCase().indexOf('PRECALIFICACION') >= 0
-              || String(g.name).toUpperCase().indexOf('PRECALIFICACIÓN') >= 0);
+  let avisoGrupo = null;
+  const RUTA_GRUPOS = '/leads/custom_fields/groups';
 
-  if (existente) {
-    grupoId = existente.id;
-  } else {
-    const creado = await kommo('/leads/custom_field_groups', {
-      method: 'POST', body: JSON.stringify([{ name: 'PRECALIFICACION' }])
-    });
-    const g = creado && creado._embedded && creado._embedded.custom_field_groups;
-    grupoId = g && g[0] ? g[0].id : null;
+  try {
+    const grupos = await kommo(RUTA_GRUPOS);
+    const lista = (grupos && grupos._embedded &&
+                  (grupos._embedded.custom_field_groups || grupos._embedded.groups)) || [];
+    const existente = lista.find((g) =>
+      String(g.name).toUpperCase().replace('Ó', 'O').indexOf('PRECALIFICACION') >= 0);
+
+    if (existente) {
+      grupoId = existente.id;
+    } else {
+      const creado = await kommo(RUTA_GRUPOS, {
+        method: 'POST', body: JSON.stringify([{ name: 'PRECALIFICACION' }])
+      });
+      const g = creado && creado._embedded &&
+                (creado._embedded.custom_field_groups || creado._embedded.groups);
+      grupoId = g && g[0] ? g[0].id : null;
+    }
+  } catch (e) {
+    avisoGrupo = 'No se pudo crear el grupo (' + e.message + '). Los campos se crean igual, sin agrupar.';
+    console.warn('[kommo] ' + avisoGrupo);
   }
 
   // 2. Los campos que todavía no existan
@@ -186,7 +198,8 @@ async function crearCampos() {
 
   return {
     _instrucciones: 'Copiá estas variables en Netlify → Environment variables. Después borrá KOMMO_DESCUBRIR_CLAVE.',
-    grupo: { id: grupoId, nombre: 'PRECALIFICACION' },
+    _aviso: avisoGrupo || undefined,
+    grupo: { id: grupoId, nombre: grupoId ? 'PRECALIFICACION' : '(sin agrupar)' },
     campos_creados: nuevos.map((c) => c.name),
     campos_que_ya_existían: CAMPOS.filter((c) => !nuevos.some((n) => n.name === c.name)).map((c) => c.name),
     variables_para_netlify: variables
