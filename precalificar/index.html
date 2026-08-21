@@ -150,6 +150,13 @@ footer a{color:#fff;font-weight:600}
         </div>
 
         <div class="f-row">
+          <label for="tel">Número de WhatsApp <span class="req">*</span></label>
+          <input id="tel" name="tel" type="tel" inputmode="numeric" placeholder="0000 0000" maxlength="9" autocomplete="tel" required>
+          <div class="hint">8 dígitos. Es al que te vamos a responder.</div>
+          <div class="err" id="e-tel">Escribí tu número de WhatsApp, 8 dígitos.</div>
+        </div>
+
+        <div class="f-row">
           <label for="dpi">Número de DPI <span class="req">*</span></label>
           <input id="dpi" name="dpi" type="text" inputmode="numeric" placeholder="0000 00000 0000" maxlength="17" required>
           <div class="hint">13 dígitos, sin espacios ni guiones.</div>
@@ -294,6 +301,16 @@ var $=function(id){return document.getElementById(id)};
 var Q=function(n){return 'Q '+Number(n).toLocaleString('es-GT')};
 var params=new URLSearchParams(location.search);
 
+/* Lead de Kommo: viene en ?lead= o quedó guardado al entrar al catálogo */
+var LEAD=(function(){
+  try{
+    var u=params.get('lead');
+    if(u && /^\d+$/.test(u)){ sessionStorage.setItem('vbLead',u); return u; }
+    var g=sessionStorage.getItem('vbLead');
+    return (g && /^\d+$/.test(g)) ? g : '';
+  }catch(e){ return ''; }
+})();
+
 /* Llenar el listado de motos y preseleccionar la que venía en la URL */
 (function(){
   var sel=$('moto'), pre=params.get('m');
@@ -384,6 +401,12 @@ $('docs').addEventListener('change',function(){
   }
 });
 
+/* Formato del teléfono: 0000 0000 */
+$('tel').addEventListener('input',function(){
+  var d=this.value.replace(/\D/g,'').slice(0,8);
+  this.value = d.length>4 ? d.slice(0,4)+' '+d.slice(4) : d;
+});
+
 /* Formato suave del DPI mientras escribe */
 $('dpi').addEventListener('input',function(){
   var d=this.value.replace(/\D/g,'').slice(0,13), out=d;
@@ -396,6 +419,7 @@ $('frm').addEventListener('submit',function(ev){
   ev.preventDefault();
 
   var nombre = $('nombre').value.trim();
+  var tel    = $('tel').value.replace(/\D/g,'');
   var dpi    = $('dpi').value.replace(/\D/g,'');
   var nac    = fechaISO();
   var trabajo= $('trabajo').value.trim();
@@ -414,6 +438,7 @@ $('frm').addEventListener('submit',function(ev){
 
   var ok = true;
   ok = marcar('nombre',  nombre.length < 5 || nombre.split(/\s+/).length < 2, 'e-nombre') && ok;
+  ok = marcar('tel',     tel.length !== 8,       'e-tel')     && ok;
   ok = marcar('dpi',     dpi.length !== 13,      'e-dpi')     && ok;
   ok = marcarFecha(!nac || edad(nac) < 18)                    && ok;
   ok = marcar('trabajo', trabajo.length < 3,     'e-trabajo') && ok;
@@ -446,9 +471,12 @@ $('frm').addEventListener('submit',function(ev){
   var L=[];
   L.push('*PRECALIFICACIÓN DE CRÉDITO*');
   L.push('');
+  var fechaTexto = $('nacD').value.padStart(2,'0')+'/'+$('nacM').value.padStart(2,'0')+'/'+$('nacA').value;
+
   L.push('Nombre: *'+nombre+'*');
+  L.push('WhatsApp: *'+tel.slice(0,4)+' '+tel.slice(4)+'*');
   L.push('DPI: *'+dpi+'*');
-  L.push('Fecha de nacimiento: *'+$('nacD').value.padStart(2,'0')+'/'+$('nacM').value.padStart(2,'0')+'/'+$('nacA').value+'* ('+edad(nac)+' años)');
+  L.push('Fecha de nacimiento: *'+fechaTexto+'* ('+edad(nac)+' años)');
   L.push('Trabaja de: *'+trabajo+'*');
   L.push('Tiempo trabajando: *'+tiempo+'*');
   L.push('Documentos que puede presentar: *'+docsTexto+'*');
@@ -466,6 +494,34 @@ $('frm').addEventListener('submit',function(ev){
 
   var num = (ref && ref.telefono) ? ('502'+ref.telefono) : '50240165239';
   var url = 'https://wa.me/'+num+'?text='+encodeURIComponent(L.join('\n'));
+
+  /* ─── Kommo ───
+     Mandamos el lead a la etapa de PRECALIFICACIÓN. Va sin await y con
+     keepalive: si Kommo falla o todavía no está configurado, al cliente no
+     le pasa nada — igual sigue a WhatsApp. */
+  try{
+    fetch('/.netlify/functions/kommo-precalificacion',{
+      method:'POST',
+      keepalive:true,
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        leadId: LEAD,
+        nombre: nombre,
+        telefono: tel,
+        dpi: dpi,
+        nacimiento: nac,
+        nacimientoTexto: fechaTexto,
+        edad: edad(nac),
+        trabajo: trabajo,
+        tiempo: tiempo,
+        documentos: docsTexto,
+        moto: moto.nom,
+        motoId: moto.id,
+        precio: moto.p,
+        referencia: (ref && ref.codigo) || fCode || ''
+      })
+    }).catch(function(){});
+  }catch(e){}
 
   $('waLink').href = url;
   $('ok-nombre').textContent = nombre.split(/\s+/)[0];
