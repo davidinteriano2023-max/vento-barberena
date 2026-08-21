@@ -70,6 +70,18 @@ select{appearance:none;-webkit-appearance:none;cursor:pointer;
 .err{display:none;font-size:11.5px;color:#dc2626;font-weight:600;margin-top:5px}
 .err.on{display:block}
 
+/* Casillas cortas: día / mes / año, años / meses */
+.cajas{display:flex;gap:9px;align-items:flex-start}
+.caja{flex:0 0 82px;text-align:center}
+.caja-ancha{flex:0 0 104px}
+.caja input{text-align:center;font-size:19px;font-weight:700;letter-spacing:.08em;padding:12px 6px}
+.caja-l{display:block;margin-top:5px;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9aa0aa}
+@media(max-width:380px){
+  .caja{flex:1 1 0}
+  .caja-ancha{flex:1 1 0}
+  .caja input{font-size:17px}
+}
+
 .send{
   display:flex;align-items:center;justify-content:center;gap:11px;
   width:100%;margin-top:6px;padding:16px 12px;border:none;border-radius:12px;
@@ -145,9 +157,22 @@ footer a{color:#fff;font-weight:600}
         </div>
 
         <div class="f-row">
-          <label for="nac">Fecha de nacimiento <span class="req">*</span></label>
-          <input id="nac" name="nac" type="date" required>
-          <div class="err" id="e-nac">Tenés que ser mayor de 18 años para aplicar.</div>
+          <label for="nacD">Fecha de nacimiento <span class="req">*</span></label>
+          <div class="cajas" data-auto="1">
+            <div class="caja">
+              <input id="nacD" name="nacD" type="text" inputmode="numeric" maxlength="2" placeholder="00" autocomplete="off" aria-label="Día de nacimiento">
+              <span class="caja-l">Día</span>
+            </div>
+            <div class="caja">
+              <input id="nacM" name="nacM" type="text" inputmode="numeric" maxlength="2" placeholder="00" autocomplete="off" aria-label="Mes de nacimiento">
+              <span class="caja-l">Mes</span>
+            </div>
+            <div class="caja caja-ancha">
+              <input id="nacA" name="nacA" type="text" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off" aria-label="Año de nacimiento">
+              <span class="caja-l">Año</span>
+            </div>
+          </div>
+          <div class="err" id="e-nac">Revisá la fecha. Tenés que ser mayor de 18 años para aplicar.</div>
         </div>
 
         <div class="f-row">
@@ -157,8 +182,18 @@ footer a{color:#fff;font-weight:600}
         </div>
 
         <div class="f-row">
-          <label for="tiempo">¿Cuánto tiempo lleva trabajando? <span class="req">*</span></label>
-          <input id="tiempo" name="tiempo" type="text" placeholder="Ej. 2 años y medio" required>
+          <label for="tiempoA">¿Cuánto tiempo lleva trabajando? <span class="req">*</span></label>
+          <div class="cajas">
+            <div class="caja caja-ancha">
+              <input id="tiempoA" name="tiempoA" type="text" inputmode="numeric" maxlength="2" placeholder="0" autocomplete="off" aria-label="Años trabajando">
+              <span class="caja-l">Años</span>
+            </div>
+            <div class="caja caja-ancha">
+              <input id="tiempoM" name="tiempoM" type="text" inputmode="numeric" maxlength="2" placeholder="0" autocomplete="off" aria-label="Meses trabajando">
+              <span class="caja-l">Meses</span>
+            </div>
+          </div>
+          <div class="hint">Si llevás menos de un año, dejá los años en 0.</div>
           <div class="err" id="e-tiempo">Contanos cuánto tiempo llevás trabajando.</div>
         </div>
 
@@ -286,6 +321,58 @@ function edad(iso){
   return a;
 }
 
+/* ─── Casillas numéricas ───
+   Solo dígitos. En el grupo con data-auto (la fecha) el foco salta solo a la
+   siguiente casilla al completar los dígitos, y vuelve atrás con Borrar. */
+(function(){
+  document.querySelectorAll('.cajas input').forEach(function(el){
+    var grupo = el.closest('.cajas');
+    var auto  = grupo.hasAttribute('data-auto');
+    var todos = [].slice.call(grupo.querySelectorAll('input'));
+
+    el.addEventListener('input', function(){
+      var limpio = this.value.replace(/\D/g,'').slice(0, this.maxLength);
+      if(this.value !== limpio) this.value = limpio;
+      if(auto && limpio.length === this.maxLength){
+        var sig = todos[todos.indexOf(this)+1];
+        if(sig){ sig.focus(); sig.select(); }
+      }
+    });
+
+    el.addEventListener('keydown', function(ev){
+      if(ev.key === 'Backspace' && this.value === ''){
+        var ant = todos[todos.indexOf(this)-1];
+        if(ant){ ev.preventDefault(); ant.focus(); ant.value = ant.value.slice(0,-1); }
+      }
+    });
+
+    el.addEventListener('focus', function(){ this.select(); });
+  });
+})();
+
+/* Arma el ISO de la fecha; devuelve '' si el día/mes/año no forman una real */
+function fechaISO(){
+  var d=$('nacD').value, m=$('nacM').value, a=$('nacA').value;
+  if(d.length<1 || m.length<1 || a.length!==4) return '';
+  var D=+d, M=+m, A=+a, hoy=new Date().getFullYear();
+  if(M<1 || M>12 || D<1 || D>31 || A<1920 || A>hoy) return '';
+  var f=new Date(A, M-1, D);
+  if(f.getFullYear()!==A || f.getMonth()!==M-1 || f.getDate()!==D) return '';
+  return A+'-'+String(M).padStart(2,'0')+'-'+String(D).padStart(2,'0');
+}
+
+/* Marca o limpia las 3 casillas de la fecha a la vez */
+function marcarFecha(malo){
+  ['nacD','nacM','nacA'].forEach(function(id){ $(id).classList.toggle('bad', malo); });
+  $('e-nac').classList.toggle('on', malo);
+  return !malo;
+}
+function marcarTiempo(malo){
+  ['tiempoA','tiempoM'].forEach(function(id){ $(id).classList.toggle('bad', malo); });
+  $('e-tiempo').classList.toggle('on', malo);
+  return !malo;
+}
+
 /* "Otros" en documentos abre un campo para que escriba cuáles */
 $('docs').addEventListener('change',function(){
   var otros = this.value === 'Otros';
@@ -310,21 +397,35 @@ $('frm').addEventListener('submit',function(ev){
 
   var nombre = $('nombre').value.trim();
   var dpi    = $('dpi').value.replace(/\D/g,'');
-  var nac    = $('nac').value;
+  var nac    = fechaISO();
   var trabajo= $('trabajo').value.trim();
-  var tiempo = $('tiempo').value.trim();
+  var tA     = $('tiempoA').value.trim();
+  var tM     = $('tiempoM').value.trim();
   var docs   = $('docs').value;
   var otro   = $('docsOtro').value.trim();
   var motoId = $('moto').value;
 
+  var anios = tA === '' ? null : +tA;
+  var meses = tM === '' ? null : +tM;
+  var tiempoMalo = (anios === null && meses === null)
+                || (anios !== null && (anios < 0 || anios > 60))
+                || (meses !== null && (meses < 0 || meses > 11))
+                || ((anios || 0) === 0 && (meses || 0) === 0);
+
   var ok = true;
   ok = marcar('nombre',  nombre.length < 5 || nombre.split(/\s+/).length < 2, 'e-nombre') && ok;
   ok = marcar('dpi',     dpi.length !== 13,      'e-dpi')     && ok;
-  ok = marcar('nac',     edad(nac) < 18,         'e-nac')     && ok;
+  ok = marcarFecha(!nac || edad(nac) < 18)                    && ok;
   ok = marcar('trabajo', trabajo.length < 3,     'e-trabajo') && ok;
-  ok = marcar('tiempo',  tiempo.length < 2,      'e-tiempo')  && ok;
+  ok = marcarTiempo(tiempoMalo)                               && ok;
   ok = marcar('docs',    !docs,                  'e-docs')    && ok;
   ok = marcar('moto',    !motoId,                'e-moto')    && ok;
+
+  /* "2 años 6 meses" / "8 meses" / "3 años" */
+  var partes = [];
+  if((anios||0) > 0) partes.push((anios||0) + (anios === 1 ? ' año'  : ' años'));
+  if((meses||0) > 0) partes.push((meses||0) + (meses === 1 ? ' mes'  : ' meses'));
+  var tiempo = partes.join(' ');
   if(docs === 'Otros') ok = marcar('docsOtro', otro.length < 3, 'e-docsOtro') && ok;
 
   /* Si eligió "Otros", en el mensaje va lo que escribió */
@@ -347,7 +448,7 @@ $('frm').addEventListener('submit',function(ev){
   L.push('');
   L.push('Nombre: *'+nombre+'*');
   L.push('DPI: *'+dpi+'*');
-  L.push('Fecha de nacimiento: *'+nac+'* ('+edad(nac)+' años)');
+  L.push('Fecha de nacimiento: *'+$('nacD').value.padStart(2,'0')+'/'+$('nacM').value.padStart(2,'0')+'/'+$('nacA').value+'* ('+edad(nac)+' años)');
   L.push('Trabaja de: *'+trabajo+'*');
   L.push('Tiempo trabajando: *'+tiempo+'*');
   L.push('Documentos que puede presentar: *'+docsTexto+'*');
