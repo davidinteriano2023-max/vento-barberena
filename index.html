@@ -1552,6 +1552,20 @@ function planes(p){
   ];
 }
 
+/* ─── Lead de Kommo ───
+   El bot manda el enlace como  https://ventobarberena.com?lead={{lead.id}}
+   Lo guardamos apenas entra para no perderlo si navega a otra página, y así
+   el formulario actualiza ESE lead en vez de crear uno nuevo. */
+function vbLead(){
+  try{
+    var u = new URLSearchParams(location.search).get('lead');
+    if(u && /^\d+$/.test(u)){ sessionStorage.setItem('vbLead', u); return u; }
+    var g = sessionStorage.getItem('vbLead');
+    return (g && /^\d+$/.test(g)) ? g : '';
+  }catch(e){ return ''; }
+}
+vbLead();
+
 /* Slug público de cada moto — debe coincidir con build-paginas.js */
 function vbSlug(s){
   return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -1835,6 +1849,7 @@ function actuPre(){
   qs.set('m',moto.id);
   const col=document.querySelector('.sw.on')?.getAttribute('title'); if(col) qs.set('c',col);
   const f=new URLSearchParams(location.search).get('f'); if(f) qs.set('f',f);
+  const lead=vbLead(); if(lead) qs.set('lead',lead);
   b.href='/precalificar/?'+qs.toString();
 }
 function actuWA(){

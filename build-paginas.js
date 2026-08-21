@@ -254,6 +254,22 @@ ${HEADER}
 ${cuerpo}
 </div>
 ${FOOTER}
+<script>
+/* Arrastra el ?lead= de Kommo hasta el botón de precalificar, para que el
+   formulario actualice ese lead y no cree uno nuevo. */
+(function(){
+  var id='';
+  try{
+    var u=new URLSearchParams(location.search).get('lead');
+    if(u&&/^\\d+$/.test(u)){ sessionStorage.setItem('vbLead',u); id=u; }
+    else { var g=sessionStorage.getItem('vbLead'); if(g&&/^\\d+$/.test(g)) id=g; }
+  }catch(e){}
+  if(!id) return;
+  document.querySelectorAll('a[href^="/precalificar/"]').forEach(function(a){
+    a.href += (a.href.indexOf('?')<0?'?':'&')+'lead='+encodeURIComponent(id);
+  });
+})();
+</script>
 </body>
 </html>
 `;
