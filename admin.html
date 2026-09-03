@@ -421,7 +421,7 @@ function renderFl(){
       '<button class="mini '+(on?'red':'')+'" onclick="toggleActivo(\''+f.codigo+'\','+on+')">'+(on?'Baja':'Alta')+'</button></td></tr>';
   }).join(''):'<tr><td colspan="8" class="empty">Sin freelancers todavía.</td></tr>';
 }
-function copiarLink(cod){ navigator.clipboard.writeText('https://www.ventobarberena.com/?f='+cod).then(()=>showToast('📋','Link copiado')); }
+function copiarLink(cod){ navigator.clipboard.writeText('https://www.comercializadorawb.com/?f='+cod).then(()=>showToast('📋','Link copiado')); }
 async function toggleActivo(cod,on){ if(!confirm((on?'¿Dar de baja (desactivar)':'¿Dar de alta (activar)')+' a '+cod+'?'))return; try{ await db.collection('vento_freelancers').doc(cod).update({activo:!on}); showToast('✓',on?'Freelancer desactivado':'Freelancer activado'); await cargarFreelance(); }catch(e){ showToast('⚠','No se pudo actualizar'); } }
 function openFlModal(){ flEditCodigo=null; $('flModalTitle').textContent='Dar de alta freelance'; $('flModalSub').textContent='Completá los datos del nuevo freelancer.'; $('fmNombre').value=''; $('fmCodigo').value=''; $('fmTel').value=''; $('fmEmail').value=''; $('fmCodigo').disabled=false; $('flModal').classList.add('on'); }
 function editarFl(cod){ const f=FLS.find(x=>x.codigo===cod); if(!f)return; flEditCodigo=cod; $('flModalTitle').textContent='Editar freelance'; $('flModalSub').textContent='El código no se puede cambiar.'; $('fmNombre').value=f.nombre||''; $('fmCodigo').value=f.codigo; $('fmTel').value=f.telefono||''; $('fmEmail').value=f.email||''; $('fmCodigo').disabled=true; $('flModal').classList.add('on'); }

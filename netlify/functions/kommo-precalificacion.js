@@ -21,7 +21,7 @@
 // ─── Modo descubrir ───
 // Para no andar buscando los ids a mano: poné KOMMO_DESCUBRIR_CLAVE con una
 // palabra cualquiera y entrá a
-//   https://ventobarberena.com/.netlify/functions/kommo-precalificacion?descubrir=<esa palabra>
+//   https://comercializadorawb.com/.netlify/functions/kommo-precalificacion?descubrir=<esa palabra>
 // Te devuelve los embudos, sus etapas y los campos personalizados con sus ids.
 // Cuando termines de configurar, borrá esa variable para cerrar el acceso.
 

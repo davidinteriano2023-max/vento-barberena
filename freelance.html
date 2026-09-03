@@ -304,7 +304,7 @@ async function registrar(){
   }
 }
 function mostrarExito(codigo){
-  miLink = 'https://www.ventobarberena.com/?f=' + codigo;
+  miLink = 'https://www.comercializadorawb.com/?f=' + codigo;
   $('okLink').textContent = miLink;
   $('okQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(miLink);
   $('secReg').style.display='none'; $('secOk').style.display='block';

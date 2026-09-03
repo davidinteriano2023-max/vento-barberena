@@ -151,7 +151,7 @@ function iniciarPanel(uid){
   $('gate').style.display='none'; $('panel').style.display='block';
   $('btnOut').style.display='inline-block';
   $('chipCod').style.display='inline-block'; $('chipCod').textContent = FL.codigo;
-  miLink = 'https://www.ventobarberena.com/?f=' + FL.codigo;
+  miLink = 'https://www.comercializadorawb.com/?f=' + FL.codigo;
   $('miLink').textContent = miLink;
   $('imgQR').src = 'https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=' + encodeURIComponent(miLink);
   cargarStats(uid);
