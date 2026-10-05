@@ -439,6 +439,21 @@ exports.handler = async function (event) {
 
   /* ── Pruebas desde el navegador ── */
   if (event.httpMethod === 'GET') {
+    if (q.whatsapp_prueba) {
+      // Manda un WhatsApp de prueba por CallMeBot y devuelve lo que respondió
+      const phones = conf('CALLMEBOT_PHONE').split(',').map((s) => s.trim()).filter(Boolean);
+      const keys = conf('CALLMEBOT_APIKEY').split(',').map((s) => s.trim()).filter(Boolean);
+      if (!phones.length || !keys.length) return responder(200, { ok: false, error: 'Falta CALLMEBOT_PHONE o CALLMEBOT_APIKEY' });
+      const out = [];
+      for (let i = 0; i < phones.length; i++) {
+        const url = 'https://api.callmebot.com/whatsapp.php?phone=' + encodeURIComponent(phones.at(i)) +
+          '&text=' + encodeURIComponent('✅ Prueba: alertas de WhatsApp de la IA de Kommo funcionando') +
+          '&apikey=' + encodeURIComponent(keys.at(i) || keys.at(0));
+        try { const r = await fetch(url); out.push({ telefono: phones.at(i), status: r.status, respuesta: (await r.text()).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 200) }); }
+        catch (e) { out.push({ telefono: phones.at(i), error: e.message }); }
+      }
+      return responder(200, { ok: true, resultados: out });
+    }
     if (q.correo_prueba) {
       // Envía un correo de prueba y devuelve la respuesta exacta de Resend
       try {
