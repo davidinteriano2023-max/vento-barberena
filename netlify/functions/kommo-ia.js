@@ -267,7 +267,9 @@ async function preguntarAClaude(conocimiento, historial, mensaje) {
           }
         ],
         tools: [HERRAMIENTA],
-        tool_choice: { type: 'tool', name: HERRAMIENTA.name },
+        // Algunos modelos no aceptan forzar la herramienta: se deja en "auto"
+        // y el prompt le pide usarla siempre. Si contesta en texto, se aprovecha.
+        tool_choice: { type: 'auto' },
         messages: armarMensajes(historial, mensaje)
       })
     });
@@ -277,9 +279,20 @@ async function preguntarAClaude(conocimiento, historial, mensaje) {
       e.status = r.status;
       throw e;
     }
-    const uso = (data.content || []).find((c) => c.type === 'tool_use');
-    if (!uso || !uso.input || !uso.input.respuesta) throw new Error('Claude no devolvió la herramienta');
-    return uso.input;
+    const uso = (data.content || []).find((c) => c.type === 'tool_use' && c.name === HERRAMIENTA.name);
+    if (uso && uso.input && uso.input.respuesta) return uso.input;
+
+    // Respaldo: Claude contestó en texto libre
+    const texto = (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('\n').trim();
+    if (!texto) throw new Error('Claude no devolvió respuesta');
+    const json = texto.match(/\{[\s\S]*"respuesta"[\s\S]*\}/);
+    if (json) {
+      try {
+        const o = JSON.parse(json[0]);
+        if (o.respuesta) return o;
+      } catch (_) { /* sigue abajo */ }
+    }
+    return { respuesta: texto.slice(0, 1000), cta: '', accion: 'conversar' };
   } finally {
     clearTimeout(t);
   }
