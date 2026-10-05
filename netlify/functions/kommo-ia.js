@@ -43,12 +43,12 @@ const {
 /* Contexto que recibe la IA según la etapa del embudo en que está el lead.
    Se puede ampliar con la variable IA_CONTEXTO_ETAPAS (JSON {"id":"texto"}). */
 const CONTEXTO_ETAPAS = Object.assign({
-  '108325723': 'El lead está en la etapa EFECTIVO: el cliente ya eligió pagar de CONTADO. forma_pago = efectivo. No preguntés la forma de pago; seguí el camino B (efectivo) y tomá sus datos.',
-  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: el cliente ya eligió pagar con TARJETA DE CRÉDITO. forma_pago = tarjeta. No preguntés la forma de pago; seguí el camino C (tarjeta) y tomá sus datos, incluida la tarjeta y las cuotas.',
-  '112543376': 'El lead está en la etapa PRUEBA IA (pruebas internas). Seguí el proceso de venta completo.'
+  '108325723': 'El lead está en la etapa EFECTIVO: es probable que quiera pagar de contado. Igual preguntá la forma de pago cuando diga qué moto quiere (mencioná primero efectivo). Si confirma efectivo, seguí el camino B.',
+  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: es probable que quiera pagar con tarjeta. Igual preguntá la forma de pago cuando diga qué moto quiere (mencioná primero tarjeta de crédito). Si confirma tarjeta, seguí el camino C.'
 }, (() => { try { return JSON.parse(process.env.IA_CONTEXTO_ETAPAS || '{}'); } catch (_) { return {}; } })());
 
 const PAUSA = '__PAUSA__';
+const SIN_CTA = '-';
 const conf = (k, def) => String(process.env[k] || def || '').trim();
 
 const MODELO = conf('CLAUDE_MODEL', 'claude-sonnet-5-5');
@@ -508,7 +508,7 @@ exports.handler = async function (event) {
     try {
       const c = await obtenerConocimiento();
       if (q.probar) {
-        const r = await preguntarAClaude(c, [], String(q.probar).slice(0, 1000), 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (saludo + pedir nombre; CTA = qué moto desea).');
+        const r = await preguntarAClaude(c, [], String(q.probar).slice(0, 1000), 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (una sola burbuja: saludo + pedir nombre, cta vacío; si ya preguntó algo concreto, respondelo y usá el cta).');
         return responder(200, { modelo: MODELO, prueba: q.probar, resultado: r });
       }
       return responder(200, {
@@ -551,7 +551,7 @@ exports.handler = async function (event) {
   if (mensajeVacio) {
     mensaje = chat.historial.length
       ? '[El cliente envió una foto, audio, sticker o archivo sin texto]'
-      : '[PRIMER CONTACTO: el cliente acaba de entrar a la etapa y todavía no escribió nada. Saludalo, presentate y pedile su nombre; en el CTA preguntá qué moto desea.]';
+      : '[PRIMER CONTACTO: el cliente acaba de entrar a la etapa y todavía no escribió nada. Saludalo, presentate y pedile su nombre, en UNA sola burbuja (cta vacío).]';
   }
 
   let r;
@@ -560,7 +560,7 @@ exports.handler = async function (event) {
     if (conR.status === 'rejected') throw conR.reason;
     const etapaTexto = lead ? CONTEXTO_ETAPAS[String(lead.status_id)] : '';
     const primerContacto = !chat.historial.some((m) => m && m.r === 'a');
-    const notaPrimer = primerContacto ? 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (saludo + pedir nombre; CTA = qué moto desea).' : '';
+    const notaPrimer = primerContacto ? 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (una sola burbuja: saludo + pedir nombre, cta vacío; si ya preguntó algo concreto, respondelo y usá el cta).' : '';
     r = await preguntarAClaude(conR.value, chat.historial, mensaje, [etapaTexto, notaPrimer].filter(Boolean).join('\n'));
   } catch (e) {
     fallo = e;
@@ -569,7 +569,8 @@ exports.handler = async function (event) {
   }
 
   const respuesta = String(r.respuesta || '').trim() || RESPUESTA_ESPERA.respuesta;
-  const cta = String(r.cta || '').trim() || ('🏍️ Mirá todos los modelos y precios: ' + SITIO + '/motos/');
+  // CTA vacío = una sola burbuja: el campo IA_CTA queda en "-" y el Salesbot (condición) no lo envía
+  const cta = String(r.cta || '').trim() || SIN_CTA;
   r.respuesta = respuesta;
   r.cta = cta;
 
@@ -630,7 +631,7 @@ exports.handler = async function (event) {
   }
   const historial = chat.historial.concat([
     { r: 'u', t: mensaje },
-    { r: 'a', t: respuesta + '\n' + cta }
+    { r: 'a', t: cta === SIN_CTA ? respuesta : respuesta + '\n' + cta }
   ]);
   const usaCampo = Boolean(Number(conf('KOMMO_CF_IA_MEMORIA')));
   tareas.push(actualizarLead(leadId, {
