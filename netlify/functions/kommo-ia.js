@@ -43,11 +43,17 @@ const {
 /* Contexto que recibe la IA según la etapa del embudo en que está el lead.
    Se puede ampliar con la variable IA_CONTEXTO_ETAPAS (JSON {"id":"texto"}). */
 const CONTEXTO_ETAPAS = Object.assign({
-  '108325723': 'El lead está en la etapa EFECTIVO: es probable que quiera pagar de contado. Igual preguntá la forma de pago cuando diga qué moto quiere (mencioná primero efectivo). Si confirma efectivo, seguí el camino B.',
-  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: es probable que quiera pagar con tarjeta. Igual preguntá la forma de pago cuando diga qué moto quiere (mencioná primero tarjeta de crédito). Si confirma tarjeta, seguí el camino C.'
+  '108325723': 'El lead está en la etapa EFECTIVO porque el cliente YA ELIGIÓ pagar de CONTADO en el menú de bienvenida. forma_pago = efectivo. NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio de contado y seguí el camino B (tomar sus datos). Solo si él cambia de idea, pasá a otro camino.',
+  '108325727': 'El lead está en la etapa TARJETA DE CREDITO porque el cliente YA ELIGIÓ pagar con TARJETA DE CRÉDITO en el menú de bienvenida. forma_pago = tarjeta. NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio y seguí el camino C (datos + tarjeta + cuotas). Solo si él cambia de idea, pasá a otro camino.'
 }, (() => { try { return JSON.parse(process.env.IA_CONTEXTO_ETAPAS || '{}'); } catch (_) { return {}; } })());
 
 const PAUSA = '__PAUSA__';
+/* Kommo borra los emojis (caracteres fuera del plano básico) de los campos: se quitan aquí
+   para que no queden espacios dobles. */
+function limpiarTexto(t) {
+  return String(t || '').replace(/[\u{10000}-\u{10FFFF}]/gu, '').replace(/[\uFE0F\u200D]/g, '')
+    .replace(/[ \t]{2,}/g, ' ').replace(/ +([,.!?])/g, '$1').trim();
+}
 const SIN_CTA = '-';
 const conf = (k, def) => String(process.env[k] || def || '').trim();
 
@@ -146,11 +152,13 @@ async function telefonoContacto(lead) {
   }
 }
 
-async function actualizarLead(leadId, { cta, tags, memoria, crm }) {
+async function actualizarLead(leadId, { respuesta, cta, tags, memoria, crm }) {
   if (!kommoListo() || !leadId) return;
   const cuerpo = {};
   const campos = [];
   const idCta = Number(conf('KOMMO_CF_IA_CTA'));
+  const idResp = Number(conf('KOMMO_CF_IA_RESPUESTA', '2102153'));
+  if (idResp && respuesta) campos.push({ field_id: idResp, values: [{ value: respuesta }] });
   const idMem = Number(conf('KOMMO_CF_IA_MEMORIA'));
   if (idCta && cta != null) campos.push({ field_id: idCta, values: [{ value: cta }] });
   if (idMem && memoria) campos.push({ field_id: idMem, values: [{ value: memoria }] });
@@ -460,8 +468,8 @@ function motivoPausa(lead) {
 }
 
 const RESPUESTA_ESPERA = {
-  respuesta: '¡Gracias por escribirnos! 🙌 Dame un momento, un asesor te responde en breve por aquí mismo.',
-  cta: '📲 También podés escribirnos al ' + WHATSAPP,
+  respuesta: '¡Gracias por escribirnos! Dame un momento, un asesor te responde en breve por aquí mismo.',
+  cta: 'También podés escribirnos al ' + WHATSAPP,
   accion: 'conversar'
 };
 
@@ -568,9 +576,9 @@ exports.handler = async function (event) {
     r = Object.assign({}, RESPUESTA_ESPERA);
   }
 
-  const respuesta = String(r.respuesta || '').trim() || RESPUESTA_ESPERA.respuesta;
+  const respuesta = limpiarTexto(r.respuesta) || RESPUESTA_ESPERA.respuesta;
   // CTA vacío = una sola burbuja: el campo IA_CTA queda en "-" y el Salesbot (condición) no lo envía
-  const cta = String(r.cta || '').trim() || SIN_CTA;
+  const cta = limpiarTexto(r.cta) || SIN_CTA;
   r.respuesta = respuesta;
   r.cta = cta;
 
@@ -635,11 +643,12 @@ exports.handler = async function (event) {
   ]);
   const usaCampo = Boolean(Number(conf('KOMMO_CF_IA_MEMORIA')));
   tareas.push(actualizarLead(leadId, {
-    cta, tags, crm, memoria: usaCampo ? memoriaComoTexto(historial, estado) : null
+    respuesta, cta, tags, crm, memoria: usaCampo ? memoriaComoTexto(historial, estado) : null
   }));
   if (!usaCampo) tareas.push(guardarChat(leadId, historial, estado));
 
-  const res = await conTimeout(Promise.allSettled(tareas), 2500, 'tareas').catch(() => []);
+  // 3.5 s: alcanza para que Kommo guarde IA_Respuesta e IA_CTA antes de que el Salesbot los envíe
+  const res = await conTimeout(Promise.allSettled(tareas), 3500, 'tareas').catch(() => []);
   (res || []).forEach((x) => { if (x.status === 'rejected') console.error('Tarea falló:', x.reason && x.reason.message); });
 
   return salida(respuesta, cta, { accion: r.accion || 'conversar' });
