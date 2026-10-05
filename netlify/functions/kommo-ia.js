@@ -43,9 +43,9 @@ const {
 /* Contexto que recibe la IA según la etapa del embudo en que está el lead.
    Se puede ampliar con la variable IA_CONTEXTO_ETAPAS (JSON {"id":"texto"}). */
 const CONTEXTO_ETAPAS = Object.assign({
-  '108325723': 'El lead está en la etapa EFECTIVO: el cliente quiere comprar de CONTADO (pago en efectivo). No le ofrezcás crédito ni precalificación salvo que él lo pida. Enfocate en el precio de contado, las promociones por pago en efectivo que diga el conocimiento, los colores disponibles y en coordinar su visita a la agencia para pagar y llevarse la moto. Como CTA usá la ubicación (Google Maps) o la invitación a visitar la agencia.',
-  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: el cliente quiere pagar con TARJETA DE CRÉDITO. Confirmá que se aceptan todas las tarjetas de crédito con pago en tienda (según el conocimiento). No ofrezcás precalificación de crédito salvo que él lo pida. Enfocate en el modelo, el precio, los colores y en coordinar su visita a la agencia. Si pregunta por cuotas con tarjeta (visacuotas), decí que el asesor le confirma las opciones de su banco.',
-  '112543376': 'El lead está en la etapa PRUEBA IA (pruebas internas).'
+  '108325723': 'El lead está en la etapa EFECTIVO: el cliente ya eligió pagar de CONTADO. forma_pago = efectivo. No preguntés la forma de pago; seguí el camino B (efectivo) y tomá sus datos.',
+  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: el cliente ya eligió pagar con TARJETA DE CRÉDITO. forma_pago = tarjeta. No preguntés la forma de pago; seguí el camino C (tarjeta) y tomá sus datos, incluida la tarjeta y las cuotas.',
+  '112543376': 'El lead está en la etapa PRUEBA IA (pruebas internas). Seguí el proceso de venta completo.'
 }, (() => { try { return JSON.parse(process.env.IA_CONTEXTO_ETAPAS || '{}'); } catch (_) { return {}; } })());
 
 const PAUSA = '__PAUSA__';
@@ -60,6 +60,29 @@ const ALERTAS = () => conf('IA_ALERTAS_EMAIL', 'davidinteriano2023@gmail.com')
   .split(',').map((s) => s.trim()).filter(Boolean);
 
 const T_CLAUDE_MS = Number(conf('IA_TIMEOUT_MS', '7500'));
+const ASESOR_NOMBRE = conf('IA_ASESOR_NOMBRE', 'David Interiano');
+const ASESOR_TEL = conf('IA_ASESOR_TEL', '3182-3625');
+const DIAS_URGENTE = Number(conf('IA_DIAS_URGENTE', '15'));
+
+/* Campos del lead en Kommo donde se guardan los datos que toma la IA.
+   Se pueden cambiar con IA_CAMPOS_CRM (JSON {"nombre":id,...}). */
+const CAMPOS_CRM = Object.assign({
+  nombre: 685792,          // NOMBRE
+  modelo: 685844,          // MOTOCICLETA
+  telefono: 685976,        // NUMERO
+  forma_pago: 2102247,     // FORMA DE PAGO
+  fecha_compra: 2102249,   // FECHA DE COMPRA
+  tarjeta: 2102251,        // TARJETA
+  cuotas: 2102253          // CUOTAS
+}, (() => { try { return JSON.parse(process.env.IA_CAMPOS_CRM || '{}'); } catch (_) { return {}; } })());
+
+const ETIQUETA_PAGO = { efectivo: 'IA EFECTIVO', tarjeta: 'IA TARJETA', financiamiento: 'IA FINANCIAMIENTO' };
+
+function hoyGuatemala() {
+  const d = new Date(Date.now() - 6 * 3600 * 1000);
+  const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  return dias.at(d.getUTCDay()) + ' ' + d.toISOString().slice(0, 10);
+}
 const T_KOMMO_MS = 3000;
 const MAX_HISTORIAL = 20;
 
@@ -123,7 +146,7 @@ async function telefonoContacto(lead) {
   }
 }
 
-async function actualizarLead(leadId, { cta, tags, memoria }) {
+async function actualizarLead(leadId, { cta, tags, memoria, crm }) {
   if (!kommoListo() || !leadId) return;
   const cuerpo = {};
   const campos = [];
@@ -131,6 +154,11 @@ async function actualizarLead(leadId, { cta, tags, memoria }) {
   const idMem = Number(conf('KOMMO_CF_IA_MEMORIA'));
   if (idCta && cta != null) campos.push({ field_id: idCta, values: [{ value: cta }] });
   if (idMem && memoria) campos.push({ field_id: idMem, values: [{ value: memoria }] });
+  Object.keys(crm || {}).forEach((k) => {
+    const id = Number(CAMPOS_CRM[k]);
+    const v = String(crm[k] == null ? '' : crm[k]).trim();
+    if (id && v) campos.push({ field_id: id, values: [{ value: v.slice(0, 250) }] });
+  });
   if (campos.length) cuerpo.custom_fields_values = campos;
   if (tags && tags.length) cuerpo.tags_to_add = tags.map((name) => ({ name }));
   if (!Object.keys(cuerpo).length) return;
@@ -266,7 +294,7 @@ async function preguntarAClaude(conocimiento, historial, mensaje, etapaTexto) {
         model: MODELO,
         max_tokens: 700,
         system: [
-          { type: 'text', text: instrucciones({ whatsapp: WHATSAPP, sitio: SITIO }) },
+          { type: 'text', text: instrucciones({ whatsapp: WHATSAPP, sitio: SITIO, hoy: hoyGuatemala(), asesorNombre: ASESOR_NOMBRE, asesorTel: ASESOR_TEL }) },
           {
             type: 'text',
             text: '# CONOCIMIENTO ACTUAL DEL SITIO (actualizado ' +
@@ -332,13 +360,16 @@ async function correoCompra({ leadId, lead, tel, r, mensaje }) {
   const d = r.datos_cliente || {};
   await enviarCorreoResend({
     to: ALERTAS(),
-    subject: '🏍️ Compra en curso: ' + (d.modelo || 'Moto Vento') + ' — ' + (d.nombre || (lead && lead.name) || 'cliente de WhatsApp'),
-    html: '<h2 style="font-family:Arial,sans-serif;color:#0057C8">🏍️ Cliente con intención de compra</h2>' +
+    subject: '🏍️ Compra en ' + (Number(d.dias_para_compra) <= 0 ? 'HOY' : (d.dias_para_compra + ' días')) + ' (' + (d.forma_pago || '—') + '): ' + (d.modelo || 'Moto Vento') + ' — ' + (d.nombre || (lead && lead.name) || 'cliente de WhatsApp'),
+    html: '<h2 style="font-family:Arial,sans-serif;color:#0057C8">🏍️ Cliente listo para comprar — contactar desde el ' + escapeHtml(ASESOR_TEL) + '</h2>' +
       tablaHtml([
         ['Cliente', d.nombre || (lead && lead.name)],
         ['Teléfono', d.telefono || tel],
         ['Moto', d.modelo],
         ['Forma de pago', d.forma_pago],
+        ['Cuándo compra', d.fecha_compra],
+        ['Tarjeta', d.tarjeta],
+        ['Cuotas', d.cuotas],
         ['Qué quiere', d.comentario],
         ['Lead', leadId ? '#' + leadId : '']
       ]) + pieHtml(leadId, mensaje, r)
@@ -397,6 +428,8 @@ function lineaWa(leadId, lead, tel, r, mensaje) {
     'Tel: ' + (d.telefono || tel || '—') + '\n' +
     (d.modelo ? 'Moto: ' + d.modelo + '\n' : '') +
     (d.forma_pago ? 'Pago: ' + d.forma_pago + '\n' : '') +
+    (d.fecha_compra ? 'Cuándo: ' + d.fecha_compra + '\n' : '') +
+    (d.tarjeta ? 'Tarjeta: ' + d.tarjeta + (d.cuotas ? ' · ' + d.cuotas + ' cuotas' : '') + '\n' : '') +
     'Mensaje: ' + String(mensaje || '').slice(0, 200) + '\n' +
     (linkLead(leadId) || '');
 }
@@ -542,22 +575,29 @@ exports.handler = async function (event) {
   const estado = Object.assign({}, chat.estado);
   const tags = [];
   const tareas = [];
-  const necesitaTel = !fallo && (r.accion === 'compra' || r.accion === 'asesor' || r.accion === 'sin_informacion');
+  const necesitaTel = !fallo && (r.accion === 'compra' || r.accion === 'asesor' || r.accion === 'sin_informacion' ||
+    Boolean(r.datos_cliente && /mismo|este n[uú]mero|whats/i.test(String(r.datos_cliente.telefono || ''))));
   const tel = necesitaTel && lead ? await conTimeout(telefonoContacto(lead), 1500, 'tel').catch(() => '') : '';
 
   if (fallo) {
     tareas.push(correoFalla(fallo, leadId, mensaje));
   } else if (r.accion === 'compra') {
-    tags.push(TAG_COMPRA);
-    const firma = JSON.stringify(r.datos_cliente || {});
+    const d = r.datos_cliente || {};
+    const firma = JSON.stringify(d);
     if (estado.compraNotificada !== firma) {
       estado.compraNotificada = firma;
+      tareas.push(notaLead(leadId, '🤖 IA: datos de compra\nMoto: ' + (d.modelo || '—') +
+        '\nPago: ' + (d.forma_pago || '—') + (d.tarjeta ? ' · ' + d.tarjeta : '') + (d.cuotas ? ' · ' + d.cuotas + ' cuotas' : '') +
+        '\nCuándo: ' + (d.fecha_compra || '—') + '\nNombre: ' + (d.nombre || '—') + '\nTel: ' + (d.telefono || tel || '—') +
+        '\n' + (d.comentario || '')));
+    }
+    const dias = Number(d.dias_para_compra);
+    const contadoOTarjeta = d.forma_pago === 'efectivo' || d.forma_pago === 'tarjeta';
+    if (contadoOTarjeta && Number.isFinite(dias) && dias <= DIAS_URGENTE && !estado.alertaVendedor) {
+      estado.alertaVendedor = new Date().toISOString();
+      tags.push('COMPRA ' + DIAS_URGENTE + ' DIAS');
       tareas.push(correoCompra({ leadId, lead, tel, r, mensaje }));
-      tareas.push(whatsappAlerta('🏍️ COMPRA EN CURSO (IA Kommo)\n' + lineaWa(leadId, lead, tel, r, mensaje)));
-      const d = r.datos_cliente || {};
-      tareas.push(notaLead(leadId, '🤖 IA: intención de compra\nMoto: ' + (d.modelo || '—') +
-        '\nForma de pago: ' + (d.forma_pago || '—') + '\nNombre: ' + (d.nombre || '—') +
-        '\nTel: ' + (d.telefono || tel || '—') + '\n' + (d.comentario || '')));
+      tareas.push(whatsappAlerta('🏍️ COMPRA EN ' + (dias <= 0 ? 'HOY' : dias + ' DÍAS') + ' (' + d.forma_pago + ')\n' + lineaWa(leadId, lead, tel, r, mensaje)));
     }
   } else if (r.accion === 'asesor') {
     tags.push(TAG_PAUSA);
@@ -573,13 +613,26 @@ exports.handler = async function (event) {
     }
   }
 
+  if (!fallo && r.datos_cliente) {
+    const fp = r.datos_cliente.forma_pago;
+    if (ETIQUETA_PAGO[fp] && estado.etiquetaPago !== fp) { estado.etiquetaPago = fp; tags.push(ETIQUETA_PAGO[fp]); }
+  }
+  const crm = {};
+  if (!fallo && r.datos_cliente) {
+    const d = r.datos_cliente;
+    if (!d.telefono || /mismo|este n[uú]mero|whats/i.test(d.telefono)) d.telefono = tel || d.telefono;
+    ['nombre', 'modelo', 'telefono', 'fecha_compra', 'tarjeta', 'cuotas'].forEach((k) => { if (d[k]) crm[k] = d[k]; });
+    if (d.forma_pago && d.forma_pago !== 'no_definido') crm.forma_pago = d.forma_pago;
+    const firmaCrm = JSON.stringify(crm);
+    if (estado.crm === firmaCrm) Object.keys(crm).forEach((k) => delete crm[k]); else estado.crm = firmaCrm;
+  }
   const historial = chat.historial.concat([
     { r: 'u', t: mensaje },
     { r: 'a', t: respuesta + '\n' + cta }
   ]);
   const usaCampo = Boolean(Number(conf('KOMMO_CF_IA_MEMORIA')));
   tareas.push(actualizarLead(leadId, {
-    cta, tags, memoria: usaCampo ? memoriaComoTexto(historial, estado) : null
+    cta, tags, crm, memoria: usaCampo ? memoriaComoTexto(historial, estado) : null
   }));
   if (!usaCampo) tareas.push(guardarChat(leadId, historial, estado));
 
