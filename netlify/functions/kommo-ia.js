@@ -403,6 +403,24 @@ exports.handler = async function (event) {
 
   /* ── Pruebas desde el navegador ── */
   if (event.httpMethod === 'GET') {
+    if (q.correo_prueba) {
+      // Envía un correo de prueba y devuelve la respuesta exacta de Resend
+      try {
+        const r = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + conf('RESEND_API_KEY') },
+          body: JSON.stringify({
+            from: conf('RESEND_FROM_EMAIL', 'LIA Vento Barberena <onboarding@resend.dev>'),
+            to: ALERTAS(),
+            subject: '✅ Prueba: alertas de la IA de Kommo funcionando',
+            html: '<p style="font-family:Arial,sans-serif">Si te llegó este correo, las alertas de compras, asesor y fallas de la IA de Kommo ya funcionan.</p>'
+          })
+        });
+        return responder(200, { resend_status: r.status, resend: await r.text(), destinatarios: ALERTAS() });
+      } catch (e) {
+        return responder(500, { error: e.message });
+      }
+    }
     try {
       const c = await obtenerConocimiento();
       if (q.probar) {
