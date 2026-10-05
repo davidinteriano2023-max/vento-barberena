@@ -508,7 +508,7 @@ exports.handler = async function (event) {
     try {
       const c = await obtenerConocimiento();
       if (q.probar) {
-        const r = await preguntarAClaude(c, [], String(q.probar).slice(0, 1000));
+        const r = await preguntarAClaude(c, [], String(q.probar).slice(0, 1000), 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (saludo + pedir nombre; CTA = qué moto desea).');
         return responder(200, { modelo: MODELO, prueba: q.probar, resultado: r });
       }
       return responder(200, {
@@ -551,7 +551,7 @@ exports.handler = async function (event) {
   if (mensajeVacio) {
     mensaje = chat.historial.length
       ? '[El cliente envió una foto, audio, sticker o archivo sin texto]'
-      : '[El cliente acaba de llegar al chat sin escribir nada todavía. Saludalo, presentate y preguntá qué moto o uso tiene en mente.]';
+      : '[PRIMER CONTACTO: el cliente acaba de entrar a la etapa y todavía no escribió nada. Saludalo, presentate y pedile su nombre; en el CTA preguntá qué moto desea.]';
   }
 
   let r;
@@ -559,7 +559,9 @@ exports.handler = async function (event) {
   try {
     if (conR.status === 'rejected') throw conR.reason;
     const etapaTexto = lead ? CONTEXTO_ETAPAS[String(lead.status_id)] : '';
-    r = await preguntarAClaude(conR.value, chat.historial, mensaje, etapaTexto);
+    const primerContacto = !chat.historial.some((m) => m && m.r === 'a');
+    const notaPrimer = primerContacto ? 'ES EL PRIMER CONTACTO con este cliente: seguí la sección PRIMER MENSAJE (saludo + pedir nombre; CTA = qué moto desea).' : '';
+    r = await preguntarAClaude(conR.value, chat.historial, mensaje, [etapaTexto, notaPrimer].filter(Boolean).join('\n'));
   } catch (e) {
     fallo = e;
     console.error('Falla IA:', e.message);
