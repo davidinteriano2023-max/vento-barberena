@@ -43,8 +43,8 @@ const {
 /* Contexto que recibe la IA según la etapa del embudo en que está el lead.
    Se puede ampliar con la variable IA_CONTEXTO_ETAPAS (JSON {"id":"texto"}). */
 const CONTEXTO_ETAPAS = Object.assign({
-  '108325723': 'El lead está en la etapa EFECTIVO porque el cliente YA ELIGIÓ pagar de CONTADO en el menú de bienvenida. forma_pago = efectivo. NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio de contado y seguí el camino B (tomar sus datos). Solo si él cambia de idea, pasá a otro camino.',
-  '108325727': 'El lead está en la etapa TARJETA DE CREDITO porque el cliente YA ELIGIÓ pagar con TARJETA DE CRÉDITO en el menú de bienvenida. forma_pago = tarjeta. NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio y seguí el camino C (datos + tarjeta + cuotas). Solo si él cambia de idea, pasá a otro camino.'
+  '108325723': 'El lead está en la etapa EFECTIVO porque el cliente YA ELIGIÓ pagar de CONTADO en el menú de bienvenida. forma_pago = efectivo. Plantilla del saludo inicial: "¡Hola! Soy Sofía, tu asesora de *Vento Barberena*. ¡Qué bueno que quieras comprar tu *motocicleta de contado*! ¿Con quién tengo el gusto?". NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio de contado y seguí el camino B (tomar sus datos). Solo si él cambia de idea, pasá a otro camino.',
+  '108325727': 'El lead está en la etapa TARJETA DE CREDITO porque el cliente YA ELIGIÓ pagar con TARJETA DE CRÉDITO en el menú de bienvenida. forma_pago = tarjeta. Plantilla del saludo inicial: "¡Hola! Soy Sofía, tu asesora de *Vento Barberena*. ¡Qué bueno que quieras comprar tu *motocicleta con tarjeta de crédito*! ¿Con quién tengo el gusto?". NO le volvás a preguntar cómo quiere comprar: cuando diga qué moto quiere, dale el precio y seguí el camino C (datos + tarjeta + cuotas). Solo si él cambia de idea, pasá a otro camino.'
 }, (() => { try { return JSON.parse(process.env.IA_CONTEXTO_ETAPAS || '{}'); } catch (_) { return {}; } })());
 
 const PAUSA = '__PAUSA__';
@@ -502,7 +502,7 @@ exports.handler = async function (event) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + conf('RESEND_API_KEY') },
           body: JSON.stringify({
-            from: conf('RESEND_FROM_EMAIL', 'LIA Vento Barberena <onboarding@resend.dev>'),
+            from: conf('RESEND_FROM_EMAIL', 'Sofía Vento Barberena <onboarding@resend.dev>'),
             to: filtrarDestinatarios(ALERTAS()),
             subject: '✅ Prueba: alertas de la IA de Kommo funcionando',
             html: '<p style="font-family:Arial,sans-serif">Si te llegó este correo, las alertas de compras, asesor y fallas de la IA de Kommo ya funcionan.</p>'
