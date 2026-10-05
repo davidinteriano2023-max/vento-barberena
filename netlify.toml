@@ -20,5 +20,6 @@
 # La API key de Firebase Web es un identificador publico de cliente (la seguridad
 # real esta en las reglas de Firestore). Omitirla del escaneo de secretos.
 [build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_API_KEY"
+  # Valores que no son secretos (aparecen en el sitio): no escanearlos.
+  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_API_KEY,FIREBASE_PROJECT_ID,KOMMO_IA_SUBDOMINIO,KOMMO_SUBDOMINIO,IA_ALERTAS_EMAIL,IA_ETAPAS_IDS,KOMMO_CF_IA_CTA,KOMMO_CF_IA_MEMORIA"
   SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyD8MUzezXAT9EFy2RMKGyRSCaMfJIBmwIU"
