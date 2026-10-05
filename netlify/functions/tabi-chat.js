@@ -249,4 +249,3 @@ async function guardarEventoHumano({ message }) {
     console.error('No se pudo guardar el evento de escalamiento', err);
   }
 }
-                                                                              

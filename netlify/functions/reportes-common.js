@@ -218,4 +218,3 @@ module.exports = {
   rangoDiaGT, rangoSemanaGT, calcularMetricas, enviarCorreoResend,
   escapeHtml, formatearTablaCotizaciones, OFFSET_HORAS
 };
-                                                                              
