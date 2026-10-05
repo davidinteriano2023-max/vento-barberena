@@ -442,9 +442,7 @@ exports.handler = async function (event) {
   const b = leerCuerpo(event);
   const leadId = String(b.lead_id || b.leadId || (b.lead && b.lead.id) || '').replace(/\D/g, '');
   let mensaje = String(b.message || b.mensaje || b.message_text || '').trim().slice(0, 2000);
-  if (!mensaje || /^\{\{.*\}\}$/.test(mensaje)) {
-    mensaje = '[El cliente envió una foto, audio, sticker o archivo sin texto]';
-  }
+  const mensajeVacio = !mensaje || /^\{\{.*\}\}$/.test(mensaje);
 
   // Lead, conocimiento, historial e interruptor en paralelo
   const [leadR, conR, chatR, swR] = await Promise.allSettled([
@@ -461,8 +459,15 @@ exports.handler = async function (event) {
 
   const pausa = !activoFb ? 'IA apagada en Firebase (config/ia_kommo)' : motivoPausa(lead);
   if (pausa) {
+    // Respondemos con error a propósito: el paso de Webhook no sale por "éxito"
+    // y el Salesbot se detiene sin mandarle nada al cliente.
     console.log('Pausa lead ' + leadId + ': ' + pausa);
-    return salida(PAUSA, PAUSA, { pausa });
+    return responder(423, { pausa, reply: PAUSA, data: { reply: PAUSA } });
+  }
+  if (mensajeVacio) {
+    mensaje = chat.historial.length
+      ? '[El cliente envió una foto, audio, sticker o archivo sin texto]'
+      : '[El cliente acaba de llegar al chat sin escribir nada todavía. Saludalo, presentate y preguntá qué moto o uso tiene en mente.]';
   }
 
   let r;
