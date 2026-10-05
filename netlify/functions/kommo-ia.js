@@ -37,8 +37,16 @@
 const { obtenerConocimiento, SITIO, WHATSAPP } = require('./ia-conocimiento.js');
 const { instrucciones, HERRAMIENTA } = require('./ia-prompt.js');
 const {
-  enviarCorreoResend, escapeHtml, obtenerIdTokenServicio, FIRESTORE_BASE, FIREBASE_API_KEY
+  enviarCorreoResend, escapeHtml, obtenerIdTokenServicio, FIRESTORE_BASE, FIREBASE_API_KEY, filtrarDestinatarios
 } = require('./reportes-common.js');
+
+/* Contexto que recibe la IA según la etapa del embudo en que está el lead.
+   Se puede ampliar con la variable IA_CONTEXTO_ETAPAS (JSON {"id":"texto"}). */
+const CONTEXTO_ETAPAS = Object.assign({
+  '108325723': 'El lead está en la etapa EFECTIVO: el cliente quiere comprar de CONTADO (pago en efectivo). No le ofrezcás crédito ni precalificación salvo que él lo pida. Enfocate en el precio de contado, las promociones por pago en efectivo que diga el conocimiento, los colores disponibles y en coordinar su visita a la agencia para pagar y llevarse la moto. Como CTA usá la ubicación (Google Maps) o la invitación a visitar la agencia.',
+  '108325727': 'El lead está en la etapa TARJETA DE CREDITO: el cliente quiere pagar con TARJETA DE CRÉDITO. Confirmá que se aceptan todas las tarjetas de crédito con pago en tienda (según el conocimiento). No ofrezcás precalificación de crédito salvo que él lo pida. Enfocate en el modelo, el precio, los colores y en coordinar su visita a la agencia. Si pregunta por cuotas con tarjeta (visacuotas), decí que el asesor le confirma las opciones de su banco.',
+  '112543376': 'El lead está en la etapa PRUEBA IA (pruebas internas).'
+}, (() => { try { return JSON.parse(process.env.IA_CONTEXTO_ETAPAS || '{}'); } catch (_) { return {}; } })());
 
 const PAUSA = '__PAUSA__';
 const conf = (k, def) => String(process.env[k] || def || '').trim();
@@ -239,7 +247,7 @@ function armarMensajes(historial, mensaje) {
   return out;
 }
 
-async function preguntarAClaude(conocimiento, historial, mensaje) {
+async function preguntarAClaude(conocimiento, historial, mensaje, etapaTexto) {
   const apiKey = conf('ANTHROPIC_API_KEY');
   if (!apiKey) throw new Error('Falta ANTHROPIC_API_KEY');
 
@@ -265,7 +273,7 @@ async function preguntarAClaude(conocimiento, historial, mensaje) {
               new Date(conocimiento.generado).toISOString() + ')\n\n' + conocimiento.texto,
             cache_control: { type: 'ephemeral' }
           }
-        ],
+        ].concat(etapaTexto ? [{ type: 'text', text: '# ETAPA DEL CLIENTE EN EL EMBUDO\n' + etapaTexto }] : []),
         tools: [HERRAMIENTA],
         // Algunos modelos no aceptan forzar la herramienta: se deja en "auto"
         // y el prompt le pide usarla siempre. Si contesta en texto, se aprovecha.
@@ -355,6 +363,7 @@ let ultimaFalla = 0;
 async function correoFalla(error, leadId, mensaje) {
   if (Date.now() - ultimaFalla < 15 * 60 * 1000) return; // máximo uno cada 15 min por instancia
   ultimaFalla = Date.now();
+  whatsappAlerta('🚨 La IA de Kommo falló: ' + String(error && error.message || error).slice(0, 200) + '\n' + (linkLead(leadId) || '')).catch(() => {});
   await enviarCorreoResend({
     to: ALERTAS(),
     subject: '🚨 La IA de Kommo tuvo una falla',
@@ -363,6 +372,33 @@ async function correoFalla(error, leadId, mensaje) {
       '<p style="font-family:Arial,sans-serif;font-size:13px">El cliente recibió un mensaje de espera. Revisá el chat y las variables de entorno en Netlify (ANTHROPIC_API_KEY, KOMMO_IA_TOKEN).</p>' +
       pieHtml(leadId, mensaje, null)
   });
+}
+
+/* ─────────────── WhatsApp (CallMeBot) ───────────────
+   CALLMEBOT_PHONE  = número que recibe las alertas, con código de país (ej. 50240165239)
+   CALLMEBOT_APIKEY = la clave que CallMeBot le dio a ese número
+   Varios números: separados por coma en ambos, en el mismo orden. */
+
+async function whatsappAlerta(texto) {
+  const phones = conf('CALLMEBOT_PHONE').split(',').map((s) => s.trim()).filter(Boolean);
+  const keys = conf('CALLMEBOT_APIKEY').split(',').map((s) => s.trim()).filter(Boolean);
+  if (!phones.length || !keys.length) return;
+  await Promise.allSettled(phones.map((ph, i) => {
+    const key = keys.at(i) || keys.at(0);
+    const url = 'https://api.callmebot.com/whatsapp.php?phone=' + encodeURIComponent(ph) +
+      '&text=' + encodeURIComponent(texto.slice(0, 900)) + '&apikey=' + encodeURIComponent(key);
+    return conTimeout(fetch(url), 2000, 'callmebot');
+  }));
+}
+
+function lineaWa(leadId, lead, tel, r, mensaje) {
+  const d = (r && r.datos_cliente) || {};
+  return 'Cliente: ' + (d.nombre || (lead && lead.name) || '—') + '\n' +
+    'Tel: ' + (d.telefono || tel || '—') + '\n' +
+    (d.modelo ? 'Moto: ' + d.modelo + '\n' : '') +
+    (d.forma_pago ? 'Pago: ' + d.forma_pago + '\n' : '') +
+    'Mensaje: ' + String(mensaje || '').slice(0, 200) + '\n' +
+    (linkLead(leadId) || '');
 }
 
 /* ─────────────── Lógica principal ─────────────── */
@@ -411,12 +447,12 @@ exports.handler = async function (event) {
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + conf('RESEND_API_KEY') },
           body: JSON.stringify({
             from: conf('RESEND_FROM_EMAIL', 'LIA Vento Barberena <onboarding@resend.dev>'),
-            to: ALERTAS(),
+            to: filtrarDestinatarios(ALERTAS()),
             subject: '✅ Prueba: alertas de la IA de Kommo funcionando',
             html: '<p style="font-family:Arial,sans-serif">Si te llegó este correo, las alertas de compras, asesor y fallas de la IA de Kommo ya funcionan.</p>'
           })
         });
-        return responder(200, { resend_status: r.status, resend: await r.text(), destinatarios: ALERTAS() });
+        return responder(200, { resend_status: r.status, resend: await r.text(), destinatarios: filtrarDestinatarios(ALERTAS()) });
       } catch (e) {
         return responder(500, { error: e.message });
       }
@@ -474,7 +510,8 @@ exports.handler = async function (event) {
   let fallo = null;
   try {
     if (conR.status === 'rejected') throw conR.reason;
-    r = await preguntarAClaude(conR.value, chat.historial, mensaje);
+    const etapaTexto = lead ? CONTEXTO_ETAPAS[String(lead.status_id)] : '';
+    r = await preguntarAClaude(conR.value, chat.historial, mensaje, etapaTexto);
   } catch (e) {
     fallo = e;
     console.error('Falla IA:', e.message);
@@ -501,6 +538,7 @@ exports.handler = async function (event) {
     if (estado.compraNotificada !== firma) {
       estado.compraNotificada = firma;
       tareas.push(correoCompra({ leadId, lead, tel, r, mensaje }));
+      tareas.push(whatsappAlerta('🏍️ COMPRA EN CURSO (IA Kommo)\n' + lineaWa(leadId, lead, tel, r, mensaje)));
       const d = r.datos_cliente || {};
       tareas.push(notaLead(leadId, '🤖 IA: intención de compra\nMoto: ' + (d.modelo || '—') +
         '\nForma de pago: ' + (d.forma_pago || '—') + '\nNombre: ' + (d.nombre || '—') +
@@ -509,6 +547,7 @@ exports.handler = async function (event) {
   } else if (r.accion === 'asesor') {
     tags.push(TAG_PAUSA);
     tareas.push(correoAlerta({ titulo: 'Cliente pide un asesor', leadId, lead, tel, r, mensaje, motivo: r.motivo }));
+    tareas.push(whatsappAlerta('⚠️ CLIENTE PIDE ASESOR (IA pausada)\n' + lineaWa(leadId, lead, tel, r, mensaje)));
     tareas.push(notaLead(leadId, '🤖 IA pausada: el cliente necesita un asesor.\nMotivo: ' + (r.motivo || '—') +
       '\nPara reactivar la IA quitá la etiqueta "' + TAG_PAUSA + '".'));
   } else if (r.accion === 'sin_informacion') {

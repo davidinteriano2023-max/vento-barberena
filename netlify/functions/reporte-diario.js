@@ -27,7 +27,7 @@ exports.handler = async function () {
       lib.formatearTablaCotizaciones(metricas.pedidos) +
       '<p style="color:#888;font-size:12px;margin-top:20px">Este reporte se puede configurar desde el panel interno de Vento Barberena.</p>';
 
-    const destinatarios = correos.length ? correos : [process.env.RESEND_TO_EMAIL || 'egguatemala2@gmail.com'];
+    const destinatarios = correos.length ? correos : [process.env.RESEND_TO_EMAIL || 'davidinteriano2023@gmail.com'];
 
     await lib.enviarCorreoResend({
       to     : destinatarios,

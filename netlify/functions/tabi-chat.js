@@ -3,7 +3,7 @@
 // Llama a OpenAI, detecta señales de cotización/escalamiento y notifica.
 
 const { TABI_SYSTEM_PROMPT } = require('./tabi-prompt.js');
-const { fetchFirestoreAuth } = require('./reportes-common.js');
+const { fetchFirestoreAuth, filtrarDestinatarios } = require('./reportes-common.js');
 
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 const FIREBASE_API_KEY    = process.env.FIREBASE_API_KEY;
@@ -191,7 +191,7 @@ async function notificarCorreo(cotizacion) {
     '<p style="color:#666;font-size:13px">Contactar al cliente lo antes posible por WhatsApp.</p>';
 
   const { correos } = await obtenerUsuariosNotificables();
-  const destinatarios = correos.length ? correos : [process.env.RESEND_TO_EMAIL || 'egguatemala2@gmail.com'];
+  const destinatarios = filtrarDestinatarios(correos);
 
   try {
     await fetch('https://api.resend.com/emails', {

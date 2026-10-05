@@ -163,8 +163,20 @@ async function calcularMetricas(desde, hasta) {
 }
 
 // ─── ENVÍO DE CORREOS (Resend) ───────────────────────────────────────────────
+// Correos que NUNCA deben recibir envíos de Resend (separados por coma).
+const CORREO_RESPALDO = process.env.RESEND_TO_EMAIL || 'davidinteriano2023@gmail.com';
+function filtrarDestinatarios(lista) {
+  const bloqueados = (process.env.RESEND_BLOQUEADOS || 'egguatemala2@gmail.com')
+    .split(',').map((c) => c.trim().toLowerCase()).filter(Boolean);
+  const limpios = [].concat(lista || []).map((c) => String(c || '').trim())
+    .filter((c) => c && !bloqueados.includes(c.toLowerCase()));
+  const unicos = [...new Set(limpios)];
+  return unicos.length ? unicos : [CORREO_RESPALDO].filter((c) => !bloqueados.includes(c.toLowerCase()));
+}
+
 async function enviarCorreoResend({ to, subject, html }) {
   const apiKey = process.env.RESEND_API_KEY;
+  to = filtrarDestinatarios(to);
   if (!apiKey || !to.length) {
     console.warn('Resend no configurado o sin destinatarios; correo no enviado.');
     return;
@@ -215,6 +227,6 @@ module.exports = {
   FIREBASE_PROJECT_ID, FIREBASE_API_KEY, FIRESTORE_BASE,
   obtenerIdTokenServicio, fetchFirestoreAuth,
   obtenerColeccion, campo, obtenerEtiquetasEventos, obtenerCorreosNotificables,
-  rangoDiaGT, rangoSemanaGT, calcularMetricas, enviarCorreoResend,
+  rangoDiaGT, rangoSemanaGT, calcularMetricas, enviarCorreoResend, filtrarDestinatarios,
   escapeHtml, formatearTablaCotizaciones, OFFSET_HORAS
 };
