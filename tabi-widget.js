@@ -21,7 +21,7 @@
 
   function iniciar() {
     var ENDPOINT = '/.netlify/functions/web-ia';
-    var KEY      = 'sofia_vento_v2';
+    var KEY      = 'sofia_vento_v3';
     var WA       = '50240165239';
     var AVATAR   = '/sofia-avatar.webp';
     var AZUL = '#0057C8', AZUL_OSC = '#003a8c', AZUL_NOCHE = '#002457';
@@ -81,8 +81,10 @@
       '.sof-card .quiero{background:linear-gradient(135deg,' + AZUL + ',' + AZUL_OSC + ');color:#fff;box-shadow:0 2px 8px rgba(0,87,200,.35)}',
       '.sof-card .ver{background:#eef4ff;color:' + AZUL + '}',
 
-      '.sof-chips{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;max-width:96%}',
-      '.sof-chip{background:#fff;border:1.5px solid ' + AZUL + ';color:' + AZUL + ';border-radius:20px;padding:7px 13px;font:700 12.5px system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}',
+      '#sof-chipbar{display:flex;gap:5px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;-ms-overflow-style:none}',
+      '#sof-chipbar::-webkit-scrollbar{display:none}',
+      '#sof-chipbar:empty{display:none}',
+      '.sof-chip{flex-shrink:0;white-space:nowrap;background:#fff;border:1px solid ' + AZUL + ';color:' + AZUL + ';border-radius:14px;padding:4px 10px;font:600 11.5px/1.3 system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}',
       '.sof-chip:hover{background:' + AZUL + ';color:#fff}',
 
       '#sof-foot{background:#fff;border-top:1px solid #e5edfb;padding:10px 12px 6px;flex-shrink:0}',
@@ -106,7 +108,7 @@
 
     var teaser = document.createElement('div');
     teaser.id = 'sof-teaser';
-    teaser.innerHTML = '<button class="x" type="button" aria-label="Cerrar">&times;</button>Hola, soy <b>Sofía</b> 👋 ¿Te ayudo a elegir tu moto o a cotizar tu crédito?';
+    teaser.innerHTML = '<button class="x" type="button" aria-label="Cerrar">&times;</button>Hola, soy <b>Sofía</b>. ¿Te ayudo a elegir tu moto y la mejor forma de pagarla?';
 
     var panel = document.createElement('div');
     panel.id = 'sof-panel';
@@ -117,7 +119,7 @@
       '<div class="t"><b>Sofía</b><span><i></i>Asistente virtual · en línea</span></div>' +
       '<button id="sof-close" type="button" aria-label="Cerrar">&times;</button></div>' +
       '<div id="sof-msgs"></div>' +
-      '<div id="sof-foot"><div id="sof-row"><input id="sof-in" type="text" placeholder="Escribí tu pregunta…" autocomplete="off" maxlength="600">' +
+      '<div id="sof-foot"><div id="sof-chipbar"></div><div id="sof-row"><input id="sof-in" type="text" placeholder="Escribí tu pregunta…" autocomplete="off" maxlength="600">' +
       '<button id="sof-send" type="button" aria-label="Enviar"><svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button></div>' +
       '<a id="sof-wa" href="https://wa.me/' + WA + '" target="_blank" rel="noopener">¿Preferís WhatsApp? Escribinos al 4016-5239</a>' +
       '<div id="sof-legal">Sofía es una asistente con inteligencia artificial. Precios sujetos a cambio.</div></div>';
@@ -164,17 +166,16 @@
       var img = el.querySelector('img'); if (img) img.addEventListener('load', abajo);
       msgs.appendChild(el); abajo();
     }
-    function quitarChips() { var c = msgs.querySelectorAll('.sof-chips'); for (var i = 0; i < c.length; i++) c[i].remove(); }
+    function quitarChips() { $('sof-chipbar').innerHTML = ''; }
     function chips(lista) {
       quitarChips();
       if (!lista || !lista.length) return;
-      var w = document.createElement('div'); w.className = 'sof-chips';
+      var w = $('sof-chipbar');
       lista.slice(0, 4).forEach(function (op) {
         var b = document.createElement('button'); b.type = 'button'; b.className = 'sof-chip'; b.textContent = op;
         b.addEventListener('click', function () { enviar(op); });
         w.appendChild(b);
       });
-      msgs.appendChild(w); abajo();
     }
     function typing(on) {
       var t = $('sof-typing');
@@ -206,8 +207,9 @@
       rescate = setTimeout(function () {
         if (enviando || !panel.classList.contains('on') || d.vista.length < 3) return;
         rescatado = true;
-        burbuja('¿Seguís ahí? Si querés, te ayudo a *apartar tu moto* o a *precalificar tu crédito* en 1 minuto.', 'bot cta');
-        d.vista.push({ t: '¿Seguís ahí? Si querés, te ayudo a *apartar tu moto* o a *precalificar tu crédito* en 1 minuto.', c: 'bot cta' });
+        var R = '¿Seguís ahí? Te ayudo a *apartar tu moto* o a *precalificar* en 1 minuto.';
+        burbuja(R, 'bot cta');
+        d.vista.push({ t: R, c: 'bot cta' });
         guardar();
       }, 75000);
     }
@@ -243,11 +245,10 @@
       try { sessionStorage.setItem('sofia_teaser_visto', '1'); } catch (e) {}
       panel.classList.add('on');
       if (!d.vista.length) {
-        var s1 = '¡Hola! Soy *Sofía*, tu asesora virtual de *Vento Barberena*. Te ayudo a encontrar tu moto ideal y la mejor forma de pagarla.';
-        var s2 = '¿Qué *moto* te gustaría estrenar o cómo te puedo ayudar?';
-        d.vista.push({ t: s1, c: 'bot' }, { t: s2, c: 'bot cta' });
-        d.chips = ['Ver modelos y precios', 'Quiero financiamiento', 'Pago de contado', 'Con tarjeta de crédito'];
-        d.historial.push({ role: 'assistant', content: s1 + '\n' + s2 });
+        var s1 = '¡Hola! Soy *Sofía*, tu asesora de *Vento Barberena*. ¿Con quién tengo el gusto?';
+        d.vista.push({ t: s1, c: 'bot' });
+        d.chips = ['Ver motos', 'Financiamiento', 'Contado', 'Tarjeta de crédito'];
+        d.historial.push({ role: 'assistant', content: s1 });
         guardar();
       }
       pintar();
