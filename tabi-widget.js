@@ -54,6 +54,7 @@
       '#sof-close:hover{background:rgba(255,255,255,.22)}',
 
       '#sof-msgs{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;padding:16px 12px 10px 14px;display:flex;flex-direction:column;gap:9px;background:linear-gradient(180deg,#edf3ff 0%,#f5f8ff 100%);scrollbar-width:thin;scrollbar-color:' + AZUL + ' #dbe6fb}',
+      '#sof-msgs>*{flex-shrink:0}',
       '.sof-b{max-width:86%;padding:10px 13px;border-radius:18px;font-size:13.8px;line-height:1.55;word-break:break-word;white-space:pre-wrap;animation:sofIn .22s ease}',
       '.sof-b.bot{align-self:flex-start;background:#fff;color:#0f172a;border:1px solid rgba(0,87,200,.10);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,87,200,.08)}',
       '.sof-b.cta{background:linear-gradient(135deg,#eaf2ff,#dfeaff);border-color:rgba(0,87,200,.22)}',
