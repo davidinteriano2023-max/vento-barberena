@@ -119,7 +119,8 @@ const HERRAMIENTA = {
           comentario: { type: 'string', description: 'Resumen en una línea de lo que quiere el cliente' }
         }
       },
-      motivo: { type: 'string', description: 'Para asesor o sin_informacion: explicación corta para el equipo interno.' }
+      motivo: { type: 'string', description: 'Para asesor o sin_informacion: explicación corta para el equipo interno.' },
+      opciones: { type: 'array', items: { type: 'string' }, description: 'Solo en la página web: 2 a 4 respuestas rápidas cortas (máx. 25 caracteres) que el cliente puede tocar. En WhatsApp dejalo vacío.' }
     },
     required: ['respuesta', 'cta', 'accion']
   }

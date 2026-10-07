@@ -244,27 +244,50 @@ function armarTexto({ html, fb }) {
 
 /* ─────────────── API ─────────────── */
 
-/**
- * Devuelve el texto de conocimiento. Si la lectura en vivo falla, usa la
- * última copia buena; si nunca hubo una, lanza error.
+/*
+ * Dos niveles:
+ *  - El HTML del sitio (fichas, colores, formas de pago, FAQ) se guarda 5 min:
+ *    cambia solo cuando se publica el sitio.
+ *  - Los precios de Firebase (panel de Administración) se leen EN CADA respuesta,
+ *    así un cambio guardado en el panel llega al instante a la IA de Kommo y a la
+ *    de la página web. Si Firebase tarda más de 1.5 s se usa la última lectura buena.
  */
-async function obtenerConocimiento() {
-  const ahora = Date.now();
-  if (cache && ahora - cache.generado < TTL_MS) return cache;
+let htmlCache = null;   // { html, at }
+let fbCache = {};       // último resultado bueno de Firebase
 
+async function obtenerHtml() {
+  const ahora = Date.now();
+  if (htmlCache && ahora - htmlCache.at < TTL_MS) return htmlCache.html;
   try {
-    const [html, fb] = await Promise.all([
-      traer(SITIO + '/?ia=' + ahora).then((r) => r.text()),
-      preciosFirebase().catch((e) => { console.error('Firebase precios:', e.message); return {}; })
-    ]);
-    const texto = armarTexto({ html, fb });
-    cache = { texto, generado: ahora, fuente: SITIO };
-    return cache;
+    const html = await traer(SITIO + '/?ia=' + ahora).then((r) => r.text());
+    htmlCache = { html, at: ahora };
+    return html;
   } catch (e) {
-    console.error('No pude actualizar el conocimiento:', e.message);
-    if (cache) return cache;
+    console.error('No pude leer el sitio:', e.message);
+    if (htmlCache) return htmlCache.html;
     throw e;
   }
+}
+
+async function obtenerPreciosVivos() {
+  try {
+    const fb = await Promise.race([
+      preciosFirebase(),
+      new Promise((_, rej) => setTimeout(() => rej(new Error('timeout firebase')), 1500))
+    ]);
+    if (fb && Object.keys(fb).length) fbCache = fb;
+    return fbCache;
+  } catch (e) {
+    console.error('Firebase precios:', e.message);
+    return fbCache;
+  }
+}
+
+/** Devuelve el conocimiento actualizado (texto) y la hora en que se armó. */
+async function obtenerConocimiento() {
+  const [html, fb] = await Promise.all([obtenerHtml(), obtenerPreciosVivos()]);
+  const texto = armarTexto({ html, fb: JSON.parse(JSON.stringify(fb)) });
+  return { texto, generado: Date.now(), fuente: SITIO };
 }
 
 module.exports = { obtenerConocimiento, SITIO, WHATSAPP };
