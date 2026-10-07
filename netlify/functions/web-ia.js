@@ -71,13 +71,25 @@ function hoyGuatemala() {
   return dias.at(d.getUTCDay()) + ' ' + d.toISOString().slice(0, 10);
 }
 
-const CANAL_WEB = `# CANAL: PÁGINA WEB (no WhatsApp)
-- El cliente te escribe desde el chat de la página ${SITIO}. El saludo ya se le mostró: NO te volvás a presentar ni pidás el nombre al inicio; respondé directo lo que pregunte.
-- Ignorá todo lo que diga "este mismo WhatsApp" o "este número": aquí NO tenés su teléfono. En efectivo o tarjeta pedí su NOMBRE y su NÚMERO DE TELÉFONO (8 dígitos) como parte de los datos.
-- Las negritas van con UN asterisco (*palabra*). Los enlaces escribilos completos (https://...) para que se puedan tocar.
-- En "opciones" dale de 2 a 4 respuestas rápidas que tengan sentido para su siguiente paso (ej. "Financiamiento", "Pago de contado", "Tarjeta de crédito", "Ver ubicación"). Si estás pidiendo un dato libre (nombre, teléfono), dejá "opciones" vacío.
-- FOTOS: la página puede mostrar una TARJETA con la foto, precio y cuota de cada moto. Cuando el cliente pida fotos o ver una moto, poné el nombre exacto en "motos" y en la respuesta decí algo como "¡Mirala aquí!" — NO mandés el enlace de la página de la moto para que vea fotos. Si recomendás 2 o 3 motos, ponelas también en "motos".
-- No repitás en el texto el precio y la cuota que ya muestra la tarjeta; usá el texto para el beneficio o la recomendación.
+const CANAL_WEB = `# CANAL: PÁGINA WEB (no WhatsApp) — ESTAS REGLAS MANDAN SOBRE LAS ANTERIORES
+- El saludo ya se mostró y ya se le preguntó su nombre ("¿Con quién tengo el gusto?"). No te volvás a presentar.
+- SÚPER CORTO: cada burbuja máximo 2 líneas (unos 200 caracteres). Directo y persuasivo: un dato o beneficio + una pregunta. Nada de explicaciones largas.
+- Aquí NO tenés su teléfono (ignorá "este mismo WhatsApp"): pedilo cuando toque.
+
+# ORDEN DE LA VENTA EN LA WEB (un paso por mensaje, saltá lo que ya sepás)
+1. NOMBRE: si lo da, saludalo por su nombre. NO es obligatorio: si no lo da y pregunta otra cosa, respondé y seguí; volvé a pedirlo solo al tomar datos de compra.
+2. MOTO: averiguá qué moto quiere (si no sabe, preguntá el uso y recomendá 1 o 2 con tarjeta de foto).
+3. FORMA DE PAGO: en cuanto sepás la moto, preguntá "¿La querés con *financiamiento*, de *contado* o con *tarjeta de crédito*?" (opciones: Financiamiento, Contado, Tarjeta de crédito).
+4A. FINANCIAMIENTO: precio + cuota estimada en 1 línea; en "cta" invitalo a precalificar (gratis, 1 minuto, respuesta inmediata) con el ENLACE de precalificación de ESA moto. No pidás más datos.
+4B. CONTADO o TARJETA: dale el dato clave (precio de contado y un beneficio; en tarjeta, que se acepta tarjeta de crédito con pago en tienda) y tomá los datos, UNO por mensaje:
+   a) nombre (si aún no lo tenés), b) teléfono (8 dígitos), c) para cuándo la quiere comprar (fecha aproximada; opciones: "Esta semana", "Este mes", "Más adelante").
+   Solo TARJETA, además: d) qué tarjeta o banco, e) en cuántas cuotas o plazo la quiere pagar (lo que ofrezca su banco lo confirma el asesor).
+5. CIERRE (todos los datos completos): accion = "compra", datos_cliente completo y confirmá corto que el asesor *${process.env.IA_ASESOR_NOMBRE || 'David Interiano'}* lo contacta desde el *${process.env.IA_ASESOR_TEL || '3182-3625'}*.
+
+# FORMATO WEB
+- Negritas con UN asterisco (*palabra*). Enlaces completos (https://...).
+- "opciones": 2 a 4 botones cortos (máx. 20 caracteres) solo cuando ayuden a elegir (forma de pago, cuándo compra, modelos). Vacío cuando pedís nombre, teléfono, banco o cuotas.
+- FOTOS: cuando pida fotos, hablés de una moto por primera vez o recomendés motos, poné el nombre exacto en "motos" (se muestra tarjeta con foto, precio y cuota). No repitás en el texto el precio que ya muestra la tarjeta ni mandés enlaces para ver fotos.
 - Si prefiere seguir por WhatsApp, dale el ${WHATSAPP}.`;
 
 /* ─────────────── Límite simple por IP (evita abuso y gasto) ─────────────── */
@@ -112,7 +124,7 @@ async function preguntarAClaude(conocimiento, historial, mensaje) {
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: MODELO,
-        max_tokens: 700,
+        max_tokens: 500,
         system: [
           { type: 'text', text: instrucciones({ whatsapp: WHATSAPP, sitio: SITIO, hoy: hoyGuatemala(), asesorNombre: ASESOR_NOMBRE, asesorTel: ASESOR_TEL }) },
           { type: 'text', text: '# CONOCIMIENTO ACTUAL DEL SITIO (actualizado ' + new Date(conocimiento.generado).toISOString() + ')\n\n' + conocimiento.texto, cache_control: { type: 'ephemeral' } },
@@ -267,7 +279,7 @@ exports.handler = async function (event) {
   const contadoOTarjeta = d.forma_pago === 'efectivo' || d.forma_pago === 'tarjeta';
 
   // Crear o actualizar el lead en Kommo cuando ya hay datos de compra (efectivo o tarjeta)
-  if (contadoOTarjeta && d.nombre && d.telefono && (r.accion === 'compra' || estado.leadId)) {
+  if (contadoOTarjeta && d.telefono && (r.accion === 'compra' || estado.leadId)) {
     const firma = JSON.stringify(d);
     if (estado.firma !== firma) {
       try {
