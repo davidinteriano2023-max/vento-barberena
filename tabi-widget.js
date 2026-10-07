@@ -81,10 +81,10 @@
       '.sof-card .quiero{background:linear-gradient(135deg,' + AZUL + ',' + AZUL_OSC + ');color:#fff;box-shadow:0 2px 8px rgba(0,87,200,.35)}',
       '.sof-card .ver{background:#eef4ff;color:' + AZUL + '}',
 
-      '#sof-chipbar{display:flex;gap:5px;overflow-x:auto;padding:0 0 8px;scrollbar-width:none;-ms-overflow-style:none}',
+      '#sof-chipbar{display:flex;gap:6px;overflow-x:auto;margin:-10px -12px 10px;padding:9px 12px;border-bottom:1px solid #e5edfb;background:#fafcff;scrollbar-width:none;-ms-overflow-style:none}',
       '#sof-chipbar::-webkit-scrollbar{display:none}',
       '#sof-chipbar:empty{display:none}',
-      '.sof-chip{flex-shrink:0;white-space:nowrap;background:#fff;border:1px solid ' + AZUL + ';color:' + AZUL + ';border-radius:14px;padding:4px 10px;font:600 11.5px/1.3 system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}',
+      '.sof-chip{flex-shrink:0;white-space:nowrap;background:#e8f0fe;border:1px solid rgba(0,87,200,.22);color:' + AZUL_NOCHE + ';border-radius:16px;padding:6px 12px;font:700 12px/1.2 system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}',
       '.sof-chip:hover{background:' + AZUL + ';color:#fff}',
 
       '#sof-foot{background:#fff;border-top:1px solid #e5edfb;padding:10px 12px 6px;flex-shrink:0}',
@@ -93,8 +93,8 @@
       '#sof-in:focus{border-color:' + AZUL + ';background:#fff}',
       '#sof-send{width:42px;height:42px;border-radius:50%;border:none;background:linear-gradient(135deg,' + AZUL + ',' + AZUL_OSC + ');color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(0,87,200,.35);transition:transform .1s}',
       '#sof-send:hover{transform:scale(1.06)}',
-      '#sof-wa{display:block;text-align:center;color:#16a34a;font-size:11.5px;font-weight:600;padding:7px 0 3px;text-decoration:none}',
-      '#sof-wa:hover{text-decoration:underline}',
+      '#sof-wa{display:block;text-align:center;color:#64748b;font-size:11.5px;font-weight:500;padding:7px 0 3px;text-decoration:none}',
+      '#sof-wa b{color:#16a34a}','#sof-wa:hover{text-decoration:underline}',
       '#sof-legal{text-align:center;color:#94a3b8;font-size:10px;padding-bottom:3px}'
     ].join('');
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
@@ -121,7 +121,7 @@
       '<div id="sof-msgs"></div>' +
       '<div id="sof-foot"><div id="sof-chipbar"></div><div id="sof-row"><input id="sof-in" type="text" placeholder="Escribí tu pregunta…" autocomplete="off" maxlength="600">' +
       '<button id="sof-send" type="button" aria-label="Enviar"><svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button></div>' +
-      '<a id="sof-wa" href="https://wa.me/' + WA + '" target="_blank" rel="noopener">¿Preferís WhatsApp? Escribinos al 4016-5239</a>' +
+      '<a id="sof-wa" href="https://wa.me/' + WA + '" target="_blank" rel="noopener">¿Preferís hablar directo? <b>WhatsApp 4016-5239</b></a>' +
       '<div id="sof-legal">Sofía es una asistente con inteligencia artificial. Precios sujetos a cambio.</div></div>';
 
     document.body.appendChild(wrap);
