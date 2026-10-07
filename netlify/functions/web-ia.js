@@ -76,6 +76,8 @@ const CANAL_WEB = `# CANAL: PÁGINA WEB (no WhatsApp)
 - Ignorá todo lo que diga "este mismo WhatsApp" o "este número": aquí NO tenés su teléfono. En efectivo o tarjeta pedí su NOMBRE y su NÚMERO DE TELÉFONO (8 dígitos) como parte de los datos.
 - Las negritas van con UN asterisco (*palabra*). Los enlaces escribilos completos (https://...) para que se puedan tocar.
 - En "opciones" dale de 2 a 4 respuestas rápidas que tengan sentido para su siguiente paso (ej. "Financiamiento", "Pago de contado", "Tarjeta de crédito", "Ver ubicación"). Si estás pidiendo un dato libre (nombre, teléfono), dejá "opciones" vacío.
+- FOTOS: la página puede mostrar una TARJETA con la foto, precio y cuota de cada moto. Cuando el cliente pida fotos o ver una moto, poné el nombre exacto en "motos" y en la respuesta decí algo como "¡Mirala aquí!" — NO mandés el enlace de la página de la moto para que vea fotos. Si recomendás 2 o 3 motos, ponelas también en "motos".
+- No repitás en el texto el precio y la cuota que ya muestra la tarjeta; usá el texto para el beneficio o la recomendación.
 - Si prefiere seguir por WhatsApp, dale el ${WHATSAPP}.`;
 
 /* ─────────────── Límite simple por IP (evita abuso y gasto) ─────────────── */
@@ -248,9 +250,10 @@ exports.handler = async function (event) {
     .slice(-20).map((m) => ({ role: m.role, content: m.content.slice(0, 1500) }));
   const estado = estadoValido((b.estado && typeof b.estado === 'object') ? b.estado : {});
 
-  let r;
+  let r, conocimiento;
   try {
-    r = await preguntarAClaude(await obtenerConocimiento(), historial, mensaje);
+    conocimiento = await obtenerConocimiento();
+    r = await preguntarAClaude(conocimiento, historial, mensaje);
   } catch (e) {
     console.error('Falla IA web:', e.message);
     return responder(200, {
@@ -281,11 +284,21 @@ exports.handler = async function (event) {
     }
   }
 
+  // Tarjetas con foto: se buscan en el catálogo en vivo (precio y foto actuales)
+  const norm = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/^vento\s+/, '').replace(/\s+20\d\d$/, '').trim();
+  const catalogo = (conocimiento && conocimiento.catalogo) || [];
+  const tarjetas = [];
+  (Array.isArray(r.motos) ? r.motos : []).slice(0, 3).forEach((n) => {
+    const q = norm(n);
+    const m = catalogo.find((x) => norm(x.nombre) === q) || catalogo.find((x) => norm(x.nombre).includes(q) || q.includes(norm(x.nombre)));
+    if (m && !tarjetas.some((t) => t.id === m.id)) tarjetas.push(m);
+  });
   const opciones = Array.isArray(r.opciones) ? r.opciones.map((o) => String(o).slice(0, 30)).filter(Boolean).slice(0, 4) : [];
   return responder(200, {
     respuesta: String(r.respuesta || '').trim(),
     cta: String(r.cta || '').trim(),
     opciones,
+    tarjetas,
     accion: r.accion || 'conversar',
     estado
   });

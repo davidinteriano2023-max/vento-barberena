@@ -120,6 +120,7 @@ const HERRAMIENTA = {
         }
       },
       motivo: { type: 'string', description: 'Para asesor o sin_informacion: explicación corta para el equipo interno.' },
+      motos: { type: 'array', items: { type: 'string' }, description: 'Solo en la página web: nombre EXACTO (como en el catálogo) de 1 a 3 modelos para mostrar como tarjeta con FOTO, precio y cuota. Usalo cuando recomendés motos, cuando hablés de una moto específica por primera vez o cuando el cliente pida fotos. En WhatsApp dejalo vacío.' },
       opciones: { type: 'array', items: { type: 'string' }, description: 'Solo en la página web: 2 a 4 respuestas rápidas cortas (máx. 25 caracteres) que el cliente puede tocar. En WhatsApp dejalo vacío.' }
     },
     required: ['respuesta', 'cta', 'accion']

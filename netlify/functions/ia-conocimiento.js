@@ -239,6 +239,18 @@ function armarTexto({ html, fb }) {
     faq.forEach((f) => { L.push('P: ' + f.p); L.push('R: ' + f.r); });
   }
 
+  // Catálogo estructurado (para las tarjetas con foto del chat web)
+  armarTexto.catalogo = MOTOS.map((m) => {
+    const pl = planes(m.p);
+    const img = m.img ? String(m.img).replace('/image/upload/', '/image/upload/c_fit,w_640,h_420/f_auto,q_auto/') : '';
+    return {
+      id: m.id, nombre: m.nom, anio: m.año || '', linea: (CATS.find((c) => c.k === m.cat) || {}).l || m.cat,
+      precio: Q(m.p), antes: m.po && m.po > m.p ? Q(m.po) : '', cuota: Q(pl.lista.at(2).cuota) + '/mes',
+      badge: m.badge || '', disponible: m.disponible !== false, img,
+      colores: (m.cols || []).map((c) => c.n),
+      url: SITIO + '/motos/' + slug(m.nom) + '/', precalificar: SITIO + '/precalificar/?m=' + m.id
+    };
+  });
   return L.join('\n');
 }
 
@@ -287,7 +299,7 @@ async function obtenerPreciosVivos() {
 async function obtenerConocimiento() {
   const [html, fb] = await Promise.all([obtenerHtml(), obtenerPreciosVivos()]);
   const texto = armarTexto({ html, fb: JSON.parse(JSON.stringify(fb)) });
-  return { texto, generado: Date.now(), fuente: SITIO };
+  return { texto, generado: Date.now(), fuente: SITIO, catalogo: armarTexto.catalogo || [] };
 }
 
 module.exports = { obtenerConocimiento, SITIO, WHATSAPP };
