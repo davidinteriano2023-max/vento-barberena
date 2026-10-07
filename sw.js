@@ -1,6 +1,6 @@
 /* Service Worker — Vento Barberena PWA */
-var CACHE = 'vb-cache-v1';
-var CORE = ['/', '/cotizador.html', '/tabi-widget.js', '/logo-vento.svg', '/manifest.json', '/icon-192.png'];
+var CACHE = 'vb-cache-v2';
+var CORE = ['/', '/cotizador.html', '/tabi-widget.js', '/sofia-avatar.webp', '/logo-vento.svg', '/manifest.json', '/icon-192.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
@@ -31,6 +31,18 @@ self.addEventListener('fetch', function (e) {
       }).catch(function () {
         return caches.match(req).then(function (m) { return m || caches.match('/'); });
       })
+    );
+    return;
+  }
+
+  // Scripts propios (ej. el chat de Sofía): red primero, caché solo si no hay conexión.
+  // Así cada cambio publicado se ve de inmediato.
+  if (url.origin === location.origin && /\.js$/.test(url.pathname)) {
+    e.respondWith(
+      fetch(req).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }
+        return res;
+      }).catch(function () { return caches.match(req); })
     );
     return;
   }
