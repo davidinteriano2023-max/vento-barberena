@@ -900,100 +900,110 @@ footer::before{
 }
 .vb-modal-close:hover{color:#fff;}
 
-/* Admin panel overlay */
+/* Admin panel overlay — diseño moderno */
 #vbAdminPanel{
-  position:fixed;inset:0;z-index:950;
-  background:#111318;overflow-y:auto;display:none;
-  font-family:'Segoe UI',system-ui,sans-serif;
+  position:fixed;inset:0;z-index:100000;overflow-y:auto;display:none;
+  background:radial-gradient(1200px 600px at 10% -10%,rgba(200,151,10,.10),transparent 60%),radial-gradient(900px 500px at 110% 0%,rgba(0,87,200,.12),transparent 55%),#0B0D12;
+  font-family:Inter,'Segoe UI',system-ui,sans-serif;color:#E8EAF0;
 }
-#vbAdminPanel.on{display:block;}
+#vbAdminPanel.on{display:block;animation:admIn .25s ease;}
+@keyframes admIn{from{opacity:0}to{opacity:1}}
+body.vb-admin-on{overflow:hidden;}
+body.vb-admin-on #sof-wrap,body.vb-admin-on #sof-panel,body.vb-admin-on #sof-teaser{display:none!important;}
 .adm-topbar{
-  background:#1A1D24;border-bottom:1px solid #2C3140;
-  padding:0 20px;height:58px;display:flex;align-items:center;
-  justify-content:space-between;position:sticky;top:0;z-index:10;
+  position:sticky;top:0;z-index:10;height:64px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(11,13,18,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
-.adm-topbar-left{display:flex;align-items:center;gap:12px;}
+.adm-topbar-left{display:flex;align-items:center;gap:14px;min-width:0;}
+.adm-avatar{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:15px;color:#0B0D12;background:linear-gradient(135deg,#E7B416,#C8970A);flex-shrink:0;}
 .adm-back{
-  padding:7px 14px;background:transparent;border:1px solid #2C3140;
-  border-radius:7px;color:#8A8FA0;font-size:13px;cursor:pointer;
-  transition:all .2s;display:flex;align-items:center;gap:6px;
+  height:38px;padding:0 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;color:#C9CCD6;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
 }
-.adm-back:hover{border-color:#C8970A;color:#C8970A;}
-.adm-title{font-size:17px;font-weight:700;color:#C8970A;}
-.adm-user-tag{font-size:11px;color:#8A8FA0;}
-.adm-body{max-width:1200px;margin:0 auto;padding:24px 20px;}
-.adm-tabs{display:flex;gap:4px;margin-bottom:24px;}
-.adm-tab-btn{
-  padding:8px 18px;background:#22262F;border:1px solid #2C3140;
-  border-radius:8px;color:#8A8FA0;font-size:13px;font-weight:600;cursor:pointer;
-  transition:all .2s;
-}
-.adm-tab-btn.on{background:#C8970A;border-color:#C8970A;color:#000;}
+.adm-back:hover{border-color:rgba(231,180,22,.6);color:#E7B416;background:rgba(231,180,22,.06);}
+.adm-back.out:hover{border-color:rgba(239,68,68,.6);color:#F87171;background:rgba(239,68,68,.06);}
+.adm-title{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.2px;}
+.adm-user-tag{font-size:11.5px;color:#8A8FA0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:46vw;}
+.adm-body{max-width:1280px;margin:0 auto;padding:28px 24px 120px;}
+.adm-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+.adm-sec-title{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;}
+.adm-sec-sub{font-size:13px;color:#8A8FA0;margin-top:4px;}
+.adm-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px;}
+.adm-stat{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px 16px;}
+.adm-stat b{display:block;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px;}
+.adm-stat span{font-size:11.5px;color:#8A8FA0;font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
+.adm-stat.gold b{color:#E7B416}.adm-stat.green b{color:#4ADE80}
+.adm-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.adm-search{flex:1;min-width:200px;position:relative;}
+.adm-search input{width:100%;height:42px;padding:0 14px 0 40px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;color:#fff;font-size:14px;outline:none;transition:border-color .2s,background .2s;}
+.adm-search input:focus{border-color:#E7B416;background:rgba(255,255,255,.06);}
+.adm-search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.5;}
+.adm-tabs{display:flex;gap:6px;flex-wrap:wrap;}
+.adm-tab-btn{height:42px;padding:0 15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;color:#B5B9C6;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.adm-tab-btn:hover{color:#fff;border-color:rgba(255,255,255,.18);}
+.adm-tab-btn.on{background:#E7B416;border-color:#E7B416;color:#0B0D12;}
 .adm-section{display:none;}
 .adm-section.on{display:block;}
-.adm-sec-title{font-size:15px;font-weight:700;color:#E8EAF0;margin-bottom:6px;}
-.adm-sec-sub{font-size:12px;color:#8A8FA0;margin-bottom:20px;}
-.adm-save-all{
-  padding:9px 22px;background:#C8970A;border:none;border-radius:8px;
-  color:#000;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;
-  margin-bottom:20px;
-}
-.adm-save-all:hover{background:#E8B020;}
-.adm-price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
-.adm-moto-card{
-  background:#1A1D24;border:1px solid #2C3140;border-radius:10px;overflow:hidden;
-}
-.adm-card-img{height:150px;background:#22262F;overflow:hidden;}
-.adm-card-img img{width:100%;height:100%;object-fit:cover;}
-.adm-card-body{padding:14px;}
-.adm-card-id{font-size:10px;color:#8A8FA0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
-.adm-fname{
-  width:100%;padding:7px 9px;background:#22262F;border:1px solid #2C3140;
-  border-radius:6px;color:#E8EAF0;font-size:13px;font-weight:600;margin-bottom:10px;
-}
-.adm-fname:focus{outline:none;border-color:#C8970A;}
-.adm-price-row{display:flex;gap:8px;margin-bottom:8px;}
-.adm-price-col{flex:1;}
-.adm-plbl{font-size:10px;color:#8A8FA0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
-.adm-pinput{
-  width:100%;padding:7px 9px;background:#22262F;border:1px solid #2C3140;
-  border-radius:6px;color:#E8EAF0;font-size:14px;font-weight:700;
-}
-.adm-pinput:focus{outline:none;border-color:#C8970A;}
-.adm-badge-inp{
-  width:100%;padding:6px 9px;background:#22262F;border:1px solid #2C3140;
-  border-radius:6px;color:#E8EAF0;font-size:12px;margin-bottom:10px;
-}
-.adm-badge-inp:focus{outline:none;border-color:#C8970A;}
-.adm-card-foot{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-top:10px;border-top:1px solid #2C3140;
-}
-.adm-toggle{position:relative;display:inline-block;width:40px;height:22px;}
+.adm-save-all{height:44px;padding:0 20px;background:linear-gradient(135deg,#E7B416,#C8970A);border:none;border-radius:12px;color:#0B0D12;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(200,151,10,.25);transition:transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:8px;}
+.adm-save-all:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(200,151,10,.35);}
+.adm-pend{display:none;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#0B0D12;color:#E7B416;font-size:12px;line-height:22px;text-align:center;}
+.adm-pend.on{display:inline-block;}
+.adm-price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.adm-moto-card{background:#141821;border:1px solid rgba(255,255,255,.07);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s;}
+.adm-moto-card:hover{transform:translateY(-2px);border-color:rgba(231,180,22,.35);box-shadow:0 14px 34px rgba(0,0,0,.35);}
+.adm-moto-card.dirty{border-color:rgba(231,180,22,.7);box-shadow:0 0 0 3px rgba(231,180,22,.12);}
+.adm-moto-card.off .adm-card-img img{filter:grayscale(1);opacity:.45;}
+.adm-card-img{position:relative;height:200px;background:linear-gradient(180deg,#FFFFFF 0%,#EEF1F6 100%);display:flex;align-items:center;justify-content:center;padding:14px 18px;}
+.adm-card-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;transition:transform .3s;}
+.adm-moto-card:hover .adm-card-img img{transform:scale(1.03);}
+.adm-chip{position:absolute;top:10px;font-size:10.5px;font-weight:800;letter-spacing:.3px;padding:4px 9px;border-radius:20px;}
+.adm-chip.l{left:10px;background:rgba(11,13,18,.82);color:#fff;text-transform:uppercase;}
+.adm-chip.r{right:10px;background:#16A34A;color:#fff;}
+.adm-chip.r.off{background:#64748B;}
+.adm-chip.d{left:10px;top:auto;bottom:10px;background:#EF4444;color:#fff;}
+.adm-card-body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.adm-card-id{font-size:10.5px;color:#6B7180;text-transform:uppercase;letter-spacing:.7px;font-weight:700;}
+.adm-fname{width:100%;padding:0;background:transparent;border:none;border-bottom:1px dashed transparent;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.2px;outline:none;transition:border-color .2s;}
+.adm-fname:hover{border-bottom-color:rgba(255,255,255,.18);}
+.adm-fname:focus{border-bottom-color:#E7B416;}
+.adm-price-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.adm-plbl{font-size:10.5px;color:#8A8FA0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;font-weight:700;}
+.adm-money{position:relative;}
+.adm-money i{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:800;color:#6B7180;font-size:13px;}
+.adm-pinput{width:100%;height:42px;padding:0 10px 0 26px;background:#0F131A;border:1px solid rgba(255,255,255,.08);border-radius:11px;color:#fff;font-size:15px;font-weight:800;outline:none;transition:border-color .2s;-moz-appearance:textfield;}
+.adm-pinput::-webkit-outer-spin-button,.adm-pinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.adm-pinput:focus{border-color:#E7B416;}
+.adm-price-col.bono .adm-pinput{color:#E7B416;}
+.adm-badge-inp{width:100%;height:38px;padding:0 12px;background:#0F131A;border:1px solid rgba(255,255,255,.08);border-radius:11px;color:#E8EAF0;font-size:13px;outline:none;}
+.adm-badge-inp:focus{border-color:#E7B416;}
+.adm-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);}
+.adm-toggle{position:relative;display:inline-block;width:44px;height:24px;}
 .adm-toggle input{opacity:0;width:0;height:0;}
-.adm-tslider{
-  position:absolute;cursor:pointer;inset:0;
-  background:#2C3140;border-radius:22px;transition:.3s;
-}
-.adm-tslider:before{
-  content:'';position:absolute;width:16px;height:16px;
-  left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;
-}
+.adm-tslider{position:absolute;cursor:pointer;inset:0;background:#2C3140;border-radius:24px;transition:.25s;}
+.adm-tslider:before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
 .adm-toggle input:checked + .adm-tslider{background:#22C55E;}
-.adm-toggle input:checked + .adm-tslider:before{transform:translateX(18px);}
-.adm-save-btn{
-  padding:6px 14px;background:#C8970A;border:none;border-radius:6px;
-  color:#000;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;
+.adm-toggle input:checked + .adm-tslider:before{transform:translateX(20px);}
+.adm-vis{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#B5B9C6;font-weight:600;}
+.adm-save-btn{height:36px;padding:0 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#E8EAF0;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.adm-save-btn:hover{border-color:#E7B416;color:#E7B416;}
+.adm-moto-card.dirty .adm-save-btn{background:#E7B416;border-color:#E7B416;color:#0B0D12;}
+.adm-save-btn.ok{background:#22C55E!important;border-color:#22C55E!important;color:#fff!important;}
+.adm-empty{grid-column:1/-1;color:#8A8FA0;padding:60px 20px;text-align:center;font-size:14px;}
+.adm-skel{height:380px;border-radius:18px;background:linear-gradient(90deg,#141821 25%,#1A1F2A 50%,#141821 75%);background-size:200% 100%;animation:admSk 1.2s infinite;}
+@keyframes admSk{to{background-position:-200% 0}}
+#vbAdmToast{position:fixed;bottom:24px;left:50%;z-index:100001;background:#141821;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 18px;font-size:13.5px;font-weight:600;color:#E8EAF0;box-shadow:0 14px 34px rgba(0,0,0,.45);transform:translate(-50%,80px);opacity:0;transition:.3s;}
+#vbAdmToast.on{transform:translate(-50%,0);opacity:1;}
+@media(max-width:760px){
+  .adm-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .adm-topbar{padding:0 14px;}
+  .adm-body{padding:20px 14px 110px;}
+  .adm-sec-title{font-size:22px;}
+  .adm-back .t{display:none;}
+  .adm-hero .adm-save-all{position:fixed;left:14px;right:14px;bottom:14px;justify-content:center;z-index:5;}
 }
-.adm-save-btn:hover{background:#E8B020;}
-.adm-save-btn.ok{background:#22C55E;color:#fff;}
-#vbAdmToast{
-  position:fixed;bottom:20px;right:20px;z-index:1200;
-  background:#1A1D24;border:1px solid #2C3140;border-radius:9px;
-  padding:10px 18px;font-size:13px;color:#E8EAF0;
-  transform:translateY(60px);opacity:0;transition:.3s;
-}
-#vbAdmToast.on{transform:translateY(0);opacity:1;}
 
 /* ─── MOBILE RESPONSIVE ─────────────────────────── */
 @media(max-width:480px){
@@ -1008,7 +1018,6 @@ footer::before{
     padding:28px 20px 32px;
   }
   .vb-drw{width:min(280px,88vw);}
-  .vb-admin-panel{padding:16px 14px;}
   .hst{padding:8px 10px;}
 }
 @media(max-width:420px){
@@ -1350,7 +1359,7 @@ function cldImg(url,ctx){
   if(/\/upload\/(?:[^\/]*,)*(?:e_upscale|e_enhance|e_improve|c_fit|c_fill|q_auto|f_auto)/.test(url)) return url;
   var t;
   if(ctx==='modal')      t='c_fit,w_1600,h_1600/f_auto,q_auto:good';
-  else if(ctx==='admin') t='c_fill,w_1000,h_1000,g_center/f_auto,q_auto:good';
+  else if(ctx==='admin') t='c_fit,w_700,h_480/f_auto,q_auto:good';
   else                   t='c_fit,w_1000,h_1000/f_auto,q_auto:good';
   return url.replace('/image/upload/','/image/upload/'+t+'/');
 }
@@ -1997,25 +2006,38 @@ actualizarLinea('urban-sport');
 <div id="vbAdminPanel">
   <div class="adm-topbar">
     <div class="adm-topbar-left">
-      <button class="adm-back" onclick="vbAdminClose()">← Volver al cotizador</button>
-      <div>
-        <div class="adm-title">Administración</div>
+      <div class="adm-avatar" id="admAvatar">V</div>
+      <div style="min-width:0">
+        <div class="adm-title">Panel de administración</div>
         <div class="adm-user-tag" id="admUserTag"></div>
       </div>
     </div>
-    <button class="adm-back" onclick="vbLogout()" style="border-color:#EF4444;color:#EF4444">Salir</button>
+    <div style="display:flex;gap:8px">
+      <button class="adm-back" onclick="vbAdminClose()" title="Volver al sitio"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span class="t">Ver sitio</span></button>
+      <button class="adm-back out" onclick="vbLogout()" title="Cerrar sesión"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span class="t">Salir</span></button>
+    </div>
   </div>
   <div class="adm-body">
-    <div class="adm-tabs">
-      <button class="adm-tab-btn on" onclick="admTabSwitch('precios',this)">💰 Precios</button>
-    </div>
-    <!-- PRECIOS SUB-PANEL -->
     <div class="adm-section on" id="admSecPrecios">
-      <div class="adm-sec-title">Precios y promociones</div>
-      <div class="adm-sec-sub">Edita nombre, precio de lista, precio bono y badge de cada modelo. Los cambios se guardan en Firebase.</div>
-      <button class="adm-save-all" onclick="admSaveAll()">💾 Guardar todos los cambios</button>
+      <div class="adm-hero">
+        <div>
+          <div class="adm-sec-title">Precios y promociones</div>
+          <div class="adm-sec-sub">Los cambios se guardan en Firebase y se actualizan al instante en la página, en Sofía y en Kommo.</div>
+        </div>
+        <button class="adm-save-all" onclick="admSaveAll()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Guardar cambios <span class="adm-pend" id="admPend">0</span></button>
+      </div>
+      <div class="adm-stats">
+        <div class="adm-stat"><b id="admStTotal">–</b><span>Modelos</span></div>
+        <div class="adm-stat green"><b id="admStVis">–</b><span>Visibles</span></div>
+        <div class="adm-stat gold"><b id="admStOfe">–</b><span>Con badge</span></div>
+        <div class="adm-stat"><b id="admStMin">–</b><span>Desde</span></div>
+      </div>
+      <div class="adm-tools">
+        <label class="adm-search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input id="admBuscar" type="search" placeholder="Buscar modelo…" oninput="admFiltrar()"></label>
+        <div class="adm-tabs" id="admCats"></div>
+      </div>
       <div class="adm-price-grid" id="admPriceGrid">
-        <div style="color:#8A8FA0;padding:40px;text-align:center;">Cargando catálogo…</div>
+        <div class="adm-skel"></div><div class="adm-skel"></div><div class="adm-skel"></div>
       </div>
     </div>
   </div>
@@ -2266,11 +2288,15 @@ function vbLogout() {
 // ══════════════════════════════════════════════════════════
 function vbAdminOpen() {
   document.getElementById('vbAdminPanel').classList.add('on');
-  document.getElementById('admUserTag').textContent = vbUser?.email || '';
+  document.body.classList.add('vb-admin-on');
+  var em = vbUser?.email || '';
+  document.getElementById('admUserTag').textContent = em;
+  document.getElementById('admAvatar').textContent = (em.charAt(0) || 'V').toUpperCase();
   admLoadPrices();
 }
 function vbAdminClose() {
   document.getElementById('vbAdminPanel').classList.remove('on');
+  document.body.classList.remove('vb-admin-on');
 }
 
 function admTabSwitch(tab, btn) {
@@ -2360,46 +2386,96 @@ async function admLoadPrices() {
     disponible: fsMap[m.id]?.disponible ?? true,
   }));
 
-  document.getElementById('admPriceGrid').innerHTML = admMotos.map(m => `
-    <div class="adm-moto-card">
-      <div class="adm-card-img"><img src="${cldImg(m.img,'admin')}" alt="${m.nom}" loading="lazy" onerror="this.onerror=null;this.src='${m.img}'"></div>
+  admRender();
+}
+
+var admCat = 'all';
+var ADM_CATS = {all:'Todas', city:'City', scooters:'Scooters', sport:'Sport', urban:'Urban', 'urban-sport':'Urban Sport', trabajo:'Trabajo', doble:'Doble propósito', 'doble-proposito':'Doble propósito', offroad:'Off-road', touring:'Touring', cuatrimotos:'Cuatrimotos', electricas:'Eléctricas'};
+function admCatName(c){ return ADM_CATS[c] || (String(c||'').charAt(0).toUpperCase() + String(c||'').slice(1).replace(/-/g,' ')); }
+function admQ(n){ return 'Q' + Number(n||0).toLocaleString('en-US'); }
+function admRender() {
+  var cats = ['all'].concat(admMotos.map(function(m){return m.cat;}).filter(function(c,i,a){return c && a.indexOf(c)===i;}));
+  document.getElementById('admCats').innerHTML = cats.map(function(c){
+    return '<button class="adm-tab-btn' + (c===admCat?' on':'') + '" onclick="admCat=\''+c+'\';admRender()">' + admCatName(c) + '</button>';
+  }).join('');
+  var vis = admMotos.filter(function(m){return m.disponible!==false;});
+  document.getElementById('admStTotal').textContent = admMotos.length;
+  document.getElementById('admStVis').textContent = vis.length;
+  document.getElementById('admStOfe').textContent = admMotos.filter(function(m){return m.badge;}).length;
+  var min = vis.reduce(function(a,m){return (m.p && (!a || m.p<a)) ? m.p : a;}, 0);
+  document.getElementById('admStMin').textContent = min ? admQ(min) : '–';
+
+  document.getElementById('admPriceGrid').innerHTML = admMotos.map(m => {
+    const desc = (m.po && m.p && m.po > m.p) ? Math.round((1 - m.p/m.po)*100) : 0;
+    const on = m.disponible !== false;
+    return `
+    <div class="adm-moto-card${on?'':' off'}" id="admCard-${m.id}" data-cat="${m.cat}" data-nom="${esc(m.nom).toLowerCase()}">
+      <div class="adm-card-img">
+        <img src="${cldImg(m.img,'admin')}" alt="${esc(m.nom)}" loading="lazy" onerror="this.onerror=null;this.src='${m.img}'">
+        <span class="adm-chip l">${admCatName(m.cat)}</span>
+        <span class="adm-chip r${on?'':' off'}" id="admEst-${m.id}">${on?'Visible':'Oculta'}</span>
+        ${desc ? `<span class="adm-chip d" id="admDesc-${m.id}">-${desc}%</span>` : `<span class="adm-chip d" id="admDesc-${m.id}" style="display:none"></span>`}
+      </div>
       <div class="adm-card-body">
-        <div class="adm-card-id">${m.id} · ${m.cat}</div>
-        <input class="adm-fname" value="${esc(m.nom)}" placeholder="Nombre"
-          id="admNom-${m.id}" onchange="admMark('${m.id}')">
+        <div class="adm-card-id">${m.id} · ${m.año||''}</div>
+        <input class="adm-fname" value="${esc(m.nom)}" placeholder="Nombre" id="admNom-${m.id}" oninput="admMark('${m.id}')">
         <div class="adm-price-row">
           <div class="adm-price-col">
-            <div class="adm-plbl">Precio lista (Q)</div>
-            <input class="adm-pinput" type="number" value="${m.po}" min="0" step="100"
-              id="admPo-${m.id}" onchange="admMark('${m.id}')">
+            <div class="adm-plbl">Precio lista</div>
+            <div class="adm-money"><i>Q</i><input class="adm-pinput" type="number" value="${m.po}" min="0" step="100" id="admPo-${m.id}" oninput="admMark('${m.id}')"></div>
           </div>
-          <div class="adm-price-col">
-            <div class="adm-plbl">Precio bono (Q)</div>
-            <input class="adm-pinput" type="number" value="${m.p}" min="0" step="100"
-              id="admP-${m.id}" onchange="admMark('${m.id}')">
+          <div class="adm-price-col bono">
+            <div class="adm-plbl">Precio bono</div>
+            <div class="adm-money"><i>Q</i><input class="adm-pinput" type="number" value="${m.p}" min="0" step="100" id="admP-${m.id}" oninput="admMark('${m.id}')"></div>
           </div>
         </div>
-        <input class="adm-badge-inp" value="${esc(m.badge||'')}" placeholder="Badge (ej: Popular, 🔥 Oferta…)"
-          id="admBadge-${m.id}" onchange="admMark('${m.id}')">
+        <div>
+          <div class="adm-plbl">Etiqueta</div>
+          <input class="adm-badge-inp" value="${esc(m.badge||'')}" placeholder="Ej: Oferta, Popular, Mejor precio" id="admBadge-${m.id}" oninput="admMark('${m.id}')">
+        </div>
         <div class="adm-card-foot">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <label class="adm-toggle">
-              <input type="checkbox" ${(m.disponible!==false)?'checked':''} id="admDisp-${m.id}" onchange="admMark('${m.id}')">
-              <span class="adm-tslider"></span>
-            </label>
-            <span style="font-size:12px;color:#8A8FA0;">Visible</span>
-          </div>
+          <label class="adm-vis">
+            <span class="adm-toggle"><input type="checkbox" ${on?'checked':''} id="admDisp-${m.id}" onchange="admMark('${m.id}')"><span class="adm-tslider"></span></span>
+            Visible en el sitio
+          </label>
           <button class="adm-save-btn" id="admSaveBtn-${m.id}" onclick="admSaveMoto('${m.id}')">Guardar</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+  admFiltrar();
+  admPendientes();
+}
+function admFiltrar() {
+  var q = (document.getElementById('admBuscar')?.value || '').toLowerCase().trim();
+  var n = 0;
+  document.querySelectorAll('#admPriceGrid .adm-moto-card').forEach(function(c){
+    var ok = (admCat==='all' || c.dataset.cat===admCat) && (!q || c.dataset.nom.indexOf(q) !== -1 || c.id.indexOf(q) !== -1);
+    c.style.display = ok ? '' : 'none'; if (ok) n++;
+  });
+  var e = document.getElementById('admEmpty');
+  if (!n && !e) { e = document.createElement('div'); e.id='admEmpty'; e.className='adm-empty'; e.textContent='No hay modelos con ese filtro.'; document.getElementById('admPriceGrid').appendChild(e); }
+  else if (n && e) e.remove();
+}
+function admPendientes() {
+  var n = document.querySelectorAll('#admPriceGrid .adm-moto-card.dirty').length;
+  var b = document.getElementById('admPend'); if (!b) return;
+  b.textContent = n; b.classList.toggle('on', n > 0);
 }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function admMark(id) {
+  const card = document.getElementById('admCard-' + id);
+  if (card) card.classList.add('dirty');
   const btn = document.getElementById('admSaveBtn-' + id);
-  if (btn) { btn.style.background='#C8970A'; btn.textContent='Guardar'; }
+  if (btn) { btn.style.background=''; btn.textContent='Guardar'; }
+  const po = +document.getElementById('admPo-' + id)?.value || 0, p = +document.getElementById('admP-' + id)?.value || 0;
+  const d = document.getElementById('admDesc-' + id);
+  if (d) { const pc = (po && p && po > p) ? Math.round((1 - p/po)*100) : 0; d.textContent = '-' + pc + '%'; d.style.display = pc ? '' : 'none'; }
+  const on = document.getElementById('admDisp-' + id)?.checked !== false, est = document.getElementById('admEst-' + id);
+  if (est) { est.textContent = on ? 'Visible' : 'Oculta'; est.classList.toggle('off', !on); }
+  if (card) card.classList.toggle('off', !on);
+  admPendientes();
 }
 
 async function admSaveMoto(id) {
@@ -2413,7 +2489,8 @@ async function admSaveMoto(id) {
 
   const ok = await fsPatch('motos/' + id, { nom, p, po, badge:badge||null, disponible:disp });
   if (ok) {
-    btn.classList.add('ok'); btn.textContent = '✓';
+    btn.classList.add('ok'); btn.textContent = '✓ Guardado';
+    document.getElementById('admCard-' + id)?.classList.remove('dirty'); admPendientes();
     vbToast('✓ ' + nom + ' guardado');
     setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'Guardar'; btn.disabled = false; }, 2500);
     // Update live cotizador if MOTOS exists
@@ -2429,8 +2506,10 @@ async function admSaveMoto(id) {
 }
 
 async function admSaveAll() {
-  for (const m of admMotos) await admSaveMoto(m.id);
-  vbToast('✓ Todos los modelos guardados en Firebase');
+  const ids = Array.from(document.querySelectorAll('#admPriceGrid .adm-moto-card.dirty')).map(c => c.id.replace('admCard-',''));
+  if (!ids.length) { vbToast('No hay cambios pendientes'); return; }
+  for (const id of ids) await admSaveMoto(id);
+  vbToast('✓ ' + ids.length + (ids.length===1?' modelo guardado':' modelos guardados') + ' en Firebase');
 }
 
 let vbToastTimer;
